@@ -1,0 +1,499 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Javier Orchard Soto · Consultoría de vida 1:1 online</title><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta property="og:title" content="Javier Orchard Soto · Consultoría de vida 1:1 online">
+<meta property="og:description" content="Te acompaño a conocerte con honestidad y vivir una vida que sientas tuya. Conversación de claridad de 20 minutos, gratis y online.">
+<meta property="og:type" content="website">
+<script>document.documentElement.classList.add('js')</script>
+<meta name="description" content="Consultoría de vida 1:1 online desde el Análisis Existencial. Javier Orchard Soto, Hari Avtar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Gotu&display=swap">
+<style>
+/* Layout: una sola columna editorial, amplia y tranquila; bandas de color solo donde cambia el tema (proceso, precios). */
+:root{
+  /* Paleta oficial en prueba (noviembre 2026) y tipografía: ver manual de marca */
+  --bg:#F6F1E7;          /* Marfil */
+  --surface:#EDE6D8;     /* Arena */
+  --ink:#1F3454;         /* Azul noche */
+  --muted:#4F6480;       /* Azul medio */
+  --accent:#2F4A6B;      /* Azul marca */
+  --accent-soft:#D9E3EC; /* Azul niebla */
+  --line:#D9CFBD;        /* Línea */
+  --on-accent:#F6F1E7;
+  --cta:#E8BC62;         /* Ámbar más luminoso (prueba 12 nov): 7,0:1 con azul noche */
+  --cta-edge:#D9A441;    /* Ámbar original, como borde para separar del fondo */
+  --on-cta:#1F3454;
+  --f-display:"Lora", Georgia, serif;
+  --f-body:"Gotu", "Segoe UI", system-ui, sans-serif;
+  --s-1:.875rem; --s0:1.0625rem; --s1:1.25rem; --s2:1.75rem; --s3:2.5rem; --s4:3.5rem;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;-webkit-font-smoothing:antialiased;font-synthesis:none}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:68rem;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.band{padding-block:clamp(3rem,8vw,6rem)}
+.band--tint{background:var(--surface)}
+.eyebrow{font-size:var(--s-1);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.75rem,3.8vw,2.75rem)}
+h3{font-size:1.45rem}
+p{margin:0;max-width:62ch}
+.stack{display:flex;flex-direction:column;gap:1.25rem}
+
+/* Cabecera */
+.top{padding-block:1.25rem;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--f-display);font-size:var(--s1)}
+.brand span{color:var(--muted);font-style:italic}
+.top nav{display:flex;gap:1.25rem;flex-wrap:wrap;font-size:var(--s-1)}
+.top nav a{color:var(--ink);text-decoration:none}
+.top nav a:hover{color:var(--accent)}
+
+/* Menú fijo y vistas por sección */
+.site-head{position:sticky;top:0;z-index:10;background:var(--bg)}
+.top nav a{padding-block:.25rem;border-bottom:2px solid transparent}
+.top nav a[aria-current=page]{color:var(--accent);border-bottom-color:var(--accent)}
+.brand a{color:inherit;text-decoration:none}
+.js [data-view]:not(.active){display:none}
+@media (max-width:640px){.top nav{width:100%;overflow-x:auto;flex-wrap:nowrap;gap:1rem;white-space:nowrap;padding-bottom:.25rem}}
+
+/* Portada */
+.hero{padding-block:clamp(3.5rem,10vw,7.5rem) clamp(3rem,7vw,5rem);display:grid;gap:2rem}
+.hero h1{font-size:clamp(2.2rem,5.6vw,4.25rem);max-width:20ch}
+.hero h1 em{color:var(--accent)}
+.hero .lede{font-size:var(--s1);color:var(--muted);max-width:44ch}
+.actions{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.35rem;border-radius:999px;font-family:var(--f-display);font-weight:500;text-decoration:none;font-size:1.15rem;letter-spacing:.01em;border:1px solid var(--accent)}
+.btn--solid{background:var(--cta);color:var(--on-cta);border-color:var(--cta-edge)}
+.btn--solid:hover{filter:brightness(1.08)}
+.btn--ghost{color:var(--accent);background:transparent}
+.btn--ghost:hover{background:var(--accent-soft)}
+.note{font-size:var(--s-1);color:var(--muted)}
+
+/* Fotos */
+.photo{margin:0}
+.photo img{display:block;width:100%;height:auto;border-radius:14px;background:var(--surface)}
+.photo--portrait{max-width:22rem}
+.photo--sm{max-width:26rem;margin-top:.5rem}
+.photo--wide{max-width:46rem;margin-top:2.5rem}
+@media (min-width:900px){.hero{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:clamp(2rem,5vw,4rem)}}
+
+/* Para quién */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(2rem,6vw,5rem);align-items:start}
+.signals{list-style:none;padding:0;margin:0;display:grid;gap:0}
+.signals li{font-family:var(--f-display);font-size:clamp(1.35rem,2.4vw,1.75rem);line-height:1.25;padding-block:1rem;border-top:1px solid var(--line)}
+.signals li:last-child{border-bottom:1px solid var(--line)}
+
+/* Cómo empezar */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.5rem,3vw,2.5rem);counter-reset:step;margin-top:2.5rem}
+.step{display:flex;flex-direction:column;gap:.6rem;padding-top:1.25rem;border-top:2px solid var(--ink)}
+.step::before{counter-increment:step;content:"Paso " counter(step);font-size:var(--s-1);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.step .meta{font-size:var(--s-1);color:var(--accent);font-weight:600}
+
+/* Precios */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;margin-top:2.5rem;align-items:stretch}
+.plan{display:flex;flex-direction:column;gap:.9rem;padding:1.75rem;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
+.plan--main{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.plan .tag{align-self:flex-start;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:.25rem .6rem;border-radius:999px}
+.price{font-family:var(--f-display);font-size:2.1rem;line-height:1;font-variant-numeric:tabular-nums}
+.price small{font-family:var(--f-body);font-size:var(--s-1);color:var(--muted)}
+.usd{font-size:var(--s-1);color:var(--muted);font-variant-numeric:tabular-nums}
+.plan ul{margin:0;padding-left:1.1rem;color:var(--muted);font-size:.975rem;display:grid;gap:.3rem}
+
+/* Ritmo: 15 semanas, 12 sesiones */
+.rhythm{margin-top:.25rem}
+.weeks{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:4px;margin-top:.5rem}
+.weeks span{aspect-ratio:1;border-radius:3px;background:var(--accent);max-width:100%}
+.weeks span.margin{background:transparent;border:1px dashed var(--muted)}
+.weeks-legend{display:flex;justify-content:space-between;gap:.5rem;font-size:.75rem;color:var(--muted);margin-top:.35rem;font-variant-numeric:tabular-nums}
+
+/* Condiciones */
+details{border-top:1px solid var(--line);padding-block:1rem}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-weight:400;font-size:1.25rem;line-height:1}
+details[open] summary::after{content:"–"}
+details .body{padding-top:.75rem;color:var(--muted);display:grid;gap:.6rem}
+details .body p{max-width:64ch}
+
+/* Sobre mí */
+.about-list{list-style:none;padding:0;margin:0;display:grid;gap:.9rem}
+.about-list li{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:1rem;padding-bottom:.9rem;border-bottom:1px solid var(--line)}
+.about-list b{font-weight:600;font-size:var(--s-1);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-top:.15rem}
+
+/* Aviso */
+.notice{border-left:3px solid var(--accent);padding:1rem 1.25rem;background:var(--accent-soft);border-radius:0 10px 10px 0;max-width:62ch}
+.notice b{font-family:var(--f-display);font-size:1.1em;font-weight:400}
+
+/* Cierre */
+.close{text-align:left;display:grid;gap:1.5rem}
+.close h2{max-width:18ch}
+footer{padding-block:2rem;border-top:1px solid var(--line);font-size:var(--s-1);color:var(--muted);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between}
+footer a{color:var(--muted)}
+
+
+/* Sesión grupal */
+.promo{display:grid;gap:.35rem;padding:1.25rem 1.5rem;border:1px solid var(--cta-edge);background:var(--surface);border-radius:14px;text-decoration:none;color:var(--ink);margin-top:-1.5rem;margin-bottom:2rem}
+.promo:hover{background:var(--accent-soft)}
+.promo-t{font-family:var(--f-display);font-size:clamp(1.25rem,2.4vw,1.6rem);line-height:1.25}
+.promo-a{color:var(--accent);font-weight:600}
+.facts{list-style:none;padding:0;margin:.5rem 0;display:grid;gap:.6rem}
+.facts li{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--line)}
+.facts b{font-weight:600;font-size:var(--s-1);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-top:.15rem}
+.formcard{display:grid;gap:1rem;align-content:start;padding:clamp(1.25rem,3vw,2rem);border:1px solid var(--accent);border-radius:14px;background:var(--surface)}
+.formcard form{display:grid;gap:1rem}
+.field{display:grid;gap:.35rem}
+.field label{font-size:var(--s-1);font-weight:600;color:var(--ink)}
+.field input{font:inherit;font-size:1rem;padding:.8rem .9rem;border:1px solid var(--muted);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.field input:focus{outline:2px solid var(--accent);outline-offset:2px}
+.check{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.6rem;font-size:var(--s-1);color:var(--muted);align-items:start}
+.check input{margin-top:.25rem;width:1.1rem;height:1.1rem;accent-color:var(--accent)}
+.formcard .btn{justify-content:center;cursor:pointer;font-size:1.15rem}
+.formcard .btn[disabled]{opacity:.6;cursor:progress}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-msg{color:#8A2B2B;font-size:var(--s-1)}
+
+@media (max-width:820px){
+  .two,.steps,.plans{grid-template-columns:minmax(0,1fr)}
+  .about-list li,.facts li{grid-template-columns:minmax(0,1fr);gap:.25rem}
+}
+@media (prefers-reduced-motion:no-preference){
+  .hero > *{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+  .hero > *:nth-child(2){animation-delay:.08s}
+  .hero > *:nth-child(3){animation-delay:.16s}
+  .hero > *:nth-child(4){animation-delay:.24s}
+  @keyframes rise{from{transform:translateY(10px)}to{transform:none}}
+}
+</style>
+
+<header class="site-head"><div class="wrap top">
+  <div class="brand"><a href="#inicio">Javier Orchard Soto <span>· Hari Avtar</span></a></div>
+  <nav aria-label="Secciones">
+    <a href="#como-empezar">Cómo empezar</a>
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#preguntas">Preguntas</a>
+    <a href="#precios">Precios</a>
+    <a href="#grupos">Grupos</a>
+    <a href="#sesion">Sesión grupal 13 dic</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</div></header>
+
+<main>
+  <section class="wrap hero" data-view="inicio" aria-labelledby="titulo">
+    <div class="stack" style="gap:2rem">
+    <p class="eyebrow">Consultoría de vida 1:1 online · Análisis Existencial</p>
+    <h1 id="titulo">Te acompaño a conocerte con honestidad y vivir una vida que <em>sientas tuya</em>.</h1>
+    <p class="lede">Un espacio para detenerte, mirar con calma lo que estás viviendo y decidir desde ti, no desde lo que se espera.</p>
+    <div class="stack" style="gap:.6rem">
+      <div class="actions">
+        <a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a>
+        <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Prefiero escribir por WhatsApp</a>
+      </div>
+      <p class="note">20 minutos, gratis y online.</p>
+    </div>
+    </div>
+    <figure class="photo"><img src="img/portada.jpg" width="1400" height="1050" alt="Javier Orchard junto a un lago de montaña, con las cumbres y las nubes al fondo"></figure>
+  </section>
+
+  <section class="wrap" data-view="inicio" aria-label="Próxima sesión grupal">
+    <a class="promo" href="#sesion">
+      <span class="eyebrow">Domingo 13 de diciembre · 10:30 · online en vivo</span>
+      <span class="promo-t">Sesión grupal para abordar los desafíos de este tiempo</span>
+      <span class="promo-a">Anótate en la lista →</span>
+    </a>
+  </section>
+
+  <section class="band band--tint" data-view="inicio" aria-labelledby="para-quien">
+    <div class="wrap two">
+      <div class="stack">
+        <p class="eyebrow">Para quién es</p>
+        <h2 id="para-quien">Para cuando la vida funciona, pero algo dentro no calza.</h2>
+        <p>No necesitas estar en crisis. Muchas personas llegan con su trabajo, su familia y su vida social en orden, y aun así sienten cierta distancia de sí mismas.</p>
+      </div>
+      <ul class="signals">
+        <li>Sientes que algo no está bien y no sabes nombrarlo.</li>
+        <li>Te preguntas si la vida que llevas es la que quieres.</li>
+        <li>Repites patrones en tus relaciones.</li>
+        <li>Te cuesta reconocer lo que necesitas o poner límites.</li>
+        <li>Vives respondiendo a lo que otros esperan de ti.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="como-empezar" data-view="como-empezar" aria-labelledby="empezar">
+    <div class="wrap">
+      <div class="stack">
+        <p class="eyebrow">Cómo empezar</p>
+        <h2 id="empezar">Tres pasos, a tu ritmo.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3>Agenda o escríbeme</h3>
+          <p>Elige un horario para tu conversación de claridad, o escríbeme por WhatsApp o Instagram y coordinamos. Cuéntame en pocas palabras qué te trae.</p>
+        </div>
+        <div class="step">
+          <h3>Conversación de claridad</h3>
+          <p class="meta">20 min · gratis · online</p>
+          <p>Vemos juntos si esto es lo que necesitas y si soy la persona indicada para acompañarte. No es una sesión: es una conversación honesta para decidir.</p>
+        </div>
+        <div class="step">
+          <h3>Elegimos el formato</h3>
+          <p>Una sesión puntual para una pregunta concreta, o un proceso de acompañamiento para comprenderte en profundidad.</p>
+        </div>
+      </div>
+      <figure class="photo photo--wide"><img src="img/escritorio-te.jpg" width="1400" height="915" loading="lazy" alt="Javier en su escritorio, con una taza de té, una lámpara y el computador"></figure>
+    </div>
+  </section>
+
+  <section class="band band--tint" id="sobre-mi" data-view="sobre-mi" aria-labelledby="sobre">
+    <div class="wrap two">
+      <div class="stack">
+        <p class="eyebrow">Sobre mí</p>
+        <h2 id="sobre">Javier, Hari Avtar</h2>
+        <p>Acompaño a personas y grupos desde hace años, primero desde el yoga y la meditación, y hoy desde la consultoría. Trabajo desde el Análisis Existencial y desde la presencia que desarrollé en el Timeless Wisdom Training de Thomas Hübl: el contacto honesto contigo y con lo que estás viviendo, para que lo que comprendes se vuelva decisiones y relaciones más tuyas.</p>
+        <p>Me gusta viajar, y la consultoría en línea me permite vivir así y acompañarte desde cualquier lugar. Tú también puedes conectarte desde donde estés, con una conexión estable y un rato de tranquilidad.</p>
+        <figure class="photo photo--sm"><img src="img/en-linea.jpg" width="900" height="833" loading="lazy" alt="Javier sonriendo con su computador en un tren, trabajando en línea"></figure>
+      </div>
+      <div class="stack">
+      <ul class="about-list">
+        <li><b>Enfoque</b><span>Formación en Análisis Existencial en el Instituto Chileno de Análisis Existencial (ICAE), y Timeless Wisdom Training de Thomas Hübl (2025–2026), que integro en mis sesiones: presencia encarnada, regulación del sistema nervioso y sintonía relacional.</span></li>
+        <li><b>Práctica</b><span>Profesor y formador de profesores de Kundalini Yoga.</span></li>
+        <li><b>Estudios</b><span>Estudiante de Psicología en la Universidad Academia de Humanismo Cristiano.</span></li>
+      </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="preguntas" data-view="preguntas" aria-labelledby="preguntas-t">
+    <div class="wrap two">
+      <div class="stack">
+        <p class="eyebrow">Antes de empezar</p>
+        <h2 id="preguntas-t">Lo que suele preguntarse.</h2>
+        <div class="notice">
+          <p><b>Importante.</b> Esta consultoría es un acompañamiento para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>
+        </div>
+      </div>
+      <div>
+        <details>
+          <summary>¿Es psicoterapia?</summary>
+          <div class="body">
+            <p>No. Mi acompañamiento tiene un abordaje terapéutico, pero no es psicoterapia: es un espacio para conocerte mejor y tomar decisiones desde ti. No hago diagnósticos ni tratamientos. Si veo que necesitas otro tipo de apoyo, te lo diré con honestidad y te ayudaré a buscarlo.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Y si estoy pasando por una crisis?</summary>
+          <div class="body">
+            <p>Este no es un servicio de urgencia. Si estás en una crisis o sientes que tu vida o tu seguridad están en riesgo, busca ayuda de inmediato.</p>
+            <p>En Chile puedes llamar a la línea de prevención del suicidio *4141 (gratuita, desde celular, las 24 horas) o a Salud Responde, 600 360 7777.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Cómo es la conversación de claridad?</summary>
+          <div class="body">
+            <p>Son 20 minutos por videollamada, sin costo. Me cuentas qué te trae y vemos juntos si esto es lo que necesitas y si soy la persona indicada. No tienes ninguna obligación de continuar.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Necesito algo para conectarme?</summary>
+          <div class="body">
+            <p>Un dispositivo con cámara, una conexión estable y un lugar donde puedas hablar con tranquilidad. Puedes conectarte desde donde estés.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="precios" data-view="precios" aria-labelledby="formatos">
+    <div class="wrap">
+      <div class="stack">
+        <p class="eyebrow">Formatos y precios</p>
+        <h2 id="formatos">Sesiones de 50 a 60 minutos, online.</h2>
+      </div>
+      <div class="plans">
+        <article class="plan">
+          <h3>Sesión puntual</h3>
+          <p class="price">$50.000</p>
+          <p class="usd">USD 55 desde fuera de Chile</p>
+          <ul>
+            <li>Para una pregunta o decisión concreta</li>
+            <li>Una sesión de 50–60 min</li>
+          </ul>
+        </article>
+        <article class="plan plan--main">
+          <span class="tag">Proceso de acompañamiento</span>
+          <h3>Proceso de 12 semanas</h3>
+          <p class="price">$420.000 <small>al contado</small></p>
+          <p class="usd">USD 425 desde fuera de Chile · equivale a $35.000 por sesión</p>
+          <ul>
+            <li>12 sesiones semanales</li>
+            <li>Para comprenderte en profundidad y llevarlo a tu vida diaria</li>
+          </ul>
+          <div class="rhythm" aria-label="12 sesiones dentro de un plazo de 15 semanas">
+            <div class="weeks" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="margin"></span><span class="margin"></span><span class="margin"></span>
+            </div>
+            <div class="weeks-legend"><span>12 sesiones</span><span>plazo de 15 semanas</span></div>
+          </div>
+        </article>
+        <article class="plan">
+          <h3>Continuidad mensual</h3>
+          <p class="price">$140.000 <small>/ mes</small></p>
+          <p class="usd">USD 145 desde fuera de Chile</p>
+          <ul>
+            <li>4 sesiones al mes</li>
+            <li>Al terminar las 12 semanas, si lo decidimos en conjunto</li>
+          </ul>
+        </article>
+      </div>
+      <p class="note" style="margin-top:1.25rem">Pago por transferencia en pesos chilenos. Con tarjeta o PayPal se suma solo la comisión de la plataforma de pago, informada antes de pagar.</p>
+    </div>
+  </section>
+
+  <section class="band band--tint" data-view="precios" aria-labelledby="condiciones">
+    <div class="wrap two">
+      <div class="stack">
+        <p class="eyebrow">El marco del proceso</p>
+        <h2 id="condiciones">Por qué un ritmo semanal.</h2>
+        <p>Comprenderse no ocurre en una sola conversación. Se va dando sesión a sesión, cuando lo que se abre en una tiene tiempo de asentarse y se retoma en la siguiente. El ritmo semanal sostiene esa continuidad: te da un espacio fijo para volver a ti, en medio de una vida que suele llevarte hacia afuera. Por eso cuido este marco, y te invito a cuidarlo conmigo.</p>
+      </div>
+      <div>
+        <details>
+          <summary>El proceso</summary>
+          <div class="body">
+            <p>12 sesiones semanales de 50–60 minutos, online. Puedes agendarlas todas desde el inicio o semana a semana.</p>
+            <p>Las 12 sesiones se realizan dentro de 15 semanas desde la primera. Las que no se usen en ese plazo vencen.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Reprogramaciones</summary>
+          <div class="body">
+            <p>Si avisas con al menos 24 horas de anticipación, reagendamos tu sesión dentro de la misma semana.</p>
+            <p>Si avisas con menos de 24 horas o no te conectas, la sesión se considera realizada.</p>
+            <p>Si yo necesito cambiar una sesión, la reagendamos de acuerdo a tu disponibilidad.</p>
+            <p>Ante una emergencia, conversémoslo.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Precio y forma de pago</summary>
+          <div class="body">
+            <p>$420.000 al contado, por transferencia bancaria en pesos chilenos. USD 425 para pagos desde fuera de Chile.</p>
+            <p>Con tarjeta de débito, crédito o PayPal, al precio se suma solo la comisión de la plataforma de pago. El pago se realiza antes de la primera sesión.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Al terminar las 12 semanas</summary>
+          <div class="body">
+            <p>Revisamos juntos el camino recorrido y decidimos en conjunto si continuar de forma mensual: $140.000 (USD 145) por 4 sesiones, con las mismas condiciones de reprogramación.</p>
+          </div>
+        </details>
+        <div class="notice" style="margin-top:1.5rem">
+          <p><b>Importante.</b> Esta consultoría es un acompañamiento para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental. Si en algún momento veo que necesitas otro tipo de apoyo, te lo diré con honestidad y te ayudaré a buscarlo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tint" id="contacto" data-view="contacto" aria-labelledby="contacto-t">
+    <div class="wrap close">
+      <p class="eyebrow">Contacto</p>
+      <h2 id="contacto-t">Si algo de esto te hace sentido, conversemos.</h2>
+      <div class="actions">
+        <a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a>
+        <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+        <a class="btn btn--ghost" href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+      <p class="note">Conversación de claridad: 20 minutos, gratis y online.</p>
+    </div>
+  </section>
+
+  <section class="band" id="grupos" data-view="grupos" aria-labelledby="grupos-t">
+    <div class="wrap two">
+      <div class="stack">
+        <p class="eyebrow">Grupos y organizaciones</p>
+        <h2 id="grupos-t">También en grupos y equipos.</h2>
+      </div>
+      <div class="stack">
+        <p>Charlas y talleres sobre presencia, autoconocimiento y comunicación para grupos y organizaciones. Si te interesa para tu equipo, escríbeme y conversamos qué necesitan.</p>
+        <div class="actions">
+          <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="band" id="sesion" data-view="sesion" aria-labelledby="sesion-t">
+    <div class="wrap two">
+      <div class="stack">
+        <p class="eyebrow">Sesión grupal online en vivo</p>
+        <h2 id="sesion-t">Abordar juntos los desafíos de este tiempo.</h2>
+        <p>Diciembre llega con cansancio acumulado, pendientes y la sensación de ir contra el reloj. Muchas veces el desafío no es una sola cosa: es el conjunto, y no sabemos por dónde empezar.</p>
+        <p>En esta sesión nos detenemos a mirar lo que cada uno está sosteniendo y vemos claves para abordarlo, acompañados.</p>
+        <ul class="facts">
+          <li><b>Cuándo</b><span>Domingo 13 de diciembre de 2026, 10:30 (hora de Chile)</span></li>
+          <li><b>Dónde</b><span>Online, en vivo</span></li>
+          <li><b>Quién</b><span>Javier Orchard Soto, Hari Avtar</span></li>
+        </ul>
+        <p class="note">Es un acompañamiento grupal para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>
+      </div>
+      <div class="formcard">
+        <h3 id="form-t">Anótate en la lista</h3>
+        <p class="note">Te escribiré con el enlace de inscripción y los detalles de la sesión.</p>
+        <form id="sesion-form" name="sesion-13-dic" method="POST" data-netlify="true" netlify-honeypot="bot-field" aria-labelledby="form-t">
+          <input type="hidden" name="form-name" value="sesion-13-dic">
+          <p class="hp" aria-hidden="true"><label>No llenar: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+          <div class="field"><label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" type="text" autocomplete="given-name" required></div>
+          <div class="field"><label for="f-email">Correo electrónico</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required></div>
+          <label class="check"><input type="checkbox" name="acepta" value="si" required><span>Acepto que Javier Orchard Soto use mi nombre y correo para enviarme la información de esta sesión.</span></label>
+          <button class="btn btn--solid" type="submit">Quiero enterarme primero</button>
+          <p class="form-msg" role="status" aria-live="polite" hidden></p>
+        </form>
+        <div class="thanks" hidden>
+          <h3>Gracias, quedaste en la lista.</h3>
+          <p>Te escribiré al correo que dejaste en cuanto esté abierta la inscripción. Revisa también tu carpeta de spam.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>Javier Orchard Soto · Consultoría de vida 1:1 online</span>
+  <a href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">@javierconsultordevida</a>
+</footer>
+
+<script>
+(function(){
+  var views=document.querySelectorAll('[data-view]');
+  var links=document.querySelectorAll('.top nav a');
+  var names={};
+  views.forEach(function(v){names[v.getAttribute('data-view')]=1});
+  function show(){
+    var h=(location.hash||'').replace('#','');
+    if(!names[h]) h='inicio';
+    views.forEach(function(v){v.classList.toggle('active',v.getAttribute('data-view')===h)});
+    links.forEach(function(a){
+      if(a.getAttribute('href')==='#'+h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+    });
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',show);
+  show();
+})();
+
+(function(){
+  var f=document.getElementById('sesion-form'); if(!f) return;
+  var msg=f.querySelector('.form-msg'), btn=f.querySelector('button'), thanks=document.querySelector('#sesion .thanks');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    btn.disabled=true; msg.hidden=true;
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
+      .then(function(r){ if(!r.ok) throw new Error(r.status); f.hidden=true; thanks.hidden=false; })
+      .catch(function(){ msg.textContent='No pudimos guardar tu correo. Inténtalo de nuevo o escríbeme por WhatsApp.'; msg.hidden=false; btn.disabled=false; });
+  });
+})();
+</script>
+
+</body></html>
