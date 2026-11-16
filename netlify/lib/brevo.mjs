@@ -47,7 +47,7 @@ const PREPARACION = `<p><b>Recomendaciones para llegar bien a la sesión</b></p>
 
 const INVITAR = `<p style="font-size:15.4px;color:#4F6480">¿Conoces a alguien a quien le pueda servir? Cada persona reserva su propio cupo en <a href="${SESION.urlPublica}">${SESION.urlPublica}</a>. El enlace de conexión de este correo es solo para ti.</p>`;
 
-const cabecera = (nombre) => `<!doctype html><html lang="es"><body style="margin:0;background:#F6F1E7;color:#1F3454;font-family:Georgia,serif;font-size:17.6px;line-height:1.6">
+const cabecera = (nombre) => `<!doctype html><html lang="es"><body style="margin:0;background:#F6F1E7;color:#1F3454;font-family:Lora,Georgia,serif;font-size:17.6px;line-height:1.6">
 <div style="max-width:560px;margin:0 auto;padding:28px 20px">
 <p style="font-size:22px;margin:0 0 16px">Hola, ${nombre}.</p>`;
 
