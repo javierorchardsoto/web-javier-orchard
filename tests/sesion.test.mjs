@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { crearCheckout, procesarRetorno, contarCupos, inscritosCsv, validarEntrada, enviarRecordatorios, ordenPagada, SESION } from '../netlify/lib/core.mjs';
+import { crearCheckout, procesarRetorno, contarCupos, inscritosCsv, validarEntrada, enviarRecordatorios, ordenPagada, comprobanteDe, SESION } from '../netlify/lib/core.mjs';
 import { generarIcs, urlGoogleCalendar, enlaceIcs, enlaceGoogle } from '../netlify/lib/calendario.mjs';
 import { textoConfirmacion, crearNotificador } from '../netlify/lib/brevo.mjs';
 
@@ -49,6 +49,7 @@ const webpayOk = () => ({
       authorization_code: '1213',
       card_detail: { card_number: '6623' },
       payment_type_code: 'VN',
+      installments_number: 0,
       transaction_date: '2026-11-20T12:00:00.000Z',
     };
   },
@@ -335,4 +336,25 @@ test('correo de confirmación: texto de Javier; el aviso del recordatorio solo s
   assert.ok(temprano.includes('devolución de tu pago hasta el domingo 6 de diciembre'), 'el correo informa el plazo de devolución');
   const tarde = textoConfirmacion({ orden: { ...base, pagada: desde + 1000 }, pago: { autorizacion: '1' }, origin: ORIGEN });
   assert.ok(!/te enviaré un recordatorio/.test(tarde), 'quien compra dentro de las 24 h no recibe recordatorio, así que no se le promete');
+});
+
+test('el comprobante en pantalla trae lo que pide Transbank, sin correo ni tarjeta completa', async () => {
+  const store = memStore();
+  const webpay = webpayOk();
+  const c = await crearCheckout({ store, webpay, body: entrada(8), origin: ORIGEN, now: 1000 });
+  const ordenId = (await store.list({ prefix: 'orden-' })).blobs[0].key.replace('orden-', '');
+  assert.equal(await comprobanteDe(store, ordenId), null, 'sin pagar no hay comprobante');
+  await procesarRetorno({ store, webpay, notify: notifyMock(), params: { token_ws: c.body.token }, origin: ORIGEN, now: 2000 });
+  const comp = await comprobanteDe(store, ordenId);
+  assert.equal(comp.orden, ordenId);
+  assert.equal(comp.monto, SESION.montoClp);
+  assert.equal(comp.moneda, 'CLP');
+  assert.equal(comp.autorizacion, '1213');
+  assert.equal(comp.tarjeta, '6623');
+  assert.equal(comp.tipo, 'Crédito, sin cuotas');
+  assert.equal(comp.cuotas, 0);
+  assert.equal(comp.fecha, '2026-11-20T12:00:00.000Z');
+  assert.ok(comp.comercio && comp.servicio);
+  assert.ok(!JSON.stringify(comp).includes('ana8@correo.cl'), 'no incluye el correo');
+  assert.equal(await comprobanteDe(store, '../orden-x'), null);
 });

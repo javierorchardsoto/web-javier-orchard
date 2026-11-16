@@ -159,6 +159,10 @@ footer a{color:var(--muted)}
 .banner-test{margin:0;padding:.5rem .75rem;border-radius:8px;background:var(--cta);color:var(--on-cta);font-size:var(--s-1);font-weight:600}
 #pago-resultado{display:grid;gap:.6rem}
 #pago-cal{display:grid;gap:.6rem;margin-top:.4rem}
+.comprobante{margin:.2rem 0;padding:.9rem 1rem;border:1px solid #D9CFBD;border-radius:8px;display:grid;gap:.35rem;font-size:.92rem}
+.comprobante div{display:grid;grid-template-columns:minmax(7.5rem,32%) 1fr;gap:.6rem}
+.comprobante dt{color:#4F6480}
+.comprobante dd{margin:0;overflow-wrap:anywhere}
 #pago-cal p{margin:0}
 #buy,#waitlist{display:grid;gap:1rem;align-content:start}
 
@@ -448,6 +452,7 @@ footer a{color:var(--muted)}
         <div id="pago-resultado" role="status" hidden>
           <h3 id="pago-titulo"></h3>
           <p id="pago-texto"></p>
+          <dl class="comprobante" id="pago-comprobante" hidden aria-label="Comprobante de pago"></dl>
           <div id="pago-cal" hidden>
             <p class="note"><b>Agrégala a tu calendario</b>, con el enlace para conectarte y recibir un aviso antes de la sesión.</p>
             <a class="btn btn--solid" id="cal-google" target="_blank" rel="noopener">Google Calendar</a>
@@ -563,6 +568,17 @@ footer a{color:var(--muted)}
     expirada:['Tu reserva ya no está vigente.','Pasó un rato antes de completar el pago y el cupo volvió a quedar disponible. No se hizo ningún cobro. Puedes volver a reservar cuando quieras.'],
     error:['No pudimos confirmar tu pago.','Si el banco te hizo el cobro, escríbeme por WhatsApp y lo reviso enseguida. Si no, puedes intentarlo de nuevo.']
   };
+  function mostrarComprobante(orden){
+    fetch('/api/sesion/comprobante?orden='+encodeURIComponent(orden),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(c){
+      if(!c) return;
+      var f=c.fecha?new Date(c.fecha):null;
+      var fecha=f&&!isNaN(f)?f.toLocaleString('es-CL',{dateStyle:'long',timeStyle:'short',timeZone:'America/Santiago'}):'';
+      var filas=[['Comercio',c.comercio],['Servicio',c.servicio],['Orden',c.orden],['Monto',c.monto.toLocaleString('es-CL')+' '+c.moneda],['Código de autorización',c.autorizacion],['Fecha',fecha],['Tipo de pago',c.tipo],['Cuotas',String(c.cuotas||0)],['Tarjeta',c.tarjeta?'terminada en '+c.tarjeta:'']];
+      var dl=$('pago-comprobante'); dl.textContent='';
+      filas.forEach(function(x){ if(!x[1]) return; var d=document.createElement('div'),t=document.createElement('dt'),v=document.createElement('dd'); t.textContent=x[0]; v.textContent=x[1]; d.appendChild(t); d.appendChild(v); dl.appendChild(d); });
+      dl.hidden=false;
+    }).catch(function(){ /* el comprobante también llega por correo */ });
+  }
   var params=new URLSearchParams(location.search), pago=params.get('pago');
   if(pago && TEXTOS[pago]){
     $('pago-titulo').textContent=TEXTOS[pago][0]; $('pago-texto').textContent=TEXTOS[pago][1];
@@ -573,6 +589,7 @@ footer a{color:var(--muted)}
       var base='/api/sesion/calendario?orden='+encodeURIComponent(orden);
       $('cal-ics').href=base; $('cal-google').href=base+'&formato=google';
       $('pago-cal').hidden=false;
+      mostrarComprobante(orden);
     }
     if(history.replaceState) history.replaceState(null,'','/sesiondiciembre');
   }

@@ -177,6 +177,7 @@ export async function procesarRetorno({ store, webpay, notify, params, origin, n
     autorizacion: res.authorization_code,
     tarjeta: res.card_detail && res.card_detail.card_number,
     tipo: res.payment_type_code,
+    cuotas: res.installments_number,
     fecha: res.transaction_date,
   };
   const pagada = await marcarPagada(store, ordenId, pago, now);
@@ -194,6 +195,38 @@ export async function procesarRetorno({ store, webpay, notify, params, origin, n
   const fin = await store.getWithMetadata(ordenKey(ordenId), { type: 'json' });
   if (fin) await store.setJSON(ordenKey(ordenId), { ...fin.data, emailEnviado }, { onlyIfMatch: fin.etag });
   return { resultado: 'ok', orden: ordenId };
+}
+
+// ---------- Comprobante en pantalla ----------
+
+const TIPOS_PAGO = {
+  VD: 'Débito (Redcompra)',
+  VN: 'Crédito, sin cuotas',
+  VC: 'Crédito, en cuotas',
+  SI: 'Crédito, cuotas sin interés',
+  S2: 'Crédito, cuotas sin interés',
+  NC: 'Crédito, cuotas sin interés',
+  VP: 'Prepago',
+};
+
+// Datos del comprobante que se muestra al volver del pago. Solo para una orden pagada; no incluye el correo
+// ni más que los últimos cuatro dígitos de la tarjeta.
+export async function comprobanteDe(store, ordenId) {
+  const o = await ordenPagada(store, ordenId);
+  if (!o) return null;
+  const p = o.pago || {};
+  return {
+    orden: o.id,
+    comercio: 'Javier, Hari Avtar · Consultoría de Vida',
+    servicio: `${SESION.titulo}, ${SESION.fechaTexto}`,
+    monto: o.monto,
+    moneda: 'CLP',
+    autorizacion: p.autorizacion || '',
+    fecha: p.fecha || (o.pagada ? new Date(o.pagada).toISOString() : ''),
+    tipo: TIPOS_PAGO[p.tipo] || '',
+    cuotas: Number.isFinite(p.cuotas) ? p.cuotas : 0,
+    tarjeta: p.tarjeta ? String(p.tarjeta).slice(-4) : '',
+  };
 }
 
 // ---------- Calendario de la sesión ----------
