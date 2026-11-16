@@ -469,14 +469,30 @@ footer a{color:var(--muted)}
             <div class="field"><label for="b-nombre">Nombre</label><input id="b-nombre" name="nombre" type="text" autocomplete="name" required maxlength="80"></div>
             <div class="field"><label for="b-email">Correo electrónico</label><input id="b-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></div>
             <div class="notice notice--strong"><p><b>Antes de pagar.</b> Esta compra no tiene derecho a retracto. Aun así, si no puedes asistir, puedes pedirme la devolución de tu pago hasta 7 días antes de la sesión, es decir, hasta el domingo 6 de diciembre. Pasada esa fecha, el pago no se devuelve.</p></div>
-            <label class="check"><input type="checkbox" name="aceptaPolitica" required><span>Entiendo y acepto que esta compra no tiene devolución.</span></label>
+            <label class="check"><input type="checkbox" name="aceptaPolitica" required><span>Entiendo y acepto que esta compra no tiene derecho a retracto, y las condiciones de devolución indicadas arriba.</span></label>
             <label class="check"><input type="checkbox" name="aceptaCorreo" required><span>Acepto que Javier, Hari Avtar use mi nombre y correo para enviarme la confirmación y la información de esta sesión.</span></label>
             <button class="btn btn--solid" type="submit">Pagar $17.000 y reservar mi cupo</button>
             <p class="form-msg" role="status" aria-live="polite" hidden></p>
           </form>
           <div id="buy-soldout" hidden>
-            <h3>Los cupos de esta sesión están agotados.</h3>
-            <p>Gracias por tu interés. Si quieres que te avise de una próxima sesión, <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">escríbeme por WhatsApp</a>.</p>
+            <h3>Esta sesión ya está completa.</h3>
+            <p>Gracias por tu interés. Si quieres, déjame tus datos y te escribo según lo que te interese.</p>
+            <form id="agotada-form" name="sesion-agotada" method="POST" data-netlify="true" netlify-honeypot="bot-field" aria-label="Dejar mis datos">
+              <input type="hidden" name="form-name" value="sesion-agotada">
+              <p class="hp" aria-hidden="true"><label>No llenar: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+              <label class="check"><input type="checkbox" name="interes" value="segunda-version"><span>Que me avises si abres una segunda versión de esta sesión grupal (lista de espera).</span></label>
+              <label class="check"><input type="checkbox" name="interes" value="acompanamiento-1a1"><span>Conocer otras formas de acompañamiento, como el acompañamiento 1 a 1.</span></label>
+              <div class="field"><label for="a-nombre">Nombre</label><input id="a-nombre" name="nombre" type="text" autocomplete="given-name" required maxlength="80"></div>
+              <div class="field"><label for="a-email">Correo electrónico</label><input id="a-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></div>
+              <label class="check"><input type="checkbox" name="acepta" value="si" required><span>Acepto que Javier, Hari Avtar use mi nombre y correo para escribirme sobre lo que marqué.</span></label>
+              <button class="btn btn--solid" type="submit">Dejar mis datos</button>
+              <p class="form-msg" role="status" aria-live="polite" hidden></p>
+            </form>
+            <div class="thanks" id="agotada-gracias" hidden>
+              <h3>Gracias, te escribiré pronto.</h3>
+              <p>Te escribiré al correo que dejaste. Revisa también tu carpeta de spam.</p>
+            </div>
+            <p class="note">Si prefieres, <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">escríbeme por WhatsApp</a>.</p>
           </div>
           <p class="note" id="buy-foot">Pago con tarjeta de crédito o débito, por Webpay. ¿Pagas desde fuera de Chile? <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a> y coordinamos.</p>
         </div>
@@ -534,13 +550,27 @@ footer a{color:var(--muted)}
 
 (function(){
   var f=document.getElementById('sesion-form'); if(!f) return;
-  var msg=f.querySelector('.form-msg'), btn=f.querySelector('button'), thanks=document.querySelector('#sesiondiciembre .thanks');
+  var msg=f.querySelector('.form-msg'), btn=f.querySelector('button'), thanks=document.querySelector('#waitlist .thanks');
   f.addEventListener('submit',function(e){
     e.preventDefault();
     btn.disabled=true; msg.hidden=true;
     fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
       .then(function(r){ if(!r.ok) throw new Error(r.status); f.hidden=true; thanks.hidden=false; })
       .catch(function(){ msg.textContent='No pudimos guardar tu correo. Inténtalo de nuevo o escríbeme por WhatsApp.'; msg.hidden=false; btn.disabled=false; });
+  });
+})();
+
+/* Sesión completa: guarda el interés (segunda versión o acompañamiento 1 a 1). */
+(function(){
+  var f=document.getElementById('agotada-form'); if(!f) return;
+  var msg=f.querySelector('.form-msg'), btn=f.querySelector('button[type=submit]'), gracias=document.getElementById('agotada-gracias');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!f.querySelector('input[name=interes]:checked')){ msg.textContent='Marca al menos una opción para saber qué te interesa.'; msg.hidden=false; return; }
+    btn.disabled=true; msg.hidden=true;
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
+      .then(function(r){ if(!r.ok) throw new Error(r.status); f.hidden=true; gracias.hidden=false; })
+      .catch(function(){ msg.textContent='No pudimos guardar tus datos. Puedes intentarlo de nuevo, o escribirme por WhatsApp.'; msg.hidden=false; btn.disabled=false; });
   });
 })();
 
@@ -553,10 +583,10 @@ footer a{color:var(--muted)}
 
   var TEXTOS={
     ok:['Tu cupo está confirmado.','Gracias por inscribirte. Te envié la confirmación al correo que dejaste; si no lo recibes en 5 minutos, revisa también tu carpeta Spam. Si no lo encuentras, escríbeme por WhatsApp.'],
-    cancelado:['El pago se canceló.','No se hizo ningún cobro y tu cupo quedó libre. Si quieres, puedes intentarlo de nuevo.'],
-    rechazado:['El pago no fue aprobado.','Tu banco no autorizó el cobro y no se te cobró. Puedes intentarlo de nuevo con otra tarjeta.'],
-    expirada:['Tu reserva venció.','Pasó demasiado tiempo antes de pagar y el cupo se liberó. No se hizo ningún cobro. Puedes volver a reservar.'],
-    error:['No pudimos confirmar el pago.','Si el banco te cobró, escríbeme por WhatsApp y lo reviso de inmediato. Si no, puedes intentarlo de nuevo.']
+    cancelado:['No se completó el pago.','No se hizo ningún cobro y tu cupo quedó libre. Si quieres, puedes intentarlo de nuevo cuando quieras.'],
+    rechazado:['Tu banco no aprobó el pago.','No se te cobró nada. Si quieres, puedes intentarlo de nuevo con otra tarjeta, o escribirme por WhatsApp y lo vemos juntos.'],
+    expirada:['Tu reserva ya no está vigente.','Pasó un rato antes de completar el pago y el cupo volvió a quedar disponible. No se hizo ningún cobro. Puedes volver a reservar cuando quieras.'],
+    error:['No pudimos confirmar tu pago.','Si el banco te hizo el cobro, escríbeme por WhatsApp y lo reviso enseguida. Si no, puedes intentarlo de nuevo.']
   };
   var params=new URLSearchParams(location.search), pago=params.get('pago');
   if(pago && TEXTOS[pago]){
@@ -597,7 +627,7 @@ footer a{color:var(--muted)}
       var i=document.createElement('input'); i.type='hidden'; i.name='token_ws'; i.value=x.j.token;
       f.appendChild(i); document.body.appendChild(f); f.submit();
     }).catch(function(err){
-      msg.textContent=(err && ERRORES[err.error]) || 'No pudimos iniciar el pago. Inténtalo de nuevo o escríbeme por WhatsApp.';
+      msg.textContent=(err && ERRORES[err.error]) || 'No pudimos iniciar el pago. Puedes intentarlo de nuevo, o escribirme por WhatsApp y te ayudo.';
       msg.hidden=false; btn.disabled=false;
     });
   });
