@@ -70,7 +70,6 @@ p{margin:0;max-width:62ch}
 .btn--ghost{color:var(--accent);background:transparent}
 .btn--ghost:hover{background:var(--accent-soft)}
 .note{font-size:var(--s-1);color:var(--muted)}
-.note.cupos{font-weight:600;color:var(--ink,inherit);margin:0 0 var(--s0,1rem)}
 
 /* Fotos */
 .photo{margin:0}
@@ -464,9 +463,7 @@ footer a{color:var(--muted)}
           <ul class="buy-includes">
             <li>Sesión en vivo de 90 minutos</li>
             <li>Grabación para quienes asistan, disponible por 30 días</li>
-            <li>Máximo 30 personas</li>
           </ul>
-          <p class="note" id="buy-cupos" aria-live="polite"></p>
           <form id="buy-form" aria-labelledby="buy-t" novalidate>
             <p class="hp" aria-hidden="true"><label>No llenar: <input name="web" tabindex="-1" autocomplete="off"></label></p>
             <div class="field"><label for="b-nombre">Nombre</label><input id="b-nombre" name="nombre" type="text" autocomplete="name" required maxlength="80"></div>
@@ -478,7 +475,7 @@ footer a{color:var(--muted)}
             <p class="form-msg" role="status" aria-live="polite" hidden></p>
           </form>
           <div id="buy-soldout" hidden>
-            <h3>Los 30 cupos están tomados.</h3>
+            <h3>Los cupos de esta sesión están agotados.</h3>
             <p>Gracias por tu interés. Si quieres que te avise de una próxima sesión, <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">escríbeme por WhatsApp</a>.</p>
           </div>
           <p class="note" id="buy-foot">Pago con tarjeta de crédito o débito, por Webpay. ¿Pagas desde fuera de Chile? <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a> y coordinamos.</p>
@@ -579,11 +576,6 @@ footer a{color:var(--muted)}
     wait.hidden=true; buy.hidden=false;
     if(s.modoPrueba) $('buy-test').hidden=false;
     if(s.agotado){ form.hidden=true; $('buy-soldout').hidden=false; $('buy-foot').hidden=true; }
-    else {
-      var n=s.disponibles;
-      $('buy-cupos').textContent = n===1 ? 'Queda 1 cupo de '+s.total+'.' : 'Quedan '+n+' cupos de '+s.total+'.';
-      $('buy-cupos').classList.add('cupos');
-    }
   }).catch(function(){ /* sin servidor: se mantiene la lista de espera */ });
 
   var ERRORES={agotado:'Los cupos se acaban de agotar.',cerrado:'La inscripción todavía no está abierta.',nombre:'Escribe tu nombre.',email:'Revisa tu correo electrónico.',politica:'Para continuar, acepta que la compra no tiene devolución.',correo:'Para continuar, acepta el uso de tu correo para la confirmación.'};

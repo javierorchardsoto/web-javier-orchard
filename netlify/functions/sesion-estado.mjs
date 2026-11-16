@@ -8,8 +8,6 @@ export default async (req, context) => {
   return json({
     abierto: true,
     modoPrueba: info.modoPrueba,
-    total: cupos.total,
-    disponibles: cupos.disponibles,
     agotado: cupos.disponibles === 0,
     montoClp: SESION.montoClp,
   });
