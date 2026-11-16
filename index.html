@@ -209,7 +209,7 @@ footer a{color:var(--muted)}
     <a class="promo" href="/sesiondiciembre">
       <span class="eyebrow">Domingo 13 de diciembre · 10:30 · online en vivo</span>
       <span class="promo-t">Sesión grupal para abordar los desafíos de este tiempo</span>
-      <span class="promo-a" id="promo-a">Anótate en la lista →</span>
+      <span class="promo-a" id="promo-a">Conoce la sesión →</span>
     </a>
   </section>
 
@@ -497,23 +497,10 @@ footer a{color:var(--muted)}
           <p class="note" id="buy-foot">Pago con tarjeta de crédito o débito, por Webpay. ¿Pagas desde fuera de Chile? <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a> y coordinamos.</p>
         </div>
 
-        <!-- Lista de espera: es lo que se ve mientras la venta no está abierta. -->
+        <!-- Mientras la venta no está abierta. -->
         <div id="waitlist">
-        <h3 id="form-t">Anótate en la lista</h3>
-        <p class="note">Te escribiré con el enlace de inscripción y los detalles de la sesión.</p>
-        <form id="sesion-form" name="sesion-13-dic" method="POST" data-netlify="true" netlify-honeypot="bot-field" aria-labelledby="form-t">
-          <input type="hidden" name="form-name" value="sesion-13-dic">
-          <p class="hp" aria-hidden="true"><label>No llenar: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-          <div class="field"><label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" type="text" autocomplete="given-name" required></div>
-          <div class="field"><label for="f-email">Correo electrónico</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required></div>
-          <label class="check"><input type="checkbox" name="acepta" value="si" required><span>Acepto que Javier Orchard Soto use mi nombre y correo para enviarme la información de esta sesión.</span></label>
-          <button class="btn btn--solid" type="submit">Quiero enterarme primero</button>
-          <p class="form-msg" role="status" aria-live="polite" hidden></p>
-        </form>
-        <div class="thanks" hidden>
-          <h3>Gracias, quedaste en la lista.</h3>
-          <p>Te escribiré al correo que dejaste en cuanto esté abierta la inscripción. Revisa también tu carpeta de spam.</p>
-        </div>
+          <h3>La inscripción se abrirá pronto.</h3>
+          <p>Si quieres que te avise cuando esté abierta, <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">escríbeme por WhatsApp</a>.</p>
         </div>
       </div>
     </div>
@@ -548,18 +535,6 @@ footer a{color:var(--muted)}
   show();
 })();
 
-(function(){
-  var f=document.getElementById('sesion-form'); if(!f) return;
-  var msg=f.querySelector('.form-msg'), btn=f.querySelector('button'), thanks=document.querySelector('#waitlist .thanks');
-  f.addEventListener('submit',function(e){
-    e.preventDefault();
-    btn.disabled=true; msg.hidden=true;
-    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
-      .then(function(r){ if(!r.ok) throw new Error(r.status); f.hidden=true; thanks.hidden=false; })
-      .catch(function(){ msg.textContent='No pudimos guardar tu correo. Inténtalo de nuevo o escríbeme por WhatsApp.'; msg.hidden=false; btn.disabled=false; });
-  });
-})();
-
 /* Sesión completa: guarda el interés (segunda versión o acompañamiento 1 a 1). */
 (function(){
   var f=document.getElementById('agotada-form'); if(!f) return;
@@ -574,7 +549,7 @@ footer a{color:var(--muted)}
   });
 })();
 
-/* Compra del cupo con Webpay. Si el servidor no habilita la venta, la página queda con la lista de espera. */
+/* Compra del cupo con Webpay. Si el servidor no habilita la venta, la página muestra el aviso de que la inscripción se abrirá pronto. */
 (function(){
   var $=function(id){return document.getElementById(id)};
   var card=$('sesion-card'); if(!card) return;
@@ -609,9 +584,9 @@ footer a{color:var(--muted)}
     wait.hidden=true; buy.hidden=false;
     if(s.modoPrueba) $('buy-test').hidden=false;
     if(s.agotado){ form.hidden=true; $('buy-soldout').hidden=false; $('buy-foot').hidden=true; }
-  }).catch(function(){ /* sin servidor: se mantiene la lista de espera */ });
+  }).catch(function(){ /* sin servidor: se mantiene el aviso de inscripción próxima */ });
 
-  var ERRORES={agotado:'Los cupos se acaban de agotar.',cerrado:'La inscripción todavía no está abierta.',nombre:'Escribe tu nombre.',email:'Revisa tu correo electrónico.',politica:'Para continuar, acepta que la compra no tiene devolución.',correo:'Para continuar, acepta el uso de tu correo para la confirmación.'};
+  var ERRORES={agotado:'Los cupos se acaban de agotar.',cerrado:'La inscripción todavía no está abierta.',nombre:'Escribe tu nombre.',email:'Revisa tu correo electrónico.',politica:'Para continuar, acepta que la compra no tiene derecho a retracto y las condiciones de devolución.',correo:'Para continuar, acepta el uso de tu correo para la confirmación.'};
   form.addEventListener('submit',function(e){
     e.preventDefault();
     msg.hidden=true;

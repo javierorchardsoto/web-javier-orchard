@@ -9,7 +9,7 @@ inscripción pagada a la sesión grupal.
 
 Flujo: la persona reserva su cupo en la página, paga por Webpay (Transbank), y al confirmarse el pago
 recibe un correo de confirmación por Brevo y queda en la lista de contactos. Máximo 30 cupos.
-Mientras la venta no esté abierta, la página muestra la lista de espera de siempre (Netlify Forms).
+Mientras la venta no esté abierta, la página muestra el aviso «La inscripción se abrirá pronto» con enlace a WhatsApp. Si los cupos se agotan, ofrece dejar los datos (formulario `sesion-agotada` de Netlify Forms) para una segunda versión o para el acompañamiento 1 a 1.
 
 | Dirección | Para qué |
 |---|---|
