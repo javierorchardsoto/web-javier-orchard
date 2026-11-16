@@ -67,6 +67,7 @@ ${bloqueEnlace()}
 ${bloqueCalendario(origin, orden.id)}
 ${PREPARACION}
 ${recibeRecordatorio(orden) ? '<p>Un día antes de la sesión, te enviaré un recordatorio por email.</p>' : ''}
+<p>Si no puedes asistir, puedes pedirme la devolución de tu pago hasta el domingo 6 de diciembre, respondiendo a este correo o escribiéndome por WhatsApp.</p>
 ${INVITAR}
 ${NO_PSICOTERAPIA}
 <hr style="border:none;border-top:1px solid #D9CFBD;margin:24px 0">
