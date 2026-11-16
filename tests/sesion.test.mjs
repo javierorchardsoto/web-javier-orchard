@@ -322,3 +322,17 @@ test('confirmar: adjunta el .ics y, si Brevo rechaza el adjunto, reenvía sin é
     Object.assign(process.env, guardado.env);
   }
 });
+
+test('correo de confirmación: texto de Javier; el aviso del recordatorio solo si pagó antes de la ventana de 24 h', () => {
+  const desde = SESION.inicioMs - SESION.recordatorioHorasAntes * 3600000;
+  const base = { id: 'S13-aaaaaaaaaaaa', nombre: 'Ana Pérez', monto: 17000 };
+  const temprano = textoConfirmacion({ orden: { ...base, pagada: desde - 1000 }, pago: { autorizacion: '1' }, origin: ORIGEN });
+  assert.match(temprano, /Gracias por inscribirte/);
+  assert.match(temprano, /Recomendaciones para llegar bien a la sesión/);
+  assert.match(temprano, /Un día antes de la sesión, te enviaré un recordatorio por email/);
+  assert.match(temprano, /Esta sesión es un acompañamiento grupal/);
+  assert.ok(!/devolución/.test(temprano), 'sin el aviso de devolución en el correo');
+  assert.ok(!/recibirás la grabación/.test(temprano), 'sin la frase de la grabación');
+  const tarde = textoConfirmacion({ orden: { ...base, pagada: desde + 1000 }, pago: { autorizacion: '1' }, origin: ORIGEN });
+  assert.ok(!/te enviaré un recordatorio/.test(tarde), 'quien compra dentro de las 24 h no recibe recordatorio, así que no se le promete');
+});

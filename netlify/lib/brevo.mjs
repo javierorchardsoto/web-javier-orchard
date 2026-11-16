@@ -37,7 +37,7 @@ function bloqueCalendario(origin, ordenId) {
 }
 
 // Preparación para la sesión (texto de Javier).
-const PREPARACION = `<p><b>Para llegar bien a la sesión</b></p>
+const PREPARACION = `<p><b>Recomendaciones para llegar bien a la sesión</b></p>
 <ul style="padding-left:20px;margin:0 0 12px">
 <li>Un computador para conectarte, con cámara y micrófono funcionando y una conexión a internet estable.</li>
 <li>Un lugar cómodo y tranquilo, donde puedas estar sin distracciones externas.</li>
@@ -53,18 +53,21 @@ const cabecera = (nombre) => `<!doctype html><html lang="es"><body style="margin
 
 const datosSesion = () => `<p><b>${esc(SESION.titulo)}</b><br>${esc(SESION.fechaTexto)}<br>${esc(SESION.duracionTexto)}</p>`;
 
-const NO_PSICOTERAPIA = `<p style="font-size:14px;color:#4F6480">Es un acompañamiento grupal para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>`;
+const NO_PSICOTERAPIA = `<p style="font-size:14px;color:#4F6480">Esta sesión es un acompañamiento grupal para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>`;
+
+// El recordatorio solo se envía a quien pagó antes de la ventana de 24 h previa a la sesión.
+const recibeRecordatorio = (orden) =>
+  (orden.pagada || Date.now()) < SESION.inicioMs - SESION.recordatorioHorasAntes * 3600000;
 
 export function textoConfirmacion({ orden, pago, origin }) {
   return `${cabecera(esc(orden.nombre.split(' ')[0]))}
-<p>Tu cupo está confirmado. Gracias por anotarte.</p>
+<p>Tu cupo está confirmado. Gracias por inscribirte.</p>
 ${datosSesion()}
 ${bloqueEnlace()}
 ${bloqueCalendario(origin, orden.id)}
 ${PREPARACION}
-<p>Si asistes, recibirás la grabación y podrás verla durante 30 días. Un día antes te enviaré un recordatorio.</p>
+${recibeRecordatorio(orden) ? '<p>Un día antes de la sesión, te enviaré un recordatorio por email.</p>' : ''}
 ${INVITAR}
-<p style="border-left:3px solid #2F4A6B;padding:6px 14px;background:#D9E3EC">Esta compra no tiene devolución. Lo informé antes de que pagaras y quedó aceptado al reservar tu cupo.</p>
 ${NO_PSICOTERAPIA}
 <hr style="border:none;border-top:1px solid #D9CFBD;margin:24px 0">
 <p style="font-size:13px;color:#4F6480">Comprobante: orden ${esc(orden.id)} · ${clp(orden.monto)} CLP · autorización ${esc((pago && pago.autorizacion) || '')}<br>
