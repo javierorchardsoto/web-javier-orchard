@@ -25,7 +25,7 @@ function bloqueEnlace() {
     : '<p><b>Enlace para conectarte:</b> te lo enviaré por correo antes de la sesión.</p>';
   // Si la reunión pide ID y código, se muestran como respaldo del enlace (ZOOM_ID y ZOOM_PASSCODE, opcionales).
   const datos = process.env.ZOOM_ID || process.env.ZOOM_PASSCODE
-    ? `<p style="font-size:14px;color:#4F6480">Si Zoom te lo pide: ${process.env.ZOOM_ID ? `ID de reunión <b>${esc(process.env.ZOOM_ID)}</b>` : ''}${process.env.ZOOM_ID && process.env.ZOOM_PASSCODE ? ' · ' : ''}${process.env.ZOOM_PASSCODE ? `código de acceso <b>${esc(process.env.ZOOM_PASSCODE)}</b>` : ''}.</p>`
+    ? `<p style="font-size:15.4px;color:#4F6480">Si Zoom te lo pide: ${process.env.ZOOM_ID ? `ID de reunión <b>${esc(process.env.ZOOM_ID)}</b>` : ''}${process.env.ZOOM_ID && process.env.ZOOM_PASSCODE ? ' · ' : ''}${process.env.ZOOM_PASSCODE ? `código de acceso <b>${esc(process.env.ZOOM_PASSCODE)}</b>` : ''}.</p>`
     : '';
   return enlace + '\n' + datos;
 }
@@ -33,7 +33,7 @@ function bloqueEnlace() {
 // Enlaces para agregar la sesión al calendario (el número de orden protege los datos de conexión).
 function bloqueCalendario(origin, ordenId) {
   if (!origin || !ordenId) return '';
-  return `<p><b>Agrégala a tu calendario:</b> <a href="${esc(enlaceGoogle(origin, ordenId))}">Google Calendar</a> · <a href="${esc(enlaceIcs(origin, ordenId))}">Apple, Outlook u otro (.ics)</a><br><span style="font-size:14px;color:#4F6480">El archivo del evento también va adjunto a este correo.</span></p>`;
+  return `<p><b>Agrégala a tu calendario:</b> <a href="${esc(enlaceGoogle(origin, ordenId))}">Google Calendar</a> · <a href="${esc(enlaceIcs(origin, ordenId))}">Apple, Outlook u otro (.ics)</a><br><span style="font-size:15.4px;color:#4F6480">El archivo del evento también va adjunto a este correo.</span></p>`;
 }
 
 // Preparación para la sesión (texto de Javier).
@@ -45,15 +45,15 @@ const PREPARACION = `<p><b>Recomendaciones para llegar bien a la sesión</b></p>
 <li>Agua, un té o lo que necesites para sentirte a gusto durante la sesión.</li>
 </ul>`;
 
-const INVITAR = `<p style="font-size:14px;color:#4F6480">¿Conoces a alguien a quien le pueda servir? Cada persona reserva su propio cupo en <a href="${SESION.urlPublica}">${SESION.urlPublica}</a>. El enlace de conexión de este correo es solo para ti.</p>`;
+const INVITAR = `<p style="font-size:15.4px;color:#4F6480">¿Conoces a alguien a quien le pueda servir? Cada persona reserva su propio cupo en <a href="${SESION.urlPublica}">${SESION.urlPublica}</a>. El enlace de conexión de este correo es solo para ti.</p>`;
 
-const cabecera = (nombre) => `<!doctype html><html lang="es"><body style="margin:0;background:#F6F1E7;color:#1F3454;font-family:Georgia,serif;line-height:1.6">
+const cabecera = (nombre) => `<!doctype html><html lang="es"><body style="margin:0;background:#F6F1E7;color:#1F3454;font-family:Georgia,serif;font-size:17.6px;line-height:1.6">
 <div style="max-width:560px;margin:0 auto;padding:28px 20px">
-<p style="font-size:20px;margin:0 0 16px">Hola, ${nombre}.</p>`;
+<p style="font-size:22px;margin:0 0 16px">Hola, ${nombre}.</p>`;
 
 const datosSesion = () => `<p><b>${esc(SESION.titulo)}</b><br>${esc(SESION.fechaTexto)}<br>${esc(SESION.duracionTexto)}</p>`;
 
-const NO_PSICOTERAPIA = `<p style="font-size:14px;color:#4F6480">Esta sesión es un acompañamiento grupal para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>`;
+const NO_PSICOTERAPIA = `<p style="font-size:15.4px;color:#4F6480">Esta sesión es un acompañamiento grupal para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>`;
 
 // El recordatorio solo se envía a quien pagó antes de la ventana de 24 h previa a la sesión.
 const recibeRecordatorio = (orden) =>
@@ -70,7 +70,7 @@ ${recibeRecordatorio(orden) ? '<p>Un día antes de la sesión, te enviaré un re
 ${INVITAR}
 ${NO_PSICOTERAPIA}
 <hr style="border:none;border-top:1px solid #D9CFBD;margin:24px 0">
-<p style="font-size:13px;color:#4F6480">Comprobante: orden ${esc(orden.id)} · ${clp(orden.monto)} CLP · autorización ${esc((pago && pago.autorizacion) || '')}<br>
+<p style="font-size:14.3px;color:#4F6480">Comprobante: orden ${esc(orden.id)} · ${clp(orden.monto)} CLP · autorización ${esc((pago && pago.autorizacion) || '')}<br>
 Si algo no te calza o tienes una duda, responde a este correo.</p>
 <p>Javier, Hari Avtar</p>
 </div></body></html>`;
