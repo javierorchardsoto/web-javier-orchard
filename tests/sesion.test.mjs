@@ -331,7 +331,6 @@ test('correo de confirmación: texto de Javier; el aviso del recordatorio solo s
   assert.match(temprano, /Recomendaciones para llegar bien a la sesión/);
   assert.match(temprano, /Un día antes de la sesión, te enviaré un recordatorio por email/);
   assert.match(temprano, /Esta sesión es un acompañamiento grupal/);
-  assert.ok(!/devolución/.test(temprano), 'sin el aviso de devolución en el correo');
   assert.ok(!/grabaci/i.test(temprano), 'la sesión no se graba: ningún correo la menciona');
   assert.ok(temprano.includes('devolución de tu pago hasta el domingo 6 de diciembre'), 'el correo informa el plazo de devolución');
   const tarde = textoConfirmacion({ orden: { ...base, pagada: desde + 1000 }, pago: { autorizacion: '1' }, origin: ORIGEN });
