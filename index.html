@@ -183,7 +183,7 @@ footer a{color:var(--muted)}
     <a href="#preguntas">Preguntas</a>
     <a href="#precios">Precios</a>
     <a href="#grupos">Grupos</a>
-    <a href="#sesion">Sesión grupal 13 dic</a>
+    <a href="#sesiondiciembre">Sesión grupal 13 dic</a>
     <a href="#contacto">Contacto</a>
   </nav>
 </div></header>
@@ -206,7 +206,7 @@ footer a{color:var(--muted)}
   </section>
 
   <section class="wrap" data-view="inicio" aria-label="Próxima sesión grupal">
-    <a class="promo" href="#sesion">
+    <a class="promo" href="#sesiondiciembre">
       <span class="eyebrow">Domingo 13 de diciembre · 10:30 · online en vivo</span>
       <span class="promo-t">Sesión grupal para abordar los desafíos de este tiempo</span>
       <span class="promo-a" id="promo-a">Anótate en la lista →</span>
@@ -430,7 +430,7 @@ footer a{color:var(--muted)}
       </div>
     </div>
   </section>
-  <section class="band" id="sesion" data-view="sesion" aria-labelledby="sesion-t">
+  <section class="band" id="sesiondiciembre" data-view="sesiondiciembre" aria-labelledby="sesion-t">
     <div class="wrap two">
       <div class="stack">
         <p class="eyebrow">Sesión grupal online en vivo</p>
@@ -518,6 +518,7 @@ footer a{color:var(--muted)}
   views.forEach(function(v){names[v.getAttribute('data-view')]=1});
   function show(){
     var h=(location.hash||'').replace('#','');
+    if(h==='sesion'){ h='sesiondiciembre'; if(history.replaceState) history.replaceState(null,'',location.pathname+location.search+'#sesiondiciembre'); }
     if(!names[h]) h='inicio';
     views.forEach(function(v){v.classList.toggle('active',v.getAttribute('data-view')===h)});
     links.forEach(function(a){
@@ -531,7 +532,7 @@ footer a{color:var(--muted)}
 
 (function(){
   var f=document.getElementById('sesion-form'); if(!f) return;
-  var msg=f.querySelector('.form-msg'), btn=f.querySelector('button'), thanks=document.querySelector('#sesion .thanks');
+  var msg=f.querySelector('.form-msg'), btn=f.querySelector('button'), thanks=document.querySelector('#sesiondiciembre .thanks');
   f.addEventListener('submit',function(e){
     e.preventDefault();
     btn.disabled=true; msg.hidden=true;
@@ -566,7 +567,7 @@ footer a{color:var(--muted)}
       $('cal-ics').href=base; $('cal-google').href=base+'&formato=google';
       $('pago-cal').hidden=false;
     }
-    if(history.replaceState) history.replaceState(null,'',location.pathname+'#sesion');
+    if(history.replaceState) history.replaceState(null,'',location.pathname+'#sesiondiciembre');
   }
 
   fetch('/api/sesion/estado',{cache:'no-store'}).then(function(r){return r.json()}).then(function(s){

@@ -4,3 +4,9 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/sesiondiciembre"
+  to = "/#sesiondiciembre"
+  status = 302
+  force = true
