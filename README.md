@@ -29,7 +29,8 @@ Mientras la venta no esté abierta, la página muestra la lista de espera de sie
 | `BREVO_SENDER_EMAIL` | Correo remitente, verificado en Brevo | Todos |
 | `BREVO_SENDER_NAME` | Nombre del remitente (opcional; por defecto "Javier Orchard Soto") | Todos |
 | `BREVO_LIST_ID` | Número de la lista de contactos de Brevo (opcional) | Todos |
-| `NOTIFY_EMAIL` | Correo donde Javier recibe el aviso de cada inscripción (opcional; por defecto el remitente) | Todos |
+| `REPLY_TO_EMAIL` | Correo al que llegan las respuestas de quienes compran (opcional; por defecto el remitente). Úsalo si el remitente no tiene buzón | Todos |
+| `NOTIFY_EMAIL` | Correo donde Javier recibe el aviso de cada inscripción (opcional; por defecto `REPLY_TO_EMAIL`, o el remitente) | Todos |
 | `ZOOM_URL` | Enlace de la sesión, que va en el correo de confirmación (si falta, el correo dice que se enviará después) | Todos |
 | `ADMIN_TOKEN` | Contraseña larga para descargar la lista de inscritos | Todos |
 | `SESION_ABIERTA` | `1` para abrir la venta en el sitio publicado. Es el interruptor final | Solo Production |

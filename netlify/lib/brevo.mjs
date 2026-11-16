@@ -41,6 +41,8 @@ Si algo no te calza o tienes una duda, responde a este correo.</p>
 
 export function crearNotificador() {
   const sender = { email: process.env.BREVO_SENDER_EMAIL, name: process.env.BREVO_SENDER_NAME || 'Javier Orchard Soto' };
+  // Las respuestas de los compradores van a REPLY_TO_EMAIL (p. ej. un Gmail) si el remitente no tiene buzón.
+  const replyTo = process.env.REPLY_TO_EMAIL ? { email: process.env.REPLY_TO_EMAIL, name: sender.name } : sender;
   const listId = Number(process.env.BREVO_LIST_ID) || null;
   return {
     async confirmar({ orden, pago }) {
@@ -51,7 +53,7 @@ export function crearNotificador() {
       await brevo('/smtp/email', {
         sender,
         to: [{ email: orden.email, name: orden.nombre }],
-        replyTo: sender,
+        replyTo,
         subject: 'Tu cupo está confirmado: sesión grupal del 13 de diciembre',
         htmlContent: textoConfirmacion({ orden, pago }),
       });
@@ -65,7 +67,7 @@ export function crearNotificador() {
       }
     },
     async aviso({ orden, pago, ocupados }) {
-      const to = process.env.NOTIFY_EMAIL || sender.email;
+      const to = process.env.NOTIFY_EMAIL || replyTo.email;
       if (!process.env.BREVO_API_KEY || !to) return;
       await brevo('/smtp/email', {
         sender,
