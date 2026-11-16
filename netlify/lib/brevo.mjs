@@ -29,12 +29,13 @@ function bloqueEnlace() {
   return enlace + '\n' + datos;
 }
 
-// BORRADOR: texto general para que Javier lo revise y lo ajuste a su manera de preparar la sesión.
+// Preparación para la sesión (texto de Javier).
 const PREPARACION = `<p><b>Para llegar bien a la sesión</b></p>
 <ul style="padding-left:20px;margin:0 0 12px">
-<li>Busca un lugar donde nadie te interrumpa durante los 90 minutos.</li>
-<li>Conéctate unos minutos antes, para entrar sin apuro.</li>
-<li>Ten a mano algo para anotar, si te sirve.</li>
+<li>Un computador para conectarte, con cámara y micrófono funcionando y una conexión a internet estable.</li>
+<li>Un lugar cómodo y tranquilo, donde puedas estar sin distracciones externas.</li>
+<li>Papel y lápiz para escribir.</li>
+<li>Agua, un té o lo que necesites para sentirte a gusto durante la sesión.</li>
 </ul>`;
 
 const INVITAR = `<p style="font-size:14px;color:#4F6480">¿Conoces a alguien a quien le pueda servir? Cada persona reserva su propio cupo en <a href="${SESION.urlPublica}">${SESION.urlPublica}</a>. El enlace de conexión de este correo es solo para ti.</p>`;
