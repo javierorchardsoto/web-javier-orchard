@@ -159,6 +159,8 @@ footer a{color:var(--muted)}
 .notice--strong{border-left-width:4px;border-left-color:var(--cta-edge);background:var(--bg)}
 .banner-test{margin:0;padding:.5rem .75rem;border-radius:8px;background:var(--cta);color:var(--on-cta);font-size:var(--s-1);font-weight:600}
 #pago-resultado{display:grid;gap:.6rem}
+#pago-cal{display:grid;gap:.6rem;margin-top:.4rem}
+#pago-cal p{margin:0}
 #buy,#waitlist{display:grid;gap:1rem;align-content:start}
 
 @media (max-width:820px){
@@ -447,6 +449,11 @@ footer a{color:var(--muted)}
         <div id="pago-resultado" role="status" hidden>
           <h3 id="pago-titulo"></h3>
           <p id="pago-texto"></p>
+          <div id="pago-cal" hidden>
+            <p class="note"><b>Agrégala a tu calendario</b>, con el enlace para conectarte y un aviso antes de la sesión.</p>
+            <a class="btn btn--solid" id="cal-google" target="_blank" rel="noopener">Google Calendar</a>
+            <a class="btn btn--ghost" id="cal-ics">Apple, Outlook u otro (.ics)</a>
+          </div>
         </div>
 
         <!-- Compra del cupo: se muestra solo cuando el servidor habilita la venta (ver /api/sesion/estado). -->
@@ -555,6 +562,13 @@ footer a{color:var(--muted)}
   if(pago && TEXTOS[pago]){
     $('pago-titulo').textContent=TEXTOS[pago][0]; $('pago-texto').textContent=TEXTOS[pago][1];
     resultado.hidden=false; wait.hidden=true;
+    // El número de orden (viene en la dirección tras el pago) es lo que autoriza a recibir el evento con el enlace de Zoom.
+    var orden=params.get('orden');
+    if(pago==='ok' && orden && /^S13-[a-f0-9]{12}$/.test(orden)){
+      var base='/api/sesion/calendario?orden='+encodeURIComponent(orden);
+      $('cal-ics').href=base; $('cal-google').href=base+'&formato=google';
+      $('pago-cal').hidden=false;
+    }
     if(history.replaceState) history.replaceState(null,'',location.pathname+'#sesion');
   }
 

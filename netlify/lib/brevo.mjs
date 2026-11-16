@@ -1,5 +1,6 @@
 // Correos por Brevo: confirmación a la persona, aviso a Javier y registro en la lista de contactos.
 import { SESION } from './core.mjs';
+import { generarIcs, enlaceIcs, enlaceGoogle } from './calendario.mjs';
 
 const API = 'https://api.brevo.com/v3';
 
@@ -29,6 +30,12 @@ function bloqueEnlace() {
   return enlace + '\n' + datos;
 }
 
+// Enlaces para agregar la sesión al calendario (el número de orden protege los datos de conexión).
+function bloqueCalendario(origin, ordenId) {
+  if (!origin || !ordenId) return '';
+  return `<p><b>Agrégala a tu calendario:</b> <a href="${esc(enlaceGoogle(origin, ordenId))}">Google Calendar</a> · <a href="${esc(enlaceIcs(origin, ordenId))}">Apple, Outlook u otro (.ics)</a><br><span style="font-size:14px;color:#4F6480">El archivo del evento también va adjunto a este correo.</span></p>`;
+}
+
 // Preparación para la sesión (texto de Javier).
 const PREPARACION = `<p><b>Para llegar bien a la sesión</b></p>
 <ul style="padding-left:20px;margin:0 0 12px">
@@ -48,11 +55,12 @@ const datosSesion = () => `<p><b>${esc(SESION.titulo)}</b><br>${esc(SESION.fecha
 
 const NO_PSICOTERAPIA = `<p style="font-size:14px;color:#4F6480">Es un acompañamiento grupal para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>`;
 
-export function textoConfirmacion({ orden, pago }) {
+export function textoConfirmacion({ orden, pago, origin }) {
   return `${cabecera(esc(orden.nombre.split(' ')[0]))}
 <p>Tu cupo está confirmado. Gracias por anotarte.</p>
 ${datosSesion()}
 ${bloqueEnlace()}
+${bloqueCalendario(origin, orden.id)}
 ${PREPARACION}
 <p>Si asistes, recibirás la grabación y podrás verla durante 30 días. Un día antes te enviaré un recordatorio.</p>
 ${INVITAR}
@@ -79,23 +87,39 @@ ${NO_PSICOTERAPIA}
 }
 
 export function crearNotificador() {
-  const sender = { email: process.env.BREVO_SENDER_EMAIL, name: process.env.BREVO_SENDER_NAME || 'Javier Orchard Soto' };
+  const sender = { email: process.env.BREVO_SENDER_EMAIL, name: process.env.BREVO_SENDER_NAME || 'Javier, Hari Avtar' };
   // Las respuestas de los compradores van a REPLY_TO_EMAIL (p. ej. un Gmail) si el remitente no tiene buzón.
   const replyTo = process.env.REPLY_TO_EMAIL ? { email: process.env.REPLY_TO_EMAIL, name: sender.name } : sender;
   const listId = Number(process.env.BREVO_LIST_ID) || null;
   return {
-    async confirmar({ orden, pago }) {
+    async confirmar({ orden, pago, origin }) {
       if (!process.env.BREVO_API_KEY || !sender.email) {
         console.warn('Brevo sin configurar: no se envió la confirmación de', orden.id);
         return;
       }
-      await brevo('/smtp/email', {
+      const correo = {
         sender,
         to: [{ email: orden.email, name: orden.nombre }],
         replyTo,
         subject: 'Tu cupo está confirmado: sesión grupal del 13 de diciembre',
-        htmlContent: textoConfirmacion({ orden, pago }),
+        htmlContent: textoConfirmacion({ orden, pago, origin }),
+      };
+      const ics = generarIcs({
+        ordenId: orden.id,
+        zoomUrl: process.env.ZOOM_URL,
+        zoomId: process.env.ZOOM_ID,
+        zoomPasscode: process.env.ZOOM_PASSCODE,
       });
+      try {
+        await brevo('/smtp/email', {
+          ...correo,
+          attachment: [{ name: 'sesion-grupal-13-dic.ics', content: Buffer.from(ics, 'utf-8').toString('base64') }],
+        });
+      } catch (e) {
+        // Si Brevo no acepta el adjunto, la confirmación sale igual, con los enlaces al calendario en el cuerpo.
+        console.error('Confirmación con adjunto falló; se reenvía sin adjunto', orden.id, String(e && e.message).slice(0, 200));
+        await brevo('/smtp/email', correo);
+      }
       if (listId) {
         await brevo('/contacts', {
           email: orden.email,

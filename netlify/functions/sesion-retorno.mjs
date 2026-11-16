@@ -18,18 +18,21 @@ export default async (req, context) => {
   }
 
   let resultado = 'error';
+  let orden = '';
   try {
     const r = await procesarRetorno({
       store: getSesionStore(info),
       webpay: webpayClient(info),
       notify: crearNotificador(),
       params,
+      origin,
     });
     resultado = r.resultado;
+    if (resultado === 'ok' && r.orden) orden = `&orden=${encodeURIComponent(r.orden)}`;
   } catch (e) {
     console.error('retorno falló', e);
   }
-  return Response.redirect(`${origin}/?pago=${resultado}#sesion`, 303);
+  return Response.redirect(`${origin}/?pago=${resultado}${orden}#sesion`, 303);
 };
 
 export const config = { path: '/api/sesion/retorno' };

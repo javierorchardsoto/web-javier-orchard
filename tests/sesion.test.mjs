@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { crearCheckout, procesarRetorno, contarCupos, inscritosCsv, validarEntrada, enviarRecordatorios, SESION } from '../netlify/lib/core.mjs';
+import { crearCheckout, procesarRetorno, contarCupos, inscritosCsv, validarEntrada, enviarRecordatorios, ordenPagada, SESION } from '../netlify/lib/core.mjs';
+import { generarIcs, urlGoogleCalendar, enlaceIcs, enlaceGoogle } from '../netlify/lib/calendario.mjs';
+import { textoConfirmacion, crearNotificador } from '../netlify/lib/brevo.mjs';
 
 // Almacén en memoria que imita las escrituras condicionales de Netlify Blobs.
 function memStore() {
@@ -215,4 +217,108 @@ test('recordatorio: si Brevo falla, se reintenta en la siguiente ejecución', as
   falla = false;
   const r2 = await enviarRecordatorios({ store, notify, now: desde + 3600000 });
   assert.equal(r2.enviados, 1);
+});
+
+// ---------- Calendario ----------
+
+const ZOOM = 'https://us02web.zoom.us/j/12345678901?pwd=EnlaceDePruebaInventado.1';
+const desplegar = (ics) => ics.replace(/\r\n /g, '');
+
+test('ics: fecha en UTC (10:30 de Chile), duración de 90 minutos, dos avisos y líneas de hasta 75 bytes', () => {
+  const ics = generarIcs({ ordenId: 'S13-aaaaaaaaaaaa', zoomUrl: ZOOM, zoomId: '897 4886 5507', zoomPasscode: 'abc123' });
+  assert.ok(ics.startsWith('BEGIN:VCALENDAR\r\n') && ics.endsWith('END:VCALENDAR\r\n'));
+  assert.ok(!/[^\r]\n/.test(ics), 'todos los saltos de línea son CRLF');
+  assert.match(ics, /DTSTART:20261213T133000Z/);
+  assert.match(ics, /DTEND:20261213T150000Z/);
+  assert.equal((ics.match(/BEGIN:VALARM/g) || []).length, 2);
+  assert.match(ics, /TRIGGER:-P1D/);
+  assert.match(ics, /UID:S13-aaaaaaaaaaaa@javierorchard\.com/);
+  for (const l of ics.split('\r\n')) assert.ok(new TextEncoder().encode(l).length <= 75, 'línea larga: ' + l);
+  const plano = desplegar(ics);
+  assert.ok(plano.includes('LOCATION:' + ZOOM));
+  assert.ok(plano.includes('Enlace para conectarte: ' + ZOOM));
+  assert.match(plano, /897 4886 5507/);
+});
+
+test('ics: sin enlace de Zoom avisa que llegará por correo y no inventa uno', () => {
+  const plano = desplegar(generarIcs({ ordenId: 'S13-aaaaaaaaaaaa' }));
+  assert.match(plano, /LOCATION:Online \(Zoom\)/);
+  assert.match(plano, /te llegará por correo/);
+  assert.ok(!plano.includes('zoom.us'));
+});
+
+test('enlace de Google Calendar: hora UTC, zona de Chile y enlace de conexión', () => {
+  const u = new URL(urlGoogleCalendar({ zoomUrl: ZOOM }));
+  assert.equal(u.origin + u.pathname, 'https://calendar.google.com/calendar/render');
+  assert.equal(u.searchParams.get('dates'), '20261213T133000Z/20261213T150000Z');
+  assert.equal(u.searchParams.get('ctz'), 'America/Santiago');
+  assert.equal(u.searchParams.get('location'), ZOOM);
+  assert.ok(u.searchParams.get('details').includes(ZOOM));
+});
+
+test('el calendario solo se entrega a una orden pagada con número válido', async () => {
+  const store = memStore();
+  const webpay = webpayOk();
+  const notify = notifyMock();
+  const c = await crearCheckout({ store, webpay, body: entrada(7), origin: ORIGEN, now: 1000 });
+  const ordenId = (await store.list({ prefix: 'orden-' })).blobs[0].key.replace('orden-', '');
+  assert.equal(await ordenPagada(store, ordenId), null, 'creada pero sin pagar');
+  const r = await procesarRetorno({ store, webpay, notify, params: { token_ws: c.body.token }, origin: ORIGEN, now: 2000 });
+  assert.equal(r.resultado, 'ok');
+  assert.equal(r.orden, ordenId);
+  assert.equal((await ordenPagada(store, ordenId)).email, 'ana7@correo.cl');
+  assert.equal(await ordenPagada(store, 'S13-000000000000'), null, 'orden inexistente');
+  assert.equal(await ordenPagada(store, '../orden-x'), null, 'formato inválido');
+  assert.equal(await ordenPagada(store, undefined), null);
+  const rec = await procesarRetorno({ store, webpay, notify, params: { token_ws: c.body.token }, origin: ORIGEN, now: 3000 });
+  assert.equal(rec.orden, ordenId, 'al recargar también devuelve la orden');
+});
+
+test('un pago cancelado no devuelve número de orden', async () => {
+  const store = memStore();
+  const r = await procesarRetorno({ store, webpay: webpayOk(), notify: notifyMock(), params: { TBK_TOKEN: 'x', TBK_ORDEN_COMPRA: 'S13-bbbbbbbbbbbb' }, now: 1 });
+  assert.equal(r.resultado, 'cancelado');
+  assert.equal(r.orden, undefined);
+});
+
+test('correo de confirmación: incluye los enlaces de calendario de esa orden, solo si conoce el origen', () => {
+  const orden = { id: 'S13-aaaaaaaaaaaa', nombre: 'Ana Pérez', monto: 17000 };
+  const con = textoConfirmacion({ orden, pago: { autorizacion: '1213' }, origin: ORIGEN });
+  assert.ok(con.includes(enlaceGoogle(ORIGEN, orden.id).replace(/&/g, '&amp;')));
+  assert.ok(con.includes(enlaceIcs(ORIGEN, orden.id)));
+  assert.match(con, /va adjunto/);
+  const sin = textoConfirmacion({ orden, pago: { autorizacion: '1213' } });
+  assert.ok(!sin.includes('Agrégala a tu calendario'));
+});
+
+test('confirmar: adjunta el .ics y, si Brevo rechaza el adjunto, reenvía sin él', async () => {
+  const guardado = { fetch: globalThis.fetch, env: { ...process.env } };
+  Object.assign(process.env, { BREVO_API_KEY: 'k', BREVO_SENDER_EMAIL: 'hola@javierorchard.com', ZOOM_URL: ZOOM });
+  delete process.env.BREVO_LIST_ID;
+  const cuerpos = [];
+  let rechazar = false;
+  globalThis.fetch = async (url, init) => {
+    cuerpos.push(JSON.parse(init.body));
+    const mala = rechazar && cuerpos[cuerpos.length - 1].attachment;
+    return { ok: !mala, status: mala ? 400 : 201, text: async () => 'adjunto no permitido' };
+  };
+  try {
+    const orden = { id: 'S13-aaaaaaaaaaaa', nombre: 'Ana Pérez', email: 'ana@correo.cl', monto: 17000 };
+    await crearNotificador().confirmar({ orden, pago: { autorizacion: '1' }, origin: ORIGEN });
+    assert.equal(cuerpos.length, 1);
+    const adj = cuerpos[0].attachment[0];
+    assert.equal(adj.name, 'sesion-grupal-13-dic.ics');
+    assert.match(Buffer.from(adj.content, 'base64').toString('utf-8'), /BEGIN:VCALENDAR[\s\S]*DTSTART:20261213T133000Z/);
+
+    cuerpos.length = 0;
+    rechazar = true;
+    await crearNotificador().confirmar({ orden, pago: { autorizacion: '1' }, origin: ORIGEN });
+    assert.equal(cuerpos.length, 2);
+    assert.ok(cuerpos[0].attachment && !cuerpos[1].attachment);
+    assert.match(cuerpos[1].htmlContent, /Agrégala a tu calendario/);
+  } finally {
+    globalThis.fetch = guardado.fetch;
+    for (const k of Object.keys(process.env)) if (!(k in guardado.env)) delete process.env[k];
+    Object.assign(process.env, guardado.env);
+  }
 });

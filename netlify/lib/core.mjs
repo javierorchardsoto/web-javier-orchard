@@ -12,6 +12,7 @@ export const SESION = {
   titulo: 'Sesión grupal: abordar los desafíos de este tiempo',
   fechaTexto: 'domingo 13 de diciembre de 2026, 10:30 (hora de Chile)',
   duracionTexto: '90 minutos, en vivo y online',
+  duracionMin: 90,
   inicioMs: Date.parse('2026-12-13T10:30:00-03:00'), // hora de Chile en diciembre (UTC-3)
   recordatorioHorasAntes: 24,
   urlPublica: 'https://javierorchard.com/#sesion',
@@ -119,7 +120,7 @@ async function marcarPagada(store, ordenId, pago, now) {
 }
 
 // Devuelve { resultado } con: ok | cancelado | rechazado | expirada | error
-export async function procesarRetorno({ store, webpay, notify, params, now = Date.now() }) {
+export async function procesarRetorno({ store, webpay, notify, params, origin, now = Date.now() }) {
   const token = params.token_ws;
   const cancelado = !token || params.TBK_TOKEN;
 
@@ -140,7 +141,7 @@ export async function procesarRetorno({ store, webpay, notify, params, now = Dat
   const ordenId = mapa.orden;
   const orden = await store.get(ordenKey(ordenId), { type: 'json' });
   if (!orden) return { resultado: 'error' };
-  if (orden.estado === 'pagada') return { resultado: 'ok' }; // recarga de la página de retorno
+  if (orden.estado === 'pagada') return { resultado: 'ok', orden: ordenId }; // recarga de la página de retorno
 
   // Antes de cobrar, comprobar que el cupo sigue siendo de esta orden.
   const cupo = await store.get(orden.cupo, { type: 'json' });
@@ -179,12 +180,12 @@ export async function procesarRetorno({ store, webpay, notify, params, now = Dat
     fecha: res.transaction_date,
   };
   const pagada = await marcarPagada(store, ordenId, pago, now);
-  if (!pagada) return { resultado: 'ok' };
+  if (!pagada) return { resultado: 'ok', orden: ordenId };
 
   let emailEnviado = false;
   try {
     const { ocupados } = await contarCupos(store, now);
-    await notify.confirmar({ orden: pagada, pago });
+    await notify.confirmar({ orden: pagada, pago, origin });
     emailEnviado = true;
     await notify.aviso({ orden: pagada, pago, ocupados });
   } catch (e) {
@@ -192,7 +193,18 @@ export async function procesarRetorno({ store, webpay, notify, params, now = Dat
   }
   const fin = await store.getWithMetadata(ordenKey(ordenId), { type: 'json' });
   if (fin) await store.setJSON(ordenKey(ordenId), { ...fin.data, emailEnviado }, { onlyIfMatch: fin.etag });
-  return { resultado: 'ok' };
+  return { resultado: 'ok', orden: ordenId };
+}
+
+// ---------- Calendario de la sesión ----------
+
+export const ORDEN_RE = /^S13-[a-f0-9]{12}$/;
+
+// Devuelve la orden solo si existe y está pagada: es lo que autoriza a recibir los datos de conexión.
+export async function ordenPagada(store, ordenId) {
+  if (!ORDEN_RE.test(String(ordenId || ''))) return null;
+  const o = await store.get(ordenKey(ordenId), { type: 'json' });
+  return o && o.estado === 'pagada' ? o : null;
 }
 
 // ---------- Lista de inscritos (para boletas y asistencia) ----------

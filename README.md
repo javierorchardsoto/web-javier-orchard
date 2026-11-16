@@ -27,7 +27,7 @@ Mientras la venta no esté abierta, la página muestra la lista de espera de sie
 | `TBK_API_KEY` | Clave secreta de Webpay Plus (producción) | Solo Production |
 | `BREVO_API_KEY` | Clave de la API de Brevo | Todos los contextos |
 | `BREVO_SENDER_EMAIL` | Correo remitente, verificado en Brevo | Todos |
-| `BREVO_SENDER_NAME` | Nombre del remitente (opcional; por defecto "Javier Orchard Soto") | Todos |
+| `BREVO_SENDER_NAME` | Nombre del remitente (opcional; por defecto "Javier, Hari Avtar") | Todos |
 | `BREVO_LIST_ID` | Número de la lista de contactos de Brevo (opcional) | Todos |
 | `REPLY_TO_EMAIL` | Correo al que llegan las respuestas de quienes compran (opcional; por defecto el remitente). Úsalo si el remitente no tiene buzón | Todos |
 | `ZOOM_ID` y `ZOOM_PASSCODE` | ID y código de la reunión, como respaldo del enlace en el correo (opcionales) | Todos |
@@ -58,3 +58,13 @@ cancelación y fallo de correo, sin conectarse a Transbank ni a Brevo).
 - `netlify/functions/sesion-recordatorio.mjs` corre cada hora en el sitio publicado y envía el recordatorio, una sola vez por persona, desde 24 horas antes de la sesión (sábado 12 de diciembre, 10:30 hora de Chile) hasta el inicio. Quien compra dentro de esas 24 horas no lo recibe: su confirmación ya trae todo.
 - Para revisar cómo se ve: abrir `/api/sesion/recordatorio-prueba?token=TU_ADMIN_TOKEN`. Envía una copia solo a `NOTIFY_EMAIL` o `REPLY_TO_EMAIL`; nunca a compradores.
 - Las funciones programadas de Netlify solo corren en el despliegue publicado (producción), no en vistas previas.
+
+
+## Calendario de la sesión
+
+Tras el pago, la página y el correo de confirmación ofrecen agregar la sesión al calendario:
+
+- `GET /api/sesion/calendario?orden=S13-…` entrega el evento `.ics` (13 de diciembre, 10:30 hora de Chile, 90 min, avisos 1 día y 30 min antes, con el enlace de Zoom).
+- `…&formato=google` redirige a Google Calendar con los mismos datos.
+- Solo responde si la orden existe y está pagada (si no, 404): el número de orden protege el enlace de Zoom.
+- El correo de confirmación lleva ambos enlaces y el `.ics` adjunto; si Brevo rechaza el adjunto, se reenvía sin él.
