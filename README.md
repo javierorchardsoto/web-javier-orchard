@@ -30,6 +30,7 @@ Mientras la venta no esté abierta, la página muestra la lista de espera de sie
 | `BREVO_SENDER_NAME` | Nombre del remitente (opcional; por defecto "Javier Orchard Soto") | Todos |
 | `BREVO_LIST_ID` | Número de la lista de contactos de Brevo (opcional) | Todos |
 | `REPLY_TO_EMAIL` | Correo al que llegan las respuestas de quienes compran (opcional; por defecto el remitente). Úsalo si el remitente no tiene buzón | Todos |
+| `ZOOM_ID` y `ZOOM_PASSCODE` | ID y código de la reunión, como respaldo del enlace en el correo (opcionales) | Todos |
 | `NOTIFY_EMAIL` | Correo donde Javier recibe el aviso de cada inscripción (opcional; por defecto `REPLY_TO_EMAIL`, o el remitente) | Todos |
 | `ZOOM_URL` | Enlace de la sesión, que va en el correo de confirmación (si falta, el correo dice que se enviará después) | Todos |
 | `ADMIN_TOKEN` | Contraseña larga para descargar la lista de inscritos | Todos |

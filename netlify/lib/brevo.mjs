@@ -22,6 +22,10 @@ export function textoConfirmacion({ orden, pago }) {
   const enlace = process.env.ZOOM_URL
     ? `<p><b>Enlace para conectarte:</b> <a href="${esc(process.env.ZOOM_URL)}">${esc(process.env.ZOOM_URL)}</a></p>`
     : '<p><b>Enlace para conectarte:</b> te lo enviaré por correo antes de la sesión.</p>';
+  // Si la reunión pide ID y código, se muestran como respaldo del enlace (ZOOM_ID y ZOOM_PASSCODE, opcionales).
+  const datosZoom = process.env.ZOOM_ID || process.env.ZOOM_PASSCODE
+    ? `<p style="font-size:14px;color:#4F6480">Si Zoom te lo pide: ${process.env.ZOOM_ID ? `ID de reunión <b>${esc(process.env.ZOOM_ID)}</b>` : ''}${process.env.ZOOM_ID && process.env.ZOOM_PASSCODE ? ' · ' : ''}${process.env.ZOOM_PASSCODE ? `código de acceso <b>${esc(process.env.ZOOM_PASSCODE)}</b>` : ''}.</p>`
+    : '';
   const nombre = esc(orden.nombre.split(' ')[0]);
   return `<!doctype html><html lang="es"><body style="margin:0;background:#F6F1E7;color:#1F3454;font-family:Georgia,serif;line-height:1.6">
 <div style="max-width:560px;margin:0 auto;padding:28px 20px">
@@ -29,13 +33,14 @@ export function textoConfirmacion({ orden, pago }) {
 <p>Tu cupo está confirmado. Gracias por anotarte.</p>
 <p><b>${esc(SESION.titulo)}</b><br>${esc(SESION.fechaTexto)}<br>${esc(SESION.duracionTexto)}</p>
 ${enlace}
+${datosZoom}
 <p>Si asistes, recibirás la grabación y podrás verla durante 30 días.</p>
 <p style="border-left:3px solid #2F4A6B;padding:6px 14px;background:#D9E3EC">Esta compra no tiene devolución. Lo informé antes de que pagaras y quedó aceptado al reservar tu cupo.</p>
 <p style="font-size:14px;color:#4F6480">Es un acompañamiento grupal para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>
 <hr style="border:none;border-top:1px solid #D9CFBD;margin:24px 0">
 <p style="font-size:13px;color:#4F6480">Comprobante: orden ${esc(orden.id)} · ${clp(orden.monto)} CLP · autorización ${esc((pago && pago.autorizacion) || '')}<br>
 Si algo no te calza o tienes una duda, responde a este correo.</p>
-<p>Javier Orchard Soto<br><span style="color:#4F6480">Hari Avtar</span></p>
+<p>Javier, Hari Avtar</p>
 </div></body></html>`;
 }
 
