@@ -176,15 +176,15 @@ footer a{color:var(--muted)}
 </style>
 
 <header class="site-head"><div class="wrap top">
-  <div class="brand"><a href="#inicio">Javier Orchard Soto <span>· Hari Avtar</span></a></div>
+  <div class="brand"><a href="/#inicio">Javier Orchard Soto <span>· Hari Avtar</span></a></div>
   <nav aria-label="Secciones">
-    <a href="#como-empezar">Cómo empezar</a>
-    <a href="#sobre-mi">Sobre mí</a>
-    <a href="#preguntas">Preguntas</a>
-    <a href="#precios">Precios</a>
-    <a href="#grupos">Grupos</a>
-    <a href="#sesiondiciembre">Sesión grupal 13 dic</a>
-    <a href="#contacto">Contacto</a>
+    <a href="/#como-empezar">Cómo empezar</a>
+    <a href="/#sobre-mi">Sobre mí</a>
+    <a href="/#preguntas">Preguntas</a>
+    <a href="/#precios">Precios</a>
+    <a href="/#grupos">Grupos</a>
+    <a href="/sesiondiciembre">Sesión grupal 13 dic</a>
+    <a href="/#contacto">Contacto</a>
   </nav>
 </div></header>
 
@@ -206,7 +206,7 @@ footer a{color:var(--muted)}
   </section>
 
   <section class="wrap" data-view="inicio" aria-label="Próxima sesión grupal">
-    <a class="promo" href="#sesiondiciembre">
+    <a class="promo" href="/sesiondiciembre">
       <span class="eyebrow">Domingo 13 de diciembre · 10:30 · online en vivo</span>
       <span class="promo-t">Sesión grupal para abordar los desafíos de este tiempo</span>
       <span class="promo-a" id="promo-a">Anótate en la lista →</span>
@@ -518,11 +518,13 @@ footer a{color:var(--muted)}
   views.forEach(function(v){names[v.getAttribute('data-view')]=1});
   function show(){
     var h=(location.hash||'').replace('#','');
-    if(h==='sesion'){ h='sesiondiciembre'; if(history.replaceState) history.replaceState(null,'',location.pathname+location.search+'#sesiondiciembre'); }
+    if(!h && location.pathname.replace(/\/+$/,'')==='/sesiondiciembre') h='sesiondiciembre';
+    if(h==='sesion') h='sesiondiciembre';
+    if(h==='sesiondiciembre' && history.replaceState && (location.hash || location.pathname!=='/sesiondiciembre')) history.replaceState(null,'','/sesiondiciembre'+location.search);
     if(!names[h]) h='inicio';
     views.forEach(function(v){v.classList.toggle('active',v.getAttribute('data-view')===h)});
     links.forEach(function(a){
-      if(a.getAttribute('href')==='#'+h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+      if(a.getAttribute('href')===(h==='sesiondiciembre'?'/sesiondiciembre':'/#'+h)) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
     });
     window.scrollTo(0,0);
   }
@@ -567,7 +569,7 @@ footer a{color:var(--muted)}
       $('cal-ics').href=base; $('cal-google').href=base+'&formato=google';
       $('pago-cal').hidden=false;
     }
-    if(history.replaceState) history.replaceState(null,'',location.pathname+'#sesiondiciembre');
+    if(history.replaceState) history.replaceState(null,'','/sesiondiciembre');
   }
 
   fetch('/api/sesion/estado',{cache:'no-store'}).then(function(r){return r.json()}).then(function(s){

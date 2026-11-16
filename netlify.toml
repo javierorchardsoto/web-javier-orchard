@@ -7,6 +7,6 @@
 
 [[redirects]]
   from = "/sesiondiciembre"
-  to = "/#sesiondiciembre"
-  status = 302
+  to = "/index.html"
+  status = 200
   force = true

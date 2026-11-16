@@ -15,7 +15,7 @@ export const SESION = {
   duracionMin: 90,
   inicioMs: Date.parse('2026-12-13T10:30:00-03:00'), // hora de Chile en diciembre (UTC-3)
   recordatorioHorasAntes: 24,
-  urlPublica: 'https://javierorchard.com/#sesiondiciembre',
+  urlPublica: 'https://javierorchard.com/sesiondiciembre',
 };
 
 const seatKey = (n) => `cupo-${String(n).padStart(2, '0')}`;

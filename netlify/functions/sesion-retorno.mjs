@@ -32,7 +32,7 @@ export default async (req, context) => {
   } catch (e) {
     console.error('retorno falló', e);
   }
-  return Response.redirect(`${origin}/?pago=${resultado}${orden}#sesiondiciembre`, 303);
+  return Response.redirect(`${origin}/sesiondiciembre?pago=${resultado}${orden}`, 303);
 };
 
 export const config = { path: '/api/sesion/retorno' };
