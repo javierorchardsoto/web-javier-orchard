@@ -52,3 +52,9 @@ almacén de cupos aparte, para no mezclar pruebas con inscripciones reales.
 
 `npm install && npm test` (verifica cupos simultáneos, vencimiento de reservas, pago aprobado/rechazado,
 cancelación y fallo de correo, sin conectarse a Transbank ni a Brevo).
+
+## Recordatorio previo
+
+- `netlify/functions/sesion-recordatorio.mjs` corre cada hora en el sitio publicado y envía el recordatorio, una sola vez por persona, desde 24 horas antes de la sesión (sábado 12 de diciembre, 10:30 hora de Chile) hasta el inicio. Quien compra dentro de esas 24 horas no lo recibe: su confirmación ya trae todo.
+- Para revisar cómo se ve: abrir `/api/sesion/recordatorio-prueba?token=TU_ADMIN_TOKEN`. Envía una copia solo a `NOTIFY_EMAIL` o `REPLY_TO_EMAIL`; nunca a compradores.
+- Las funciones programadas de Netlify solo corren en el despliegue publicado (producción), no en vistas previas.

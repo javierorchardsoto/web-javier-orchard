@@ -12,6 +12,9 @@ export const SESION = {
   titulo: 'Sesión grupal: abordar los desafíos de este tiempo',
   fechaTexto: 'domingo 13 de diciembre de 2026, 10:30 (hora de Chile)',
   duracionTexto: '90 minutos, en vivo y online',
+  inicioMs: Date.parse('2026-12-13T10:30:00-03:00'), // hora de Chile en diciembre (UTC-3)
+  recordatorioHorasAntes: 24,
+  urlPublica: 'https://javierorchard.com/#sesion',
 };
 
 const seatKey = (n) => `cupo-${String(n).padStart(2, '0')}`;
@@ -228,4 +231,36 @@ export async function inscritosCsv(store) {
     );
   });
   return lineas.join('\n') + '\n';
+}
+
+// ---------- Recordatorio previo ----------
+
+// Envía el recordatorio a quienes pagaron ANTES de que se abriera la ventana (24 h antes de la sesión).
+// Quien compra dentro de la ventana ya recibió la confirmación con todos los datos, así que no se le repite.
+// Cada orden se marca al enviarse, de modo que ejecutarlo varias veces nunca duplica un correo.
+export async function enviarRecordatorios({ store, notify, now = Date.now() }) {
+  const desde = SESION.inicioMs - SESION.recordatorioHorasAntes * 3600000;
+  if (now < desde) return { enviados: 0, fallidos: 0, motivo: 'aun-no' };
+  if (now >= SESION.inicioMs) return { enviados: 0, fallidos: 0, motivo: 'ya-paso' };
+  const { blobs } = await store.list({ prefix: 'orden-' });
+  let enviados = 0;
+  let fallidos = 0;
+  for (const b of blobs) {
+    const cur = await store.getWithMetadata(b.key, { type: 'json' });
+    const o = cur && cur.data;
+    if (!o || o.estado !== 'pagada' || o.recordatorio || o.pagada >= desde) continue;
+    // Se marca primero: si el envío falla se revierte; así dos ejecuciones simultáneas no duplican.
+    const r = await store.setJSON(b.key, { ...o, recordatorio: now }, { onlyIfMatch: cur.etag });
+    if (!r.modified) continue;
+    try {
+      await notify.recordatorio({ orden: o });
+      enviados++;
+    } catch (e) {
+      fallidos++;
+      console.error('Recordatorio fallido', o.id, String(e && e.message).slice(0, 200));
+      const act = await store.getWithMetadata(b.key, { type: 'json' });
+      if (act) await store.setJSON(b.key, { ...act.data, recordatorio: null }, { onlyIfMatch: act.etag });
+    }
+  }
+  return { enviados, fallidos };
 }

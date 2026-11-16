@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { crearCheckout, procesarRetorno, contarCupos, inscritosCsv, validarEntrada, SESION } from '../netlify/lib/core.mjs';
+import { crearCheckout, procesarRetorno, contarCupos, inscritosCsv, validarEntrada, enviarRecordatorios, SESION } from '../netlify/lib/core.mjs';
 
 // Almacén en memoria que imita las escrituras condicionales de Netlify Blobs.
 function memStore() {
@@ -178,4 +178,41 @@ test('el CSV neutraliza fórmulas en el nombre', async () => {
   const c = await crearCheckout({ store, webpay, body: entrada(8, { nombre: '=HYPERLINK("x")' }), origin: ORIGEN, now: 1 });
   await procesarRetorno({ store, webpay, notify: notifyMock(), params: { token_ws: c.body.token }, now: 2 });
   assert.match(await inscritosCsv(store), /"'=HYPERLINK/);
+});
+
+test('recordatorio: solo en la ventana, una vez por persona y sin repetirlo a quien compró dentro de ella', async () => {
+  const store = memStore();
+  const enviados = [];
+  const notify = { async recordatorio(x) { enviados.push(x.orden.email); } };
+  const desde = SESION.inicioMs - SESION.recordatorioHorasAntes * 3600000;
+  const orden = (id, email, pagada, estado = 'pagada') => store.setJSON('orden-' + id, { id, email, nombre: 'N ' + id, estado, pagada });
+  await orden('a', 'a@x.cl', desde - 5 * 86400000);
+  await orden('b', 'b@x.cl', desde - 1000);
+  await orden('c', 'c@x.cl', desde + 1000); // compró dentro de la ventana: ya tiene toda la información
+  await orden('d', 'd@x.cl', desde - 1000, 'rechazada');
+
+  assert.equal((await enviarRecordatorios({ store, notify, now: desde - 1 })).motivo, 'aun-no');
+  assert.deepEqual(enviados, []);
+
+  const r1 = await enviarRecordatorios({ store, notify, now: desde + 3600000 });
+  assert.equal(r1.enviados, 2);
+  assert.deepEqual(enviados.sort(), ['a@x.cl', 'b@x.cl']);
+
+  await enviarRecordatorios({ store, notify, now: desde + 2 * 3600000 });
+  assert.equal(enviados.length, 2); // no se repite
+
+  assert.equal((await enviarRecordatorios({ store, notify, now: SESION.inicioMs + 1 })).motivo, 'ya-paso');
+});
+
+test('recordatorio: si Brevo falla, se reintenta en la siguiente ejecución', async () => {
+  const store = memStore();
+  let falla = true;
+  const notify = { async recordatorio() { if (falla) throw new Error('caído'); } };
+  const desde = SESION.inicioMs - SESION.recordatorioHorasAntes * 3600000;
+  await store.setJSON('orden-a', { id: 'a', email: 'a@x.cl', nombre: 'A', estado: 'pagada', pagada: desde - 1000 });
+  const r1 = await enviarRecordatorios({ store, notify, now: desde + 1000 });
+  assert.equal(r1.fallidos, 1);
+  falla = false;
+  const r2 = await enviarRecordatorios({ store, notify, now: desde + 3600000 });
+  assert.equal(r2.enviados, 1);
 });
