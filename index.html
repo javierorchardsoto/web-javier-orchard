@@ -21,8 +21,10 @@
   --accent-soft:#D9E3EC; /* Azul niebla */
   --line:#D9CFBD;        /* Línea */
   --on-accent:#F6F1E7;
-  --cta:#E8BC62;         /* Ámbar más luminoso (prueba 12 nov): 7,0:1 con azul noche */
-  --cta-edge:#D9A441;    /* Ámbar original, como borde para separar del fondo */
+  --cta:#B5C7A8;         /* Verde salvia: color de acción (botones, anuncio); ~6,9:1 con azul noche */
+  --cta-edge:#94AE86;    /* Salvia más profundo, como borde */
+  --amber:#E8BC62;       /* Ámbar: solo acentos e íconos menores */
+  --amber-edge:#D9A441;
   --on-cta:#1F3454;
   --f-display:"Newsreader", Georgia, serif;
   --f-body:"Inter", "Segoe UI", system-ui, sans-serif;
@@ -174,8 +176,8 @@ footer .notice{flex-basis:100%}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .form-msg{color:#8A2B2B;font-size:var(--s-1)}
 .buy-includes{margin:0;padding-left:1.1rem;color:var(--muted);display:grid;gap:.25rem}
-.notice--strong{border-left-width:4px;border-left-color:var(--cta-edge);background:var(--bg)}
-.banner-test{margin:0;padding:.5rem .75rem;border-radius:8px;background:var(--cta);color:var(--on-cta);font-size:var(--s-1);font-weight:600}
+.notice--strong{border-left-width:4px;border-left-color:var(--amber-edge);background:var(--bg)}
+.banner-test{margin:0;padding:.5rem .75rem;border-radius:8px;background:var(--amber);color:var(--on-cta);font-size:var(--s-1);font-weight:600}
 #pago-resultado{display:grid;gap:.6rem}
 #pago-cal{display:grid;gap:.6rem;margin-top:.4rem}
 .comprobante{margin:.2rem 0;padding:.9rem 1rem;border:1px solid #D9CFBD;border-radius:8px;display:grid;gap:.35rem;font-size:.92rem}
