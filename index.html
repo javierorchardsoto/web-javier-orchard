@@ -21,8 +21,9 @@
   --accent-soft:#D9E3EC; /* Azul niebla */
   --line:#D9CFBD;        /* Línea */
   --on-accent:#F6F1E7;
-  --cta:#B5C7A8;         /* Verde salvia: color de acción (botones, anuncio); ~6,9:1 con azul noche */
-  --cta-edge:#94AE86;    /* Salvia más profundo, como borde */
+  --cta:#C8D6BD;         /* Verde salvia claro: color de acción (botones, anuncio); ~8:1 con azul noche */
+  --cta-hover:#B0C3A3;   /* Salvia al pasar el puntero: se oscurece (~6,7:1 con azul noche) */
+  --cta-edge:#A3B994;    /* Salvia más profundo, como borde */
   --amber:#E8BC62;       /* Ámbar: solo acentos e íconos menores */
   --amber-edge:#D9A441;
   --on-cta:#1F3454;
@@ -67,8 +68,8 @@ p{margin:0;max-width:62ch}
 .hero .lede{font-size:var(--s1);color:var(--muted);max-width:44ch}
 .actions{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.35rem;border-radius:999px;font-family:var(--f-display);font-weight:500;text-decoration:none;font-size:1.15rem;letter-spacing:.01em;border:1px solid var(--accent)}
-.btn--solid{background:var(--cta);color:var(--on-cta);border-color:var(--cta-edge)}
-.btn--solid:hover{filter:brightness(1.08)}
+.btn--solid{background:var(--cta);color:var(--on-cta);border-color:var(--cta-edge);transition:background-color .2s}
+.btn--solid:hover{background:var(--cta-hover)}
 .btn--ghost{color:var(--accent);background:transparent}
 .btn--ghost:hover{background:var(--accent-soft)}
 .note{font-size:var(--s-1);color:var(--muted)}
@@ -144,7 +145,7 @@ footer a{color:var(--muted)}
 
 /* Sesión grupal */
 .promo{display:grid;gap:.5rem;justify-items:start;padding:1.25rem 1.5rem;border:1px solid var(--cta-edge);background:var(--cta);border-radius:14px;text-decoration:none;color:var(--ink);margin-top:-1.5rem;margin-bottom:2rem}
-.promo:hover{filter:brightness(1.03)}
+.promo:hover{background:var(--cta-hover)}
 .promo-label{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--s-1);letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 .promo .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--ink);display:inline-block}
 .promo-when{font-size:var(--s-1);font-weight:600}
