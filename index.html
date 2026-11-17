@@ -192,6 +192,25 @@ footer a{color:var(--muted)}
   .two,.steps,.formats{grid-template-columns:minmax(0,1fr)}
   .about-list li,.facts li{grid-template-columns:minmax(0,1fr);gap:.25rem}
 }
+@media (max-width:640px){
+  body{font-size:.9375rem;line-height:1.65}
+  .band{padding-block:2.75rem}
+  .hero{padding-block:2rem 2.25rem;gap:1.5rem}
+  .hero h1{font-size:1.75rem;line-height:1.2}
+  .hero .lede{font-size:1rem}
+  h2{font-size:1.4rem}
+  h3{font-size:1.1rem}
+  .stack{gap:1rem}
+  .btn{padding:.7rem 1.1rem;font-size:.9375rem}
+  .signals li{font-size:1.05rem;padding-block:.9rem}
+  .hero .photo img{aspect-ratio:16/10}
+  .pause img{height:150px}
+  .about-teaser .photo,.close--photo .photo{max-width:11rem}
+  .about-teaser .photo img,.close--photo .photo img{aspect-ratio:1/1}
+  .steps,.formats{margin-top:1.5rem;gap:1.25rem}
+  .promo{margin-top:-.5rem;padding:1rem 1.1rem}
+  .promo-t{font-size:1.1rem}
+}
 @media (prefers-reduced-motion:no-preference){
   .hero > *{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
   .hero > *:nth-child(2){animation-delay:.08s}
