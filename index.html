@@ -38,6 +38,22 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .wrap{max-width:68rem;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 .band{padding-block:clamp(3rem,8vw,6rem)}
 .band--tint{background:transparent}
+/* Pilares en todas las páginas */
+.plan h3{margin:0}
+.plans--faq{align-items:start}
+.plan details:first-of-type{border-top:0;padding-top:0}
+.plan details:last-of-type{border-bottom:0;padding-bottom:0}
+.plan .signals li:first-child{border-top:0;padding-top:0}
+.plan .signals li:last-child{border-bottom:0;padding-bottom:0}
+.plan .signals li{font-size:clamp(1.15rem,1.8vw,1.35rem)}
+.about-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;align-items:start}
+.about-text{grid-column:1;grid-row:1 / 3}
+.about-grid .about-photo{grid-column:2 / 4;grid-row:1;max-width:none;margin:0}
+.about-grid .about-photo img{aspect-ratio:16/10;object-fit:cover;object-position:50% 22%}
+.about-col{align-self:stretch}
+.head-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:center}
+.head-row .avatar-contacto{margin:0 0 clamp(1.75rem,4vw,2.75rem);width:min(100%,357px)}
+@media (max-width:900px){.about-grid,.head-row{grid-template-columns:minmax(0,1fr)}.about-text,.about-grid .about-photo{grid-column:1;grid-row:auto}.head-row .avatar-contacto{width:min(61%,260px)}}
 .eyebrow--ico{display:flex;align-items:center;gap:.7rem}
 .sec-ico{width:44px;height:44px;flex:none;opacity:.78}
 @media (max-width:640px){.sec-ico{width:36px;height:36px}}
@@ -101,8 +117,8 @@ p{margin:0;max-width:62ch}
 .signals li:last-child{border-bottom:1px solid var(--line)}
 
 /* Cómo empezar */
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.5rem,3vw,2.5rem);counter-reset:step;margin-top:2.5rem}
-.step{display:flex;flex-direction:column;gap:.6rem;padding-top:1.25rem;border-top:2px solid var(--ink)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;counter-reset:step;margin-top:2.5rem}
+.step{display:flex;flex-direction:column;gap:.6rem;padding:1.75rem;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
 .step::before{counter-increment:step;content:"Paso " counter(step);font-size:var(--s-1);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .step .meta{font-size:var(--s-1);color:var(--accent);font-weight:600}
 
@@ -268,19 +284,22 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
   </section>
 
   <section class="band band--tint" data-view="inicio" aria-labelledby="para-quien">
-    <div class="wrap two">
-      <div class="stack">
+    <div class="wrap">
+      <div class="stack sec-head">
         <p class="eyebrow">Para quién es</p>
         <h2 id="para-quien">Para cuando la vida funciona, pero algo dentro no calza.</h2>
-        <p>Puedes sentir que tu trabajo, tu familia y tu vida social están “en orden”, y aun así sentir que “algo no hace sentido”, “no calza”, “no se siente coherente”. Hay algo en ti que llama la atención, y que quizás no sabes aún cómo nombrarlo, de qué se trata.</p>
       </div>
-      <ul class="signals">
-        <li>Sientes que algo no está bien y no sabes nombrarlo.</li>
-        <li>Te preguntas si la vida que llevas es la que quieres.</li>
-        <li>Repites patrones en tus relaciones.</li>
-        <li>Te cuesta reconocer lo que necesitas o poner límites.</li>
-        <li>Vives respondiendo a lo que otros esperan de ti.</li>
-      </ul>
+      <div class="plans">
+<div class="plan">
+<p>Puedes sentir que tu trabajo, tu familia y tu vida social están “en orden”, y aun así sentir que “algo no hace sentido”, “no calza”, “no se siente coherente”. Hay algo en ti que llama la atención, y que quizás no sabes aún cómo nombrarlo, de qué se trata.</p>
+</div>
+<div class="plan">
+<ul class="signals"><li>Sientes que algo no está bien y no sabes nombrarlo.</li><li>Te preguntas si la vida que llevas es la que quieres.</li><li>Repites patrones en tus relaciones.</li></ul>
+</div>
+<div class="plan">
+<ul class="signals"><li>Te cuesta reconocer lo que necesitas o poner límites.</li><li>Vives respondiendo a lo que otros esperan de ti.</li></ul>
+</div>
+      </div>
     </div>
   </section>
 
@@ -311,108 +330,109 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
 
   <section class="band band--tint" id="sobre-mi" data-view="sobre-mi" aria-labelledby="sobre">
     <div class="wrap">
-      <div class="stack sec-head">
+<div class="stack sec-head">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/sobre-mi.png" alt="" width="44" height="44" decoding="async"><span>Sobre mí</span></p>
         <h2 id="sobre">Javier, Hari Avtar</h2>
       </div>
-      <div class="two">
-      <div class="stack">
-        <p>Acompaño a personas y grupos desde el 2010, primero desde el yoga y la yogaterapia, la mentoría en meditación y hoy desde la consultoría. Trabajo con un enfoque integral donde está presente el Análisis Existencial, el entendimiento yóguico, el espacio relacional y la comprensión y abordaje del trauma individual, colectivo y ancestral de Thomas Hübl.</p>
-        <p>En mi viaje personal se ha ido asentando esta claridad sobre cómo la presencia, el contacto honesto conmigo y con lo que estoy viviendo, se ha vuelto una capacidad sanadora que me facilita una comprensión compasiva conmigo, una presencia relacional consciente con mi entorno y la toma de decisiones que se sienten más mías, propias y auténticas.</p>
-        <p>Me gusta mucho viajar porque visito lugares hermosos con los que sigo maravillándome, comparto con queridas personas conocidas a quienes visito y conozco nuevas personas con quienes interactuar y aprender de la vida. La consultoría en línea me permite trabajar en algo que me apasiona y amo, acompañándote desde cualquier lugar del mundo. Tú también puedes conectarte a las sesiones desde donde estás, con una conexión estable y un rato de tranquilidad.</p>
-        <figure class="photo photo--sm"><img src="img/en-linea.jpg" width="900" height="833" loading="lazy" alt="Javier sonriendo con su computador en un tren, trabajando en línea"></figure>
-      </div>
-      <div class="stack">
-      <ul class="about-list">
-        <li><b>Formación</b><span class="formacion">
-          Licenciado en Ciencias de la Ingeniería (2000–2006)<br>
+      <div class="about-grid">
+        <div class="stack about-text">
+          <p>Acompaño a personas y grupos desde el 2010, primero desde el yoga y la yogaterapia, la mentoría en meditación y hoy desde la consultoría. Trabajo con un enfoque integral donde está presente el Análisis Existencial, el entendimiento yóguico, el espacio relacional y la comprensión y abordaje del trauma individual, colectivo y ancestral de Thomas Hübl.</p>
+          <p>En mi viaje personal se ha ido asentando esta claridad sobre cómo la presencia, el contacto honesto conmigo y con lo que estoy viviendo, se ha vuelto una capacidad sanadora que me facilita una comprensión compasiva conmigo, una presencia relacional consciente con mi entorno y la toma de decisiones que se sienten más mías, propias y auténticas.</p>
+          <p>Me gusta mucho viajar porque visito lugares hermosos con los que sigo maravillándome, comparto con queridas personas conocidas a quienes visito y conozco nuevas personas con quienes interactuar y aprender de la vida. La consultoría en línea me permite trabajar en algo que me apasiona y amo, acompañándote desde cualquier lugar del mundo. Tú también puedes conectarte a las sesiones desde donde estás, con una conexión estable y un rato de tranquilidad.</p>
+        </div>
+        <figure class="photo about-photo"><img src="img/en-linea.jpg" width="900" height="833" loading="lazy" alt="Javier sonriendo con su computador en un tren, trabajando en línea"></figure>
+        <article class="plan about-col"><h3>Formación</h3><p class="formacion">Licenciado en Ciencias de la Ingeniería (2000–2006)<br>
           Postítulo en Consultoría de Análisis Existencial (ICAE) (2020–2023)<br>
           Estudiante de Psicología (<abbr title="cursando">C</abbr>)<br>
           Profesor de Yoga y Yogaterapeuta (2009, 2010, 2012)<br>
-          TWT: Entrenamiento en sanación de trauma individual, colectivo y ancestral (2025–2026)
-        </span></li>
-        <li><b>Enfoque</b><span>Trabajo desde la conversación y la presencia. Te acompaño a mirar con honestidad lo que estás viviendo, a notar cómo se vive en tu cuerpo y a darle sentido, sin apuro y sin juzgarte. Que lo que comprendes se vuelva decisiones y relaciones más tuyas.</span></li>
-      </ul>
-      </div>
+          TWT: Entrenamiento en sanación de trauma individual, colectivo y ancestral (2025–2026)</p></article>
+        <article class="plan about-col"><h3>Enfoque</h3><p>Trabajo desde la conversación y la presencia. Te acompaño a mirar con honestidad lo que estás viviendo, a notar cómo se vive en tu cuerpo y a darle sentido, sin apuro y sin juzgarte. Que lo que comprendes se vuelva decisiones y relaciones más tuyas.</p></article>
       </div>
     </div>
   </section>
 
   <section class="band" id="preguntas" data-view="preguntas" aria-labelledby="preguntas-t">
     <div class="wrap">
-      <div class="stack sec-head">
+<div class="stack sec-head">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/preguntas.png" alt="" width="44" height="44" decoding="async"><span>Antes de empezar</span></p>
         <h2 id="preguntas-t">Lo que suele preguntarse.</h2>
       </div>
-      <div class="sec-body">
-      <div>
-        <details>
+      <div class="plans plans--faq">
+<div class="plan">
+<h3>Antes de decidir</h3>
+<details>
           <summary>¿En qué se diferencia de contárselo a un amigo o a mi familia?</summary>
           <div class="body">
             <p>Quienes te quieren suelen darte su opinión, y eso es valioso. Aquí no hay opinión sobre lo que deberías hacer. Es un espacio para escuchar y descubrir lo que tú sientes y valoras, sin tener que cuidar cómo reaccionará el otro. En las sesiones de consultoría puedes explorar nuevas respuestas y dinámicas, que emergen al contactarte contigo auténticamente.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>Mi vida funciona, ¿para qué lo necesitaría?</summary>
           <div class="body">
             <p>No hace falta que “algo esté mal”. Muchas personas llegan con su trabajo, su familia y su vida en orden, y aun así sienten que algo no calza. Si te reconoces ahí, este espacio es para mirarlo con calma.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>¿Tengo que saber qué me pasa para empezar?</summary>
           <div class="body">
             <p>Puedes empezar siguiendo tu intuición, incluso cuando intelectualmente no entiendes o sabes cómo explicar lo que te pasa, sabes que hay algo que te hace ruido y te gustaría comprender. Basta con que traigas lo que estás viviendo hoy, tal como venga. No necesitas abordarlo todo ni prepararte antes de llegar.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>¿Con qué temas puedo llegar?</summary>
           <div class="body">
             <p>Con lo que sea importante para ti: tus relaciones, tu familia, tu trabajo, una decisión que vienes postergando, poner límites, la soledad o la sensación de que algo no tiene sentido. No necesitas elegir un tema antes de empezar.</p>
           </div>
         </details>
-        <details>
+</div>
+<div class="plan">
+<h3>Cómo te acompaño</h3>
+<details>
           <summary>¿Me vas a decir qué tengo que hacer?</summary>
           <div class="body">
             <p>En las sesiones te voy acompañando a que descubras qué es aquello que puedes, te motiva, se siente correcto y tiene sentido para ti hacer, a partir de la situación que consultas. No te digo cómo vivir ni qué decidir. Te acompaño a ponerle palabras a lo que vives y a reconocer lo que es valioso para ti, para que sientas tus decisiones más tuyas.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>¿Está bien dedicarme este tiempo a mí? ¿Y si me cuesta hablar de mí?</summary>
           <div class="body">
             <p>Sí, está bien. Para algunas personas, dedicarse tiempo para sí mismas, para hablar de lo que están viviendo, puede ser algo nuevo, que no han hecho antes, que no están acostumbradas a hacer o no han visto que sea algo habitual que su entorno hace, y puede hasta sentirse como algo egoísta. Tú eliges de qué, cuánto, con qué profundidad y a qué velocidad hablar de lo tuyo. Vamos a tu ritmo.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>¿Podré hablar de cosas íntimas sin sentir que me juzgan?</summary>
           <div class="body">
             <p>Sí. Aquí no hay juicio ni respuestas correctas. Puedes explorar decir lo que te cuesta decir en otros lugares. Las sesiones de consultoría son un espacio confidencial.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>¿Qué pasa entre una sesión y otra?</summary>
           <div class="body">
             <p>En algunas ocasiones, entre sesiones te propongo una actividad breve de autoexperiencia, para observar con mayor detención en algún aspecto cotidiano de tu vida.</p>
           </div>
         </details>
-        <details>
+</div>
+<div class="plan">
+<h3>Lo práctico</h3>
+<details>
           <summary>¿Cómo acordamos los días y horarios de las sesiones?</summary>
           <div class="body">
             <p>Lo acordamos juntos, según tu disponibilidad y la mía. Desde un comienzo podemos dejar reservados los días y horas de las 12 sesiones iniciales, o irlas fijando semana a semana.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>¿Cómo es la conversación de claridad?</summary>
           <div class="body">
             <p>Son 20 minutos por videollamada, gratis para ti. Me cuentas qué te trae y vemos juntos si mi formato de acompañamiento es lo indicado para ti en este momento. No es una sesión de consultoría como tal, sino una conversación honesta para decidir el siguiente paso, y no tienes ninguna obligación de continuar el proceso de acompañamiento después de esta sesión.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>¿Qué necesito para conectarme?</summary>
           <div class="body">
             <p>Un dispositivo con cámara y micrófono, una conexión estable a internet y un lugar donde puedas hablar con tranquilidad. Puedes conectarte desde donde estés.</p>
           </div>
         </details>
-      </div>
+</div>
       </div>
     </div>
   </section>
@@ -467,19 +487,21 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
         <p class="eyebrow">El marco del proceso</p>
         <h2 id="condiciones">Por qué un ritmo semanal.</h2>
       </div>
-      <div class="two">
-      <div class="stack">
-        <p>Comprenderse no ocurre en una sola conversación. Se va dando sesión a sesión, cuando lo que se abre en una tiene tiempo de asentarse y se retoma en la siguiente. El ritmo semanal sostiene esa continuidad: te da un espacio fijo para volver a ti, en medio de una vida que suele llevarte hacia afuera. Por eso cuido este marco, y te invito a cuidarlo conmigo.</p>
-      </div>
-      <div>
-        <details>
+      <div class="plans plans--faq">
+<div class="plan">
+<h3>Por qué importa</h3>
+<p>Comprenderse no ocurre en una sola conversación. Se va dando sesión a sesión, cuando lo que se abre en una tiene tiempo de asentarse y se retoma en la siguiente. El ritmo semanal sostiene esa continuidad: te da un espacio fijo para volver a ti, en medio de una vida que suele llevarte hacia afuera. Por eso cuido este marco, y te invito a cuidarlo conmigo.</p>
+</div>
+<div class="plan">
+<h3>El ritmo</h3>
+<details>
           <summary>El proceso</summary>
           <div class="body">
             <p>12 sesiones semanales de 50–60 minutos, online. Puedes agendarlas todas desde el inicio o semana a semana.</p>
             <p>Las 12 sesiones se realizan dentro de 15 semanas desde la primera. Las que no se usen en ese plazo vencen.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>Reprogramaciones</summary>
           <div class="body">
             <p>Si avisas con al menos 24 horas de anticipación, reagendamos tu sesión dentro de la misma semana.</p>
@@ -488,7 +510,10 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
             <p>Ante una emergencia, conversémoslo.</p>
           </div>
         </details>
-        <details>
+</div>
+<div class="plan">
+<h3>Lo administrativo</h3>
+<details>
           <summary>Precio y forma de pago</summary>
           <div class="body">
             <p>Te cuento el precio en la conversación de claridad, también para quienes pagan desde fuera de Chile.</p>
@@ -496,31 +521,46 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
             <p>El pago se realiza antes de la primera sesión.</p>
           </div>
         </details>
-        <details>
+<details>
           <summary>Al terminar las 12 semanas</summary>
           <div class="body">
             <p>Revisamos juntos el camino recorrido y decidimos en conjunto si continuar de forma mensual, con 4 sesiones al mes y las mismas condiciones de reprogramación. El precio te lo cuento en ese momento.</p>
           </div>
         </details>
-        <div class="notice" style="margin-top:1.5rem">
+</div>
+      </div>
+      <div class="notice" style="margin-top:1.5rem">
           <p><b>Importante.</b> Esta consultoría es un acompañamiento para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental. Si en algún momento veo que necesitas otro tipo de apoyo, te lo diré con honestidad y te ayudaré a buscarlo.</p>
         </div>
-      </div>
-      </div>
     </div>
   </section>
 
   <section class="band band--tint" id="contacto" data-view="contacto" aria-labelledby="contacto-t">
-    <div class="wrap close">
-      <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/contacto.png" alt="" width="44" height="44" decoding="async"><span>Contacto</span></p>
-      <h2 id="contacto-t">Si algo de esto te hace sentido, conversemos.</h2>
-      <div class="actions">
-        <a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a>
-        <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
-        <a class="btn btn--ghost" href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">Instagram</a>
+    <div class="wrap">
+      <div class="head-row">
+        <div class="stack sec-head">
+          <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/contacto.png" alt="" width="44" height="44" decoding="async"><span>Contacto</span></p>
+          <h2 id="contacto-t">Si algo de esto te hace sentido, conversemos.</h2>
+        </div>
+        <img class="avatar-contacto" src="/img/avatar-contacto.png" alt="Ilustración de Javier, de rostro sonriente y barba" width="900" height="666" loading="lazy" decoding="async">
       </div>
-      <p class="note">Conversación de claridad: 20 minutos, gratis y online.</p>
-      <img class="avatar-contacto" src="/img/avatar-contacto.png" alt="Ilustración de Javier, de rostro sonriente y barba" width="900" height="666" loading="lazy" decoding="async">
+      <div class="plans">
+        <article class="plan">
+          <h3>Agenda</h3>
+          <p>Conversación de claridad: 20 minutos, gratis y online.</p>
+          <p><a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a></p>
+        </article>
+        <article class="plan">
+          <h3>WhatsApp</h3>
+          <p>Si prefieres escribirme directo.</p>
+          <p><a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a></p>
+        </article>
+        <article class="plan">
+          <h3>Instagram</h3>
+          <p>También puedes escribirme por mensaje directo.</p>
+          <p><a class="btn btn--ghost" href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">Instagram</a></p>
+        </article>
+      </div>
     </div>
   </section>
 
