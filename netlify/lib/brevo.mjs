@@ -105,6 +105,7 @@ Titular: ${esc(datos.titular)}<br>
 Correo: ${esc(datos.email)}<br>
 Monto: <b>${clp(orden.monto)}</b><br>
 Comentario o referencia: <b>${esc(orden.id)}</b></p>
+<p><b>Importante:</b> escribe el código <b>${esc(orden.id)}</b> en el comentario o mensaje de la transferencia. Así puedo identificar tu pago y confirmar tu cupo.</p>
 <p>Cuando vea el depósito, te enviaré la confirmación por correo con el enlace para conectarte. Si pasa la hora sin transferencia, el cupo se libera, pero puedes volver a reservar mientras queden cupos.</p>
 <p style="font-size:15.4px;color:#4F6480">Esta compra no tiene derecho a retracto. Si no puedes asistir, puedes pedirme la devolución de tu pago hasta el domingo 6 de diciembre.</p>
 ${NO_PSICOTERAPIA}

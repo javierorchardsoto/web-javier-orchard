@@ -497,6 +497,7 @@ footer a{color:var(--muted)}
             <h3>Tu cupo está reservado por 1 hora.</h3>
             <p>Haz la transferencia <b>antes de las <span id="transf-hora"></span> (hora de Chile)</b>. Cuando vea el depósito, te envío la confirmación al correo, con el enlace para conectarte. También te mandé estos datos por correo.</p>
             <dl id="transf-datos"></dl>
+            <div class="notice notice--strong"><p><b>Importante:</b> al transferir, escribe en el comentario (o mensaje) de la transferencia el código <b id="transf-codigo"></b>. Así puedo identificar tu pago y confirmar tu cupo.</p></div>
             <p class="note">Si pasa la hora sin transferencia, el cupo se libera y puedes volver a reservar mientras queden. Esta compra no tiene derecho a retracto; la devolución se puede pedir hasta el domingo 6 de diciembre.</p>
           </div>
           <div id="buy-cerrado" hidden>
@@ -649,7 +650,7 @@ footer a{color:var(--muted)}
         [['Banco',d.banco],['Tipo de cuenta',d.tipo],['Número de cuenta',d.cuenta],['RUT',d.rut],['Titular',d.titular],['Correo',d.email],['Monto','$'+x.j.monto.toLocaleString('es-CL')],['Comentario o referencia',x.j.referencia]].forEach(function(f){
           var r=document.createElement('div'),t=document.createElement('dt'),v=document.createElement('dd'); t.textContent=f[0]; v.textContent=f[1]; r.appendChild(t); r.appendChild(v); dl.appendChild(r);
         });
-        $('transf-hora').textContent=new Date(x.j.expira).toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'America/Santiago'});
+        $('transf-codigo').textContent=x.j.referencia; $('transf-hora').textContent=new Date(x.j.expira).toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'America/Santiago'});
         form.hidden=true; $('buy-foot').hidden=true; $('transf').hidden=false; $('transf').scrollIntoView({behavior:'smooth',block:'start'});
       }).catch(function(err){
         msg.textContent=(err && ERRORES[err.error]) || 'No pudimos reservar tu cupo. Puedes intentarlo de nuevo, o escribirme por WhatsApp y te ayudo.';
