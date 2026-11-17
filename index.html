@@ -93,6 +93,8 @@ p{margin:0;max-width:62ch}
 .hero > .photo{width:92%;justify-self:center}
 
 /* Para quién */
+.sec-head{margin-bottom:clamp(1.75rem,4vw,2.75rem)}
+.sec-body{max-width:46rem}
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(2rem,6vw,5rem);align-items:start}
 .signals{list-style:none;padding:0;margin:0;display:grid;gap:0}
 .signals li{font-family:var(--f-display);font-size:clamp(1.35rem,2.4vw,1.75rem);line-height:1.25;padding-block:1rem;border-top:1px solid var(--line)}
@@ -306,10 +308,13 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
   </section>
 
   <section class="band band--tint" id="sobre-mi" data-view="sobre-mi" aria-labelledby="sobre">
-    <div class="wrap two">
-      <div class="stack">
+    <div class="wrap">
+      <div class="stack sec-head">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/sobre-mi.png" alt="" width="44" height="44" decoding="async"><span>Sobre mí</span></p>
         <h2 id="sobre">Javier, Hari Avtar</h2>
+      </div>
+      <div class="two">
+      <div class="stack">
         <p>Acompaño a personas y grupos desde el 2010, primero desde el yoga y la yogaterapia, la mentoría en meditación y hoy desde la consultoría. Trabajo con un enfoque integral donde está presente el Análisis Existencial, el entendimiento yóguico, el espacio relacional y la comprensión y abordaje del trauma individual, colectivo y ancestral de Thomas Hübl.</p>
         <p>En mi viaje personal se ha ido asentando esta claridad sobre cómo la presencia, el contacto honesto conmigo y con lo que estoy viviendo, se ha vuelto una capacidad sanadora que me facilita una comprensión compasiva conmigo, una presencia relacional consciente con mi entorno y la toma de decisiones que se sienten más mías, propias y auténticas.</p>
         <p>Me gusta mucho viajar porque visito lugares hermosos con los que sigo maravillándome, comparto con queridas personas conocidas a quienes visito y conozco nuevas personas con quienes interactuar y aprender de la vida. La consultoría en línea me permite trabajar en algo que me apasiona y amo, acompañándote desde cualquier lugar del mundo. Tú también puedes conectarte a las sesiones desde donde estás, con una conexión estable y un rato de tranquilidad.</p>
@@ -327,15 +332,17 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
         <li><b>Enfoque</b><span>Trabajo desde la conversación y la presencia. Te acompaño a mirar con honestidad lo que estás viviendo, a notar cómo se vive en tu cuerpo y a darle sentido, sin apuro y sin juzgarte. Que lo que comprendes se vuelva decisiones y relaciones más tuyas.</span></li>
       </ul>
       </div>
+      </div>
     </div>
   </section>
 
   <section class="band" id="preguntas" data-view="preguntas" aria-labelledby="preguntas-t">
-    <div class="wrap two">
-      <div class="stack">
+    <div class="wrap">
+      <div class="stack sec-head">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/preguntas.png" alt="" width="44" height="44" decoding="async"><span>Antes de empezar</span></p>
         <h2 id="preguntas-t">Lo que suele preguntarse.</h2>
       </div>
+      <div class="sec-body">
       <div>
         <details>
           <summary>¿En qué se diferencia de contárselo a un amigo o a mi familia?</summary>
@@ -404,6 +411,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
           </div>
         </details>
       </div>
+      </div>
     </div>
   </section>
 
@@ -452,10 +460,13 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
   </section>
 
   <section class="band band--tint" data-view="precios" aria-labelledby="condiciones">
-    <div class="wrap two">
-      <div class="stack">
+    <div class="wrap">
+      <div class="stack sec-head">
         <p class="eyebrow">El marco del proceso</p>
         <h2 id="condiciones">Por qué un ritmo semanal.</h2>
+      </div>
+      <div class="two">
+      <div class="stack">
         <p>Comprenderse no ocurre en una sola conversación. Se va dando sesión a sesión, cuando lo que se abre en una tiene tiempo de asentarse y se retoma en la siguiente. El ritmo semanal sostiene esa continuidad: te da un espacio fijo para volver a ti, en medio de una vida que suele llevarte hacia afuera. Por eso cuido este marco, y te invito a cuidarlo conmigo.</p>
       </div>
       <div>
@@ -493,6 +504,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
           <p><b>Importante.</b> Esta consultoría es un acompañamiento para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental. Si en algún momento veo que necesitas otro tipo de apoyo, te lo diré con honestidad y te ayudaré a buscarlo.</p>
         </div>
       </div>
+      </div>
     </div>
   </section>
 
@@ -510,24 +522,29 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
   </section>
 
   <section class="band" id="grupos" data-view="grupos" aria-labelledby="grupos-t">
-    <div class="wrap two">
-      <div class="stack">
+    <div class="wrap">
+      <div class="stack sec-head">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/grupos.png" alt="" width="44" height="44" decoding="async"><span>Grupos y organizaciones</span></p>
         <h2 id="grupos-t">También en grupos y equipos.</h2>
       </div>
+      <div class="sec-body">
       <div class="stack">
         <p>Charlas y talleres sobre presencia, autoconocimiento y comunicación para grupos y organizaciones. Si te interesa para tu equipo, escríbeme y conversamos qué necesitan.</p>
         <div class="actions">
           <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
         </div>
       </div>
+      </div>
     </div>
   </section>
   <section class="band" id="sesiondiciembre" data-view="sesiondiciembre" aria-labelledby="sesion-t">
-    <div class="wrap two">
-      <div class="stack">
+    <div class="wrap">
+      <div class="stack sec-head">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/eventos.png" alt="" width="44" height="44" decoding="async"><span>Sesión grupal online en vivo</span></p>
         <h2 id="sesion-t">Abordar juntos los desafíos de este tiempo.</h2>
+      </div>
+      <div class="two">
+      <div class="stack">
         <p>Diciembre llega con cansancio acumulado, pendientes y la sensación de ir contra el reloj. Muchas veces el desafío no es una sola cosa: es el conjunto, y no sabemos por dónde empezar.</p>
         <p>En esta sesión nos detenemos a mirar lo que cada uno está sosteniendo y vemos claves para abordarlo, acompañados.</p>
         <ul class="facts">
@@ -535,7 +552,6 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
           <li><b>Dónde</b><span>Online, en vivo</span></li>
           <li><b>Quién</b><span>Javier, Hari Avtar</span></li>
         </ul>
-        <p class="note">Es un acompañamiento grupal para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>
       </div>
       <div class="formcard" id="sesion-card">
         <div id="pago-resultado" role="status" hidden>
@@ -597,15 +613,13 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
           <p>Si quieres que te avise cuando esté abierta, <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">escríbeme por WhatsApp</a>.</p>
         </div>
       </div>
+      </div>
     </div>
   </section>
 
 </main>
 
 <footer class="wrap">
-  <div class="notice notice--foot">
-    <p><b>Importante.</b> Esta consultoría es un acompañamiento para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>
-  </div>
   <span>Javier Orchard Soto · Consultoría de vida 1:1 online</span>
   <a href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">@javierconsultordevida</a>
 </footer>
