@@ -49,7 +49,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .about-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;align-items:start}
 .about-text{grid-column:1;grid-row:1 / 3}
 .about-grid .about-photo{grid-column:2 / 4;grid-row:1;max-width:none;margin:0}
-.about-grid .about-photo img{aspect-ratio:16/10;object-fit:cover;object-position:50% 22%}
+.about-grid .about-photo{display:flex;justify-content:center}
+.about-grid .about-photo img{width:min(100%,470px);aspect-ratio:1;border-radius:50%;object-fit:cover;object-position:50% 50%}
 .about-col{align-self:stretch}
 .head-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:center}
 .head-row .avatar-contacto{margin:0 0 clamp(1.75rem,4vw,2.75rem);width:min(100%,357px)}
