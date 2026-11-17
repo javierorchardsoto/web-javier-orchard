@@ -41,9 +41,16 @@ async function ver() {
     if (c.estado === 'pagada') {
       const m = document.createElement('input'); m.type = 'number'; m.placeholder = 'monto (vacío = todo)'; m.style.width = '9rem';
       const b = document.createElement('button'); b.textContent = 'Reembolsar';
+      let armado = false;
       b.onclick = async () => {
         const monto = m.value === '' ? 'el total restante' : '$' + m.value;
-        if (!confirm('¿Reembolsar ' + monto + '?')) return;
+        // Confirmación en la propia página (los avisos del navegador pueden no mostrarse).
+        if (!armado) {
+          armado = true; b.textContent = '¿Seguro? Reembolsar ' + monto + ': pulsa otra vez';
+          setTimeout(() => { armado = false; b.textContent = 'Reembolsar'; }, 8000);
+          return;
+        }
+        armado = false; b.disabled = true;
         const body = { token: c.token }; if (m.value !== '') body.monto = Number(m.value);
         const rr = await fetch('/api/sesion/reembolso', { method: 'POST', headers: H(), body: JSON.stringify(body) });
         const j = await rr.json().catch(() => ({}));
