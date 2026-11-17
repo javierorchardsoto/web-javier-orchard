@@ -77,7 +77,13 @@ p{margin:0;max-width:62ch}
 .photo--portrait{max-width:22rem}
 .photo--sm{max-width:26rem;margin-top:.5rem}
 .photo--wide{max-width:46rem;margin-top:2.5rem}
-@media (min-width:900px){.hero{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:clamp(2rem,5vw,4rem)}}
+@media (min-width:900px){
+  .hero{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start;column-gap:clamp(2rem,5vw,4rem);row-gap:2rem}
+  /* La foto se centra respecto del texto (etiqueta, título y subtítulo); los botones quedan debajo, sin contar en el centrado. */
+  .hero > .stack{display:contents}
+  .hero > .stack > *{grid-column:1}
+  .hero > .photo{grid-column:2;grid-row:1 / 4;align-self:center}
+}
 
 /* Para quién */
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(2rem,6vw,5rem);align-items:start}
