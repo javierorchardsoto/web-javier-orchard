@@ -8,7 +8,9 @@ export const SESION = {
   id: 'sesion-13-dic',
   total: 30,
   montoClp: 17000,
-  reservaMin: 15, // minutos que se retiene un cupo mientras la persona paga
+  reservaMin: 15, // minutos que se retiene un cupo mientras la persona paga con tarjeta
+  transferenciaMin: 60, // minutos que se retiene un cupo mientras la persona hace la transferencia
+  ultimoPagoMs: Date.parse('2026-12-12T23:59:59-03:00'), // último momento para pagar (tarjeta o transferencia)
   titulo: 'Sesión grupal: abordar los desafíos de este tiempo',
   fechaTexto: 'domingo 13 de diciembre de 2026, 10:30 (hora de Chile)',
   duracionTexto: '90 minutos, en vivo y online',
@@ -20,6 +22,8 @@ export const SESION = {
 
 const seatKey = (n) => `cupo-${String(n).padStart(2, '0')}`;
 const ordenKey = (id) => `orden-${id}`;
+const confirmarKey = (t) => `confirmar-${t}`;
+export const TOKEN_CONFIRMAR_RE = /^[a-f0-9]{32}$/;
 const tokenKey = (t) => `token-${t}`;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -40,8 +44,8 @@ export function validarEntrada(body) {
 
 // Toma el primer cupo libre. Cada cupo es una clave que solo se puede crear una vez (onlyIfNew),
 // así dos personas simultáneas nunca reciben el mismo cupo.
-export async function tomarCupo(store, ordenId, now) {
-  const rec = { estado: 'reservado', orden: ordenId, expira: now + SESION.reservaMin * 60000 };
+export async function tomarCupo(store, ordenId, now, minutos = SESION.reservaMin) {
+  const rec = { estado: 'reservado', orden: ordenId, expira: now + minutos * 60000 };
   for (let n = 1; n <= SESION.total; n++) {
     const key = seatKey(n);
     const r = await store.setJSON(key, rec, { onlyIfNew: true });
@@ -77,6 +81,7 @@ export async function contarCupos(store, now) {
 // ---------- Checkout ----------
 
 export async function crearCheckout({ store, webpay, body, origin, now = Date.now() }) {
+  if (now > SESION.ultimoPagoMs) return { status: 409, body: { error: 'plazo' } };
   const v = validarEntrada(body);
   if (!v.ok) return { status: 400, body: { error: v.error } };
 
@@ -197,6 +202,136 @@ export async function procesarRetorno({ store, webpay, notify, params, origin, n
   return { resultado: 'ok', orden: ordenId };
 }
 
+// ---------- Transferencia bancaria ----------
+
+// Los datos de la cuenta no están en el código (el repositorio es público): vienen de variables de entorno.
+export function datosTransferencia(env = process.env) {
+  const d = {
+    banco: env.TRANSFER_BANCO,
+    tipo: env.TRANSFER_TIPO,
+    cuenta: env.TRANSFER_CUENTA,
+    rut: env.TRANSFER_RUT,
+    titular: env.TRANSFER_TITULAR,
+    email: env.TRANSFER_EMAIL,
+  };
+  return d.banco && d.tipo && d.cuenta && d.rut && d.titular && d.email ? d : null;
+}
+
+// Reserva un cupo por una hora y entrega los datos para transferir. El cupo queda pagado solo cuando Javier
+// confirma que recibió el dinero (confirmarTransferencia).
+export async function crearTransferencia({ store, notify, datos, body, origin, now = Date.now() }) {
+  if (!datos) return { status: 503, body: { error: 'sin-transferencia' } };
+  if (now > SESION.ultimoPagoMs) return { status: 409, body: { error: 'plazo' } };
+  const v = validarEntrada(body);
+  if (!v.ok) return { status: 400, body: { error: v.error } };
+
+  // Una persona con una reserva vigente recibe la misma, en vez de ocupar otro cupo.
+  const { blobs } = await store.list({ prefix: 'orden-' });
+  for (const b of blobs) {
+    const o = await store.get(b.key, { type: 'json' });
+    if (o && o.estado === 'transferencia' && o.email === v.data.email && o.expira > now) {
+      return { status: 200, body: respuestaTransferencia(o, datos) };
+    }
+  }
+
+  const ordenId = 'S13-' + randomUUID().replace(/-/g, '').slice(0, 12);
+  const cupo = await tomarCupo(store, ordenId, now, SESION.transferenciaMin);
+  if (!cupo) return { status: 409, body: { error: 'agotado' } };
+
+  const tokenConfirmar = randomUUID().replace(/-/g, '');
+  const orden = {
+    id: ordenId,
+    cupo,
+    nombre: v.data.nombre,
+    email: v.data.email,
+    monto: SESION.montoClp,
+    estado: 'transferencia',
+    metodo: 'transferencia',
+    creada: now,
+    expira: now + SESION.transferenciaMin * 60000,
+  };
+  await store.setJSON(ordenKey(ordenId), orden);
+  await store.setJSON(confirmarKey(tokenConfirmar), { orden: ordenId });
+  try {
+    await notify.transferencia({ orden, datos, confirmarUrl: `${origin}/api/sesion/confirmar-pago?t=${tokenConfirmar}` });
+  } catch (e) {
+    console.error('Correo de transferencia falló', ordenId, e); // los datos igual se muestran en pantalla
+  }
+  return { status: 200, body: respuestaTransferencia(orden, datos) };
+}
+
+function respuestaTransferencia(o, datos) {
+  return { orden: o.id, referencia: o.id, monto: o.monto, expira: o.expira, datos };
+}
+
+// Datos para mostrarle a Javier antes de confirmar (la página de confirmación).
+export async function transferenciaPorToken(store, token) {
+  if (!TOKEN_CONFIRMAR_RE.test(String(token || ''))) return null;
+  const mapa = await store.get(confirmarKey(token), { type: 'json' });
+  if (!mapa) return null;
+  const orden = await store.get(ordenKey(mapa.orden), { type: 'json' });
+  return orden && orden.metodo === 'transferencia' ? orden : null;
+}
+
+// Javier confirma que recibió la transferencia. Si el cupo venció pero nadie lo tomó, se mantiene;
+// si ya lo tomó otra persona, se busca otro; si no queda ninguno, se avisa para devolver el dinero.
+export async function confirmarTransferencia({ store, notify, token, origin, now = Date.now() }) {
+  const orden = await transferenciaPorToken(store, token);
+  if (!orden) return { resultado: 'invalido' };
+  if (orden.estado === 'pagada') return { resultado: 'ya', orden };
+  if (orden.estado !== 'transferencia' && orden.estado !== 'sin-cupo') return { resultado: 'invalido' };
+
+  let cupoKey = orden.cupo;
+  const cupo = await store.get(cupoKey, { type: 'json' });
+  if (!cupo || cupo.orden !== orden.id) {
+    // El cupo original ya lo tiene otra persona (la reserva había vencido): se busca uno libre.
+    cupoKey = await tomarCupo(store, orden.id, now, SESION.transferenciaMin);
+    if (!cupoKey) {
+      await store.setJSON(ordenKey(orden.id), { ...orden, estado: 'sin-cupo' });
+      return { resultado: 'sin-cupo', orden };
+    }
+  }
+  await store.setJSON(cupoKey, { estado: 'pagado', orden: orden.id, pagado: now });
+  const pago = { tipo: 'TRF', metodo: 'transferencia', fecha: new Date(now).toISOString() };
+  const base = { ...orden, cupo: cupoKey };
+  await store.setJSON(ordenKey(orden.id), base);
+  const pagada = await marcarPagada(store, orden.id, pago, now);
+  if (!pagada) return { resultado: 'ya', orden };
+
+  let emailEnviado = false;
+  try {
+    const { ocupados } = await contarCupos(store, now);
+    await notify.confirmar({ orden: pagada, pago, origin });
+    emailEnviado = true;
+    await notify.aviso({ orden: pagada, pago, ocupados });
+  } catch (e) {
+    console.error('Aviso por correo falló', orden.id, e);
+  }
+  const fin = await store.getWithMetadata(ordenKey(orden.id), { type: 'json' });
+  if (fin) await store.setJSON(ordenKey(orden.id), { ...fin.data, emailEnviado }, { onlyIfMatch: fin.etag });
+  return { resultado: 'ok', orden: pagada };
+}
+
+// Avisa, una sola vez, a quien no completó la transferencia dentro de la hora de reserva.
+export async function avisarTransferenciasVencidas({ store, notify, now = Date.now() }) {
+  const { blobs } = await store.list({ prefix: 'orden-' });
+  let avisados = 0;
+  for (const b of blobs) {
+    const cur = await store.getWithMetadata(b.key, { type: 'json' });
+    const o = cur && cur.data;
+    if (!o || o.estado !== 'transferencia' || o.expira >= now || o.avisoVencida) continue;
+    const r = await store.setJSON(b.key, { ...o, avisoVencida: now }, { onlyIfMatch: cur.etag });
+    if (!r.modified) continue;
+    try {
+      await notify.transferenciaVencida({ orden: o });
+      avisados++;
+    } catch (e) {
+      console.error('Aviso de reserva vencida falló', o.id, String(e && e.message).slice(0, 200));
+    }
+  }
+  return { avisados };
+}
+
 // ---------- Comprobante en pantalla ----------
 
 const TIPOS_PAGO = {
@@ -207,6 +342,7 @@ const TIPOS_PAGO = {
   S2: 'Crédito, cuotas sin interés',
   NC: 'Crédito, cuotas sin interés',
   VP: 'Prepago',
+  TRF: 'Transferencia bancaria',
 };
 
 // Datos del comprobante que se muestra al volver del pago. Solo para una orden pagada; no incluye el correo
@@ -256,7 +392,7 @@ export async function inscritosCsv(store) {
     if (o && o.estado === 'pagada') filas.push(o);
   }
   filas.sort((a, b) => a.pagada - b.pagada);
-  const cab = ['n', 'fecha_pago', 'nombre', 'email', 'monto_clp', 'orden', 'autorizacion', 'tarjeta', 'correo_enviado'];
+  const cab = ['n', 'fecha_pago', 'nombre', 'email', 'monto_clp', 'orden', 'metodo', 'autorizacion', 'tarjeta', 'correo_enviado'];
   const lineas = [cab.map(celda).join(',')];
   filas.forEach((o, i) => {
     lineas.push(
@@ -267,6 +403,7 @@ export async function inscritosCsv(store) {
         o.email,
         o.monto,
         o.id,
+        o.metodo === 'transferencia' ? 'transferencia' : 'tarjeta',
         o.pago && o.pago.autorizacion,
         o.pago && o.pago.tarjeta,
         o.emailEnviado ? 'si' : 'no',

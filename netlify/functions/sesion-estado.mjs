@@ -1,5 +1,5 @@
 import { contextInfo, getSesionStore, json } from '../lib/runtime.mjs';
-import { contarCupos, SESION } from '../lib/core.mjs';
+import { contarCupos, datosTransferencia, SESION } from '../lib/core.mjs';
 
 export default async (req, context) => {
   const info = contextInfo(context);
@@ -9,6 +9,8 @@ export default async (req, context) => {
     abierto: true,
     modoPrueba: info.modoPrueba,
     agotado: cupos.disponibles === 0,
+    cerrado: Date.now() > SESION.ultimoPagoMs,
+    transferencia: Boolean(datosTransferencia()),
     montoClp: SESION.montoClp,
   });
 };

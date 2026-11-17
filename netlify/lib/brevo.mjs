@@ -71,7 +71,7 @@ ${recibeRecordatorio(orden) ? '<p>Un día antes de la sesión, te enviaré un re
 ${INVITAR}
 ${NO_PSICOTERAPIA}
 <hr style="border:none;border-top:1px solid #D9CFBD;margin:24px 0">
-<p style="font-size:14.3px;color:#4F6480">Comprobante: orden ${esc(orden.id)} · ${clp(orden.monto)} CLP · autorización ${esc((pago && pago.autorizacion) || '')}<br>
+<p style="font-size:14.3px;color:#4F6480">Comprobante: orden ${esc(orden.id)} · ${clp(orden.monto)} CLP · ${pago && pago.metodo === 'transferencia' ? 'transferencia bancaria' : 'autorización ' + esc((pago && pago.autorizacion) || '')}<br>
 Si algo no te calza o tienes una duda, responde a este correo.</p>
 <p>Javier, Hari Avtar</p>
 </div></body></html>`;
@@ -86,6 +86,37 @@ ${PREPARACION}
 ${INVITAR}
 ${NO_PSICOTERAPIA}
 <p>Si algo no te calza o tienes una duda, responde a este correo.</p>
+<p>Javier, Hari Avtar</p>
+</div></body></html>`;
+}
+
+const horaChile = (ms) => new Date(ms).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Santiago' });
+
+export function textoTransferencia({ orden, datos }) {
+  return `${cabecera(esc(orden.nombre.split(' ')[0]))}
+<p>Reservé tu cupo para la sesión grupal. Para confirmarlo, haz la transferencia <b>antes de las ${esc(horaChile(orden.expira))} (hora de Chile)</b>: el cupo queda reservado por una hora.</p>
+${datosSesion()}
+<p><b>Datos para transferir</b><br>
+Banco: ${esc(datos.banco)}<br>
+Tipo de cuenta: ${esc(datos.tipo)}<br>
+Número de cuenta: ${esc(datos.cuenta)}<br>
+RUT: ${esc(datos.rut)}<br>
+Titular: ${esc(datos.titular)}<br>
+Correo: ${esc(datos.email)}<br>
+Monto: <b>${clp(orden.monto)}</b><br>
+Comentario o referencia: <b>${esc(orden.id)}</b></p>
+<p>Cuando vea el depósito, te enviaré la confirmación por correo con el enlace para conectarte. Si pasa la hora sin transferencia, el cupo se libera, pero puedes volver a reservar mientras queden cupos.</p>
+<p style="font-size:15.4px;color:#4F6480">Esta compra no tiene derecho a retracto. Si no puedes asistir, puedes pedirme la devolución de tu pago hasta el domingo 6 de diciembre.</p>
+${NO_PSICOTERAPIA}
+<p>Si algo no te calza o tienes una duda, responde a este correo.</p>
+<p>Javier, Hari Avtar</p>
+</div></body></html>`;
+}
+
+export function textoTransferenciaVencida({ orden }) {
+  return `${cabecera(esc(orden.nombre.split(' ')[0]))}
+<p>Pasó la hora de reserva de tu cupo para la sesión grupal y no vi la transferencia, así que el cupo volvió a quedar disponible.</p>
+<p>Si ya la hiciste, responde a este correo y lo reviso enseguida. Si todavía quieres participar, puedes volver a reservar en <a href="${SESION.urlPublica}">${SESION.urlPublica}</a> mientras queden cupos.</p>
 <p>Javier, Hari Avtar</p>
 </div></body></html>`;
 }
@@ -143,6 +174,39 @@ export function crearNotificador() {
         htmlContent: textoRecordatorio({ orden }),
       });
     },
+    async transferencia({ orden, datos, confirmarUrl }) {
+      if (!process.env.BREVO_API_KEY || !sender.email) {
+        console.warn('Brevo sin configurar: no se envió el correo de transferencia de', orden.id);
+        return;
+      }
+      await brevo('/smtp/email', {
+        sender,
+        to: [{ email: orden.email, name: orden.nombre }],
+        replyTo,
+        subject: 'Datos para reservar tu cupo: sesión grupal del 13 de diciembre',
+        htmlContent: textoTransferencia({ orden, datos }),
+      });
+      const to = process.env.NOTIFY_EMAIL || replyTo.email;
+      if (!to) return;
+      await brevo('/smtp/email', {
+        sender,
+        to: [{ email: to }],
+        subject: `Transferencia pendiente: ${orden.nombre}`,
+        htmlContent: `<p>${esc(orden.nombre)} (${esc(orden.email)}) pidió pagar ${clp(orden.monto)} CLP por transferencia. Reserva hasta las ${esc(horaChile(orden.expira))} (hora de Chile). Referencia: ${esc(orden.id)}.</p>
+<p>Cuando veas el depósito en tu banco, confírmalo aquí:<br><a href="${esc(confirmarUrl)}">${esc(confirmarUrl)}</a></p>
+<p style="color:#4F6480;font-size:14px">Ese enlace es solo para ti: quien lo tenga puede confirmar el pago.</p>`,
+      });
+    },
+    async transferenciaVencida({ orden }) {
+      if (!process.env.BREVO_API_KEY || !sender.email) throw new Error('Brevo sin configurar');
+      await brevo('/smtp/email', {
+        sender,
+        to: [{ email: orden.email, name: orden.nombre }],
+        replyTo,
+        subject: 'Tu reserva para la sesión grupal venció',
+        htmlContent: textoTransferenciaVencida({ orden }),
+      });
+    },
     async aviso({ orden, pago, ocupados }) {
       const to = process.env.NOTIFY_EMAIL || replyTo.email;
       if (!process.env.BREVO_API_KEY || !to) return;
@@ -150,7 +214,7 @@ export function crearNotificador() {
         sender,
         to: [{ email: to }],
         subject: `Nueva inscripción (${ocupados}/${SESION.total}): ${orden.nombre}`,
-        htmlContent: `<p>${esc(orden.nombre)} (${esc(orden.email)}) pagó ${clp(orden.monto)} CLP.<br>Orden ${esc(orden.id)} · autorización ${esc((pago && pago.autorizacion) || '')}.</p>`,
+        htmlContent: `<p>${esc(orden.nombre)} (${esc(orden.email)}) pagó ${clp(orden.monto)} CLP${pago && pago.metodo === 'transferencia' ? ' por transferencia' : ''}.<br>Orden ${esc(orden.id)}${pago && pago.autorizacion ? ' · autorización ' + esc(pago.autorizacion) : ''}.</p>`,
       });
     },
   };

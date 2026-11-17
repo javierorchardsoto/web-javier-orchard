@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { crearCheckout, procesarRetorno, contarCupos, inscritosCsv, validarEntrada, enviarRecordatorios, ordenPagada, comprobanteDe, SESION } from '../netlify/lib/core.mjs';
+import { crearTransferencia, confirmarTransferencia, avisarTransferenciasVencidas, transferenciaPorToken, datosTransferencia, crearCheckout, procesarRetorno, contarCupos, inscritosCsv, validarEntrada, enviarRecordatorios, ordenPagada, comprobanteDe, SESION } from '../netlify/lib/core.mjs';
 import { generarIcs, urlGoogleCalendar, enlaceIcs, enlaceGoogle } from '../netlify/lib/calendario.mjs';
 import { textoConfirmacion, crearNotificador } from '../netlify/lib/brevo.mjs';
 
@@ -357,4 +357,154 @@ test('el comprobante en pantalla trae lo que pide Transbank, sin correo ni tarje
   assert.ok(comp.comercio && comp.servicio);
   assert.ok(!JSON.stringify(comp).includes('ana8@correo.cl'), 'no incluye el correo');
   assert.equal(await comprobanteDe(store, '../orden-x'), null);
+});
+
+
+// ---------- Transferencia bancaria ----------
+
+const DATOS = { banco: 'Banco Prueba', tipo: 'Cuenta corriente', cuenta: '000111', rut: '11.111.111-1', titular: 'Titular Prueba', email: 'pagos@correo.test' };
+const notifyTransf = () => {
+  const calls = [];
+  return {
+    calls,
+    async transferencia(x) {
+      calls.push(['transferencia', x.orden.email, x.confirmarUrl]);
+    },
+    async transferenciaVencida(x) {
+      calls.push(['vencida', x.orden.email]);
+    },
+    async confirmar(x) {
+      calls.push(['confirmar', x.orden.email, x.pago.metodo]);
+    },
+    async aviso(x) {
+      calls.push(['aviso', x.ocupados]);
+    },
+  };
+};
+const tokenDe = (calls) => calls.find((c) => c[0] === 'transferencia')[2].split('t=')[1];
+const T0 = Date.parse('2026-12-01T12:00:00-03:00');
+
+test('datosTransferencia: solo existe si están todos los datos en el entorno', () => {
+  assert.equal(datosTransferencia({}), null);
+  assert.equal(datosTransferencia({ TRANSFER_BANCO: 'x' }), null);
+  const d = datosTransferencia({ TRANSFER_BANCO: 'b', TRANSFER_TIPO: 't', TRANSFER_CUENTA: 'c', TRANSFER_RUT: 'r', TRANSFER_TITULAR: 'h', TRANSFER_EMAIL: 'e' });
+  assert.equal(d.cuenta, 'c');
+});
+
+test('transferencia: reserva el cupo por 1 hora, muestra los datos y avisa por correo', async () => {
+  const store = memStore();
+  const notify = notifyTransf();
+  const r = await crearTransferencia({ store, notify, datos: DATOS, body: entrada(1), origin: ORIGEN, now: T0 });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.expira, T0 + 60 * 60000);
+  assert.equal(r.body.monto, SESION.montoClp);
+  assert.equal(r.body.datos.cuenta, '000111');
+  assert.match(r.body.referencia, /^S13-[a-f0-9]{12}$/);
+  assert.equal(notify.calls[0][0], 'transferencia');
+  assert.match(notify.calls[0][2], /^https:\/\/sitio\.test\/api\/sesion\/confirmar-pago\?t=[a-f0-9]{32}$/);
+  assert.equal((await contarCupos(store, T0)).ocupados, 1);
+  assert.equal(await ordenPagada(store, r.body.orden), null); // aún no está pagada: no recibe el Zoom
+});
+
+test('transferencia: sin datos configurados, cerrada la fecha o con datos inválidos, no reserva', async () => {
+  const store = memStore();
+  const n = notifyTransf();
+  assert.equal((await crearTransferencia({ store, notify: n, datos: null, body: entrada(), origin: ORIGEN, now: T0 })).status, 503);
+  assert.equal((await crearTransferencia({ store, notify: n, datos: DATOS, body: entrada(), origin: ORIGEN, now: SESION.ultimoPagoMs + 1000 })).body.error, 'plazo');
+  assert.equal((await crearTransferencia({ store, notify: n, datos: DATOS, body: entrada(0, { aceptaPolitica: false }), origin: ORIGEN, now: T0 })).body.error, 'politica');
+  assert.equal((await contarCupos(store, T0)).ocupados, 0);
+});
+
+test('transferencia: el último día (12 de diciembre) todavía se acepta y también la tarjeta; el 13 ya no', async () => {
+  const store = memStore();
+  const dia12 = Date.parse('2026-12-12T20:00:00-03:00');
+  assert.equal((await crearTransferencia({ store, notify: notifyTransf(), datos: DATOS, body: entrada(), origin: ORIGEN, now: dia12 })).status, 200);
+  assert.equal((await crearCheckout({ store, webpay: webpayOk(), body: entrada(2), origin: ORIGEN, now: dia12 })).status, 200);
+  const dia13 = Date.parse('2026-12-13T00:30:00-03:00');
+  assert.equal((await crearCheckout({ store, webpay: webpayOk(), body: entrada(3), origin: ORIGEN, now: dia13 })).body.error, 'plazo');
+});
+
+test('transferencia: repetir el pedido con el mismo correo devuelve la misma reserva, sin otro cupo', async () => {
+  const store = memStore();
+  const n = notifyTransf();
+  const a = await crearTransferencia({ store, notify: n, datos: DATOS, body: entrada(5), origin: ORIGEN, now: T0 });
+  const b = await crearTransferencia({ store, notify: n, datos: DATOS, body: entrada(5), origin: ORIGEN, now: T0 + 60000 });
+  assert.equal(a.body.orden, b.body.orden);
+  assert.equal((await contarCupos(store, T0 + 60000)).ocupados, 1);
+  assert.equal(n.calls.filter((c) => c[0] === 'transferencia').length, 1);
+});
+
+test('transferencia: al confirmar, queda pagada, se envía la confirmación y el calendario ya la reconoce', async () => {
+  const store = memStore();
+  const n = notifyTransf();
+  const r = await crearTransferencia({ store, notify: n, datos: DATOS, body: entrada(1), origin: ORIGEN, now: T0 });
+  const token = tokenDe(n.calls);
+  const c = await confirmarTransferencia({ store, notify: n, token, origin: ORIGEN, now: T0 + 20 * 60000 });
+  assert.equal(c.resultado, 'ok');
+  assert.ok(await ordenPagada(store, r.body.orden));
+  assert.deepEqual(n.calls.filter((x) => x[0] === 'confirmar'), [['confirmar', 'ana1@correo.cl', 'transferencia']]);
+  assert.equal((await comprobanteDe(store, r.body.orden)).tipo, 'Transferencia bancaria');
+  // Confirmar dos veces no duplica el correo
+  assert.equal((await confirmarTransferencia({ store, notify: n, token, origin: ORIGEN, now: T0 + 30 * 60000 })).resultado, 'ya');
+  assert.equal(n.calls.filter((x) => x[0] === 'confirmar').length, 1);
+  const csv = await inscritosCsv(store);
+  assert.match(csv, /transferencia/);
+});
+
+test('transferencia: enlace inválido o inventado no confirma nada', async () => {
+  const store = memStore();
+  const n = notifyTransf();
+  assert.equal((await confirmarTransferencia({ store, notify: n, token: 'x', origin: ORIGEN })).resultado, 'invalido');
+  assert.equal((await confirmarTransferencia({ store, notify: n, token: 'a'.repeat(32), origin: ORIGEN })).resultado, 'invalido');
+  assert.equal(await transferenciaPorToken(store, 'a'.repeat(32)), null);
+});
+
+test('transferencia: si la reserva venció pero el cupo sigue libre, la confirmación lo mantiene', async () => {
+  const store = memStore();
+  const n = notifyTransf();
+  const r = await crearTransferencia({ store, notify: n, datos: DATOS, body: entrada(1), origin: ORIGEN, now: T0 });
+  const c = await confirmarTransferencia({ store, notify: n, token: tokenDe(n.calls), origin: ORIGEN, now: T0 + 3 * 3600000 });
+  assert.equal(c.resultado, 'ok');
+  assert.ok(await ordenPagada(store, r.body.orden));
+});
+
+test('transferencia: si la reserva venció y otra persona tomó el cupo, se busca otro; si no hay ninguno, se avisa', async () => {
+  const store = memStore();
+  const n = notifyTransf();
+  await crearTransferencia({ store, notify: n, datos: DATOS, body: entrada(1), origin: ORIGEN, now: T0 });
+  const token = tokenDe(n.calls);
+  const despues = T0 + 2 * 3600000;
+  // Otra persona toma el cupo vencido (cupo-01) con tarjeta
+  await crearCheckout({ store, webpay: webpayOk(), body: entrada(2), origin: ORIGEN, now: despues });
+  const c = await confirmarTransferencia({ store, notify: n, token, origin: ORIGEN, now: despues + 60000 });
+  assert.equal(c.resultado, 'ok'); // había cupos libres: recibe otro
+  assert.equal((await contarCupos(store, despues + 60000)).ocupados, 2);
+
+  // Con todos los cupos ocupados, no hay dónde ubicarla
+  const store2 = memStore();
+  const n2 = notifyTransf();
+  await crearTransferencia({ store: store2, notify: n2, datos: DATOS, body: entrada(1), origin: ORIGEN, now: T0 });
+  for (let i = 10; i < 10 + SESION.total; i++) await crearCheckout({ store: store2, webpay: webpayOk(), body: entrada(i), origin: ORIGEN, now: despues });
+  const c2 = await confirmarTransferencia({ store: store2, notify: n2, token: tokenDe(n2.calls), origin: ORIGEN, now: despues + 60000 });
+  assert.equal(c2.resultado, 'sin-cupo');
+  assert.equal(n2.calls.filter((x) => x[0] === 'confirmar').length, 0);
+});
+
+test('transferencia: la reserva vencida libera el cupo y se avisa una sola vez', async () => {
+  const store = memStore();
+  const n = notifyTransf();
+  await crearTransferencia({ store, notify: n, datos: DATOS, body: entrada(1), origin: ORIGEN, now: T0 });
+  assert.equal((await contarCupos(store, T0 + 30 * 60000)).ocupados, 1);
+  assert.equal((await contarCupos(store, T0 + 61 * 60000)).ocupados, 0);
+  assert.deepEqual(await avisarTransferenciasVencidas({ store, notify: n, now: T0 + 30 * 60000 }), { avisados: 0 });
+  assert.deepEqual(await avisarTransferenciasVencidas({ store, notify: n, now: T0 + 61 * 60000 }), { avisados: 1 });
+  assert.deepEqual(await avisarTransferenciasVencidas({ store, notify: n, now: T0 + 90 * 60000 }), { avisados: 0 });
+});
+
+test('correos de transferencia: llevan los datos y la hora límite; el de confirmación dice transferencia', async () => {
+  const { textoTransferencia, textoConfirmacion: conf } = await import('../netlify/lib/brevo.mjs');
+  const orden = { id: 'S13-abcdef012345', nombre: 'Ana Pérez', email: 'a@b.cl', monto: 17000, expira: Date.parse('2026-12-01T13:00:00-03:00') };
+  const h = textoTransferencia({ orden, datos: DATOS });
+  for (const v of ['Banco Prueba', '000111', '11.111.111-1', 'Titular Prueba', 'pagos@correo.test', '$17.000', 'S13-abcdef012345', '13:00']) assert.ok(h.includes(v), v);
+  assert.match(conf({ orden, pago: { metodo: 'transferencia' }, origin: ORIGEN }), /transferencia bancaria/);
 });
