@@ -56,7 +56,7 @@ p{margin:0;max-width:62ch}
 .top nav a[aria-current=page]{color:var(--accent);border-bottom-color:var(--accent)}
 .brand a{color:inherit;text-decoration:none}
 .js [data-view]:not(.active){display:none}
-@media (max-width:640px){.top nav{width:100%;overflow-x:auto;flex-wrap:nowrap;gap:1rem;white-space:nowrap;padding-bottom:.25rem}}
+@media (max-width:640px){.top nav{width:100%;gap:.4rem 1rem;padding-bottom:.25rem}.sub{position:static;box-shadow:none;margin-top:.25rem}.has-sub{flex-basis:auto}}
 
 /* Portada */
 .hero{padding-block:clamp(3.5rem,10vw,7.5rem) clamp(3rem,7vw,5rem);display:grid;gap:2rem}
@@ -135,10 +135,23 @@ footer a{color:var(--muted)}
 
 
 /* Sesión grupal */
-.promo{display:grid;gap:.35rem;padding:1.25rem 1.5rem;border:1px solid var(--cta-edge);background:var(--surface);border-radius:14px;text-decoration:none;color:var(--ink);margin-top:-1.5rem;margin-bottom:2rem}
-.promo:hover{background:var(--accent-soft)}
+.promo{display:grid;gap:.5rem;justify-items:start;padding:1.25rem 1.5rem;border:1px solid var(--cta-edge);background:var(--cta);border-radius:14px;text-decoration:none;color:var(--ink);margin-top:-1.5rem;margin-bottom:2rem}
+.promo:hover{filter:brightness(1.03)}
+.promo-label{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--s-1);letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.promo .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--ink);display:inline-block}
+.promo-when{font-size:var(--s-1);font-weight:600}
+.promo-count{font-weight:700;margin-left:.5rem;padding:.1rem .55rem;border-radius:999px;background:var(--ink);color:var(--cta)}
+.promo-count:empty{display:none}
 .promo-t{font-family:var(--f-display);font-size:clamp(1.25rem,2.4vw,1.6rem);line-height:1.25}
-.promo-a{color:var(--accent);font-weight:600}
+.promo-a{margin-top:.25rem;padding:.55rem 1.1rem;border-radius:999px;background:var(--ink);color:var(--cta);font-weight:600}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.has-sub{position:relative}
+.sub-btn{font:inherit;color:var(--ink);background:none;border:0;border-bottom:2px solid transparent;padding:.25rem 0;cursor:pointer}
+.sub-btn:hover{color:var(--accent)}
+.sub-btn.on{color:var(--accent);border-bottom-color:var(--accent)}
+.sub{list-style:none;margin:0;padding:.5rem .9rem;position:absolute;top:100%;left:0;background:var(--bg);border:1px solid var(--line);border-radius:10px;white-space:nowrap;box-shadow:0 6px 18px rgba(31,52,84,.12);z-index:20}
+.sub[hidden]{display:none}
+footer .notice{flex-basis:100%}
 .facts{list-style:none;padding:0;margin:.5rem 0;display:grid;gap:.6rem}
 .facts li{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--line)}
 .facts b{font-weight:600;font-size:var(--s-1);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-top:.15rem}
@@ -171,6 +184,8 @@ footer a{color:var(--muted)}
   .about-list li,.facts li{grid-template-columns:minmax(0,1fr);gap:.25rem}
 }
 @media (prefers-reduced-motion:no-preference){
+  @keyframes respira{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.55}}
+  .promo .dot{animation:respira 2.4s ease-in-out infinite}
   .hero > *{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
   .hero > *:nth-child(2){animation-delay:.08s}
   .hero > *:nth-child(3){animation-delay:.16s}
@@ -182,12 +197,17 @@ footer a{color:var(--muted)}
 <header class="site-head"><div class="wrap top">
   <div class="brand"><a href="/#inicio">Javier Orchard Soto <span>· Hari Avtar</span></a></div>
   <nav aria-label="Secciones">
-    <a href="/#como-empezar">Cómo empezar</a>
     <a href="/#sobre-mi">Sobre mí</a>
-    <a href="/#preguntas">Preguntas</a>
+    <a href="/#como-empezar">Cómo empezar</a>
     <a href="/#precios">Formatos</a>
     <a href="/#grupos">Grupos</a>
-    <a href="/sesiondiciembre">Sesión grupal 13 dic</a>
+    <a href="/#preguntas">Preguntas</a>
+    <div class="has-sub" id="menu-eventos">
+      <button type="button" class="sub-btn" aria-expanded="false" aria-controls="sub-eventos">Eventos <span aria-hidden="true">▾</span></button>
+      <ul class="sub" id="sub-eventos" hidden>
+        <li><a href="/sesiondiciembre">Sesión grupal 13 dic</a></li>
+      </ul>
+    </div>
     <a href="/#contacto">Contacto</a>
   </nav>
 </div></header>
@@ -197,7 +217,7 @@ footer a{color:var(--muted)}
     <div class="stack" style="gap:2rem">
     <p class="eyebrow">Consultoría de vida 1:1 online · Análisis Existencial</p>
     <h1 id="titulo">Te acompaño a conocerte con honestidad y vivir una vida que <em>sientas tuya</em>.</h1>
-    <p class="lede">Un espacio para detenerte, mirar con calma lo que estás viviendo y decidir desde ti, no desde lo que se espera.</p>
+    <p class="lede">Un espacio para detenerte, mirar con calma lo que estás viviendo y decidir desde lo que es valioso para ti, no desde lo que se espera de ti.</p>
     <div class="stack" style="gap:.6rem">
       <div class="actions">
         <a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a>
@@ -209,11 +229,12 @@ footer a{color:var(--muted)}
     <figure class="photo"><img src="img/portada.jpg" width="1400" height="1050" alt="Javier Orchard junto a un lago de montaña, con las cumbres y las nubes al fondo"></figure>
   </section>
 
-  <section class="wrap" data-view="inicio" aria-label="Próxima sesión grupal">
+  <section class="wrap" data-view="inicio" aria-label="Próxima sesión grupal" id="promo-sec">
     <a class="promo" href="/sesiondiciembre">
-      <span class="eyebrow">Domingo 13 de diciembre · 10:30 · online en vivo</span>
+      <span class="promo-label"><i class="dot" aria-hidden="true"></i>Próxima sesión grupal</span>
+      <span class="promo-when">Domingo 13 de diciembre · 10:30 · online en vivo <b class="promo-count" id="promo-count"></b></span>
       <span class="promo-t">Sesión grupal para abordar los desafíos de este tiempo</span>
-      <span class="promo-a" id="promo-a">Conoce la sesión →</span>
+      <span class="promo-a" id="promo-a">Más información →</span>
     </a>
   </section>
 
@@ -222,7 +243,7 @@ footer a{color:var(--muted)}
       <div class="stack">
         <p class="eyebrow">Para quién es</p>
         <h2 id="para-quien">Para cuando la vida funciona, pero algo dentro no calza.</h2>
-        <p>No necesitas estar en crisis. Muchas personas llegan con su trabajo, su familia y su vida social en orden, y aun así sienten cierta distancia de sí mismas.</p>
+        <p>Puedes sentir que tu trabajo, tu familia y tu vida social están “en orden”, y aun así sentir que “algo no hace sentido”, “no calza”, “no se siente coherente”. Hay algo en ti que llama la atención, y que quizás no sabes aún cómo nombrarlo, de qué se trata.</p>
       </div>
       <ul class="signals">
         <li>Sientes que algo no está bien y no sabes nombrarlo.</li>
@@ -243,12 +264,12 @@ footer a{color:var(--muted)}
       <div class="steps">
         <div class="step">
           <h3>Agenda o escríbeme</h3>
-          <p>Elige un horario para tu conversación de claridad, o escríbeme por WhatsApp o Instagram y coordinamos. Cuéntame en pocas palabras qué te trae.</p>
+          <p>Elige un horario para tu conversación de claridad <a href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">aquí<span class="sr-only"> (elegir un horario en Calendly)</span></a>, o escríbeme por <a href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">WhatsApp</a> o <a href="https://ig.me/m/javierconsultordevida" target="_blank" rel="noopener">Instagram</a> y coordinamos. Cuéntame en pocas palabras qué te trae.</p>
         </div>
         <div class="step">
           <h3>Conversación de claridad</h3>
           <p class="meta">20 min · gratis · online</p>
-          <p>Vemos juntos si esto es lo que necesitas y si soy la persona indicada para acompañarte. No es una sesión: es una conversación honesta para decidir.</p>
+          <p>En esta sesión breve vemos juntos si mi formato de acompañamiento es o no lo indicado para ti en este momento. No es una sesión de consultoría como tal, sino una conversación honesta para decidir el siguiente paso.</p>
         </div>
         <div class="step">
           <h3>Elegimos el formato</h3>
@@ -264,8 +285,9 @@ footer a{color:var(--muted)}
       <div class="stack">
         <p class="eyebrow">Sobre mí</p>
         <h2 id="sobre">Javier, Hari Avtar</h2>
-        <p>Acompaño a personas y grupos desde hace años, primero desde el yoga y la meditación, y hoy desde la consultoría. Trabajo desde el Análisis Existencial y desde la presencia que desarrollé en el Timeless Wisdom Training de Thomas Hübl: el contacto honesto contigo y con lo que estás viviendo, para que lo que comprendes se vuelva decisiones y relaciones más tuyas.</p>
-        <p>Me gusta viajar, y la consultoría en línea me permite vivir así y acompañarte desde cualquier lugar. Tú también puedes conectarte desde donde estés, con una conexión estable y un rato de tranquilidad.</p>
+        <p>Acompaño a personas y grupos desde el 2010, primero desde el yoga y la yogaterapia, la mentoría en meditación y hoy desde la consultoría. Trabajo con un enfoque integral donde está presente el Análisis Existencial, el entendimiento yóguico, el espacio relacional y la comprensión y abordaje del trauma individual, colectivo y ancestral de Thomas Hübl.</p>
+        <p>En mi viaje personal se ha ido asentando esta claridad sobre cómo la presencia, el contacto honesto conmigo y con lo que estoy viviendo, se ha vuelto una capacidad sanadora que me facilita una comprensión compasiva conmigo, una presencia relacional consciente con mi entorno y la toma de decisiones que se sienten más mías, propias y auténticas.</p>
+        <p>Me gusta mucho viajar porque visito lugares hermosos con los que sigo maravillándome, comparto con queridas personas conocidas a quienes visito y conozco nuevas personas con quienes interactuar y aprender de la vida. La consultoría en línea me permite trabajar en algo que me apasiona y amo, acompañándote desde cualquier lugar del mundo. Tú también puedes conectarte a las sesiones desde donde estás, con una conexión estable y un rato de tranquilidad.</p>
         <figure class="photo photo--sm"><img src="img/en-linea.jpg" width="900" height="833" loading="lazy" alt="Javier sonriendo con su computador en un tren, trabajando en línea"></figure>
       </div>
       <div class="stack">
@@ -288,34 +310,72 @@ footer a{color:var(--muted)}
       <div class="stack">
         <p class="eyebrow">Antes de empezar</p>
         <h2 id="preguntas-t">Lo que suele preguntarse.</h2>
-        <div class="notice">
-          <p><b>Importante.</b> Esta consultoría es un acompañamiento para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>
-        </div>
       </div>
       <div>
         <details>
-          <summary>¿Es psicoterapia?</summary>
+          <summary>¿En qué se diferencia de contárselo a un amigo o a mi familia?</summary>
           <div class="body">
-            <p>No. Mi acompañamiento tiene un abordaje terapéutico, pero no es psicoterapia: es un espacio para conocerte mejor y tomar decisiones desde ti. No hago diagnósticos ni tratamientos. Si veo que necesitas otro tipo de apoyo, te lo diré con honestidad y te ayudaré a buscarlo.</p>
+            <p>Quienes te quieren suelen darte su opinión, y eso es valioso. Aquí no hay opinión sobre lo que deberías hacer. Es un espacio para escuchar y descubrir lo que tú sientes y valoras, sin tener que cuidar cómo reaccionará el otro. En las sesiones de consultoría puedes explorar nuevas respuestas y dinámicas, que emergen al contactarte contigo auténticamente.</p>
           </div>
         </details>
         <details>
-          <summary>¿Y si estoy pasando por una crisis?</summary>
+          <summary>Mi vida funciona, ¿para qué lo necesitaría?</summary>
           <div class="body">
-            <p>Este no es un servicio de urgencia. Si estás en una crisis o sientes que tu vida o tu seguridad están en riesgo, busca ayuda de inmediato.</p>
-            <p>En Chile puedes llamar a la línea de prevención del suicidio *4141 (gratuita, desde celular, las 24 horas) o a Salud Responde, 600 360 7777.</p>
+            <p>No hace falta que “algo esté mal”. Muchas personas llegan con su trabajo, su familia y su vida en orden, y aun así sienten que algo no calza. Si te reconoces ahí, este espacio es para mirarlo con calma.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Tengo que saber qué me pasa para empezar?</summary>
+          <div class="body">
+            <p>Puedes empezar siguiendo tu intuición, incluso cuando intelectualmente no entiendes o sabes cómo explicar lo que te pasa, sabes que hay algo que te hace ruido y te gustaría comprender. Basta con que traigas lo que estás viviendo hoy, tal como venga. No necesitas abordarlo todo ni prepararte antes de llegar.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Con qué temas puedo llegar?</summary>
+          <div class="body">
+            <p>Con lo que sea importante para ti: tus relaciones, tu familia, tu trabajo, una decisión que vienes postergando, poner límites, la soledad o la sensación de que algo no tiene sentido. No necesitas elegir un tema antes de empezar.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Me vas a decir qué tengo que hacer?</summary>
+          <div class="body">
+            <p>En las sesiones te voy acompañando a que descubras qué es aquello que puedes, te motiva, se siente correcto y tiene sentido para ti hacer, a partir de la situación que consultas. No te digo cómo vivir ni qué decidir. Te acompaño a ponerle palabras a lo que vives y a reconocer lo que es valioso para ti, para que sientas tus decisiones más tuyas.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Está bien dedicarme este tiempo a mí? ¿Y si me cuesta hablar de mí?</summary>
+          <div class="body">
+            <p>Sí, está bien. Para algunas personas, dedicarse tiempo para sí mismas, para hablar de lo que están viviendo, puede ser algo nuevo, que no han hecho antes, que no están acostumbradas a hacer o no han visto que sea algo habitual que su entorno hace, y puede hasta sentirse como algo egoísta. Tú eliges de qué, cuánto, con qué profundidad y a qué velocidad hablar de lo tuyo. Vamos a tu ritmo.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Podré hablar de cosas íntimas sin sentir que me juzgan?</summary>
+          <div class="body">
+            <p>Sí. Aquí no hay juicio ni respuestas correctas. Puedes explorar decir lo que te cuesta decir en otros lugares. Las sesiones de consultoría son un espacio confidencial.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Qué pasa entre una sesión y otra?</summary>
+          <div class="body">
+            <p>En algunas ocasiones, entre sesiones te propongo una actividad breve de autoexperiencia, para observar con mayor detención en algún aspecto cotidiano de tu vida.</p>
+          </div>
+        </details>
+        <details>
+          <summary>¿Cómo acordamos los días y horarios de las sesiones?</summary>
+          <div class="body">
+            <p>Lo acordamos juntos, según tu disponibilidad y la mía. Desde un comienzo podemos dejar reservados los días y horas de las 12 sesiones iniciales, o irlas fijando semana a semana.</p>
           </div>
         </details>
         <details>
           <summary>¿Cómo es la conversación de claridad?</summary>
           <div class="body">
-            <p>Son 20 minutos por videollamada, gratis para ti. Me cuentas qué te trae y vemos juntos si esto es lo que necesitas y si soy la persona indicada. No tienes ninguna obligación de continuar.</p>
+            <p>Son 20 minutos por videollamada, gratis para ti. Me cuentas qué te trae y vemos juntos si mi formato de acompañamiento es lo indicado para ti en este momento. No es una sesión de consultoría como tal, sino una conversación honesta para decidir el siguiente paso, y no tienes ninguna obligación de continuar el proceso de acompañamiento después de esta sesión.</p>
           </div>
         </details>
         <details>
-          <summary>¿Necesito algo para conectarme?</summary>
+          <summary>¿Qué necesito para conectarme?</summary>
           <div class="body">
-            <p>Un dispositivo con cámara y micrófono, una conexión estable y un lugar donde puedas hablar con tranquilidad. Puedes conectarte desde donde estés.</p>
+            <p>Un dispositivo con cámara y micrófono, una conexión estable a internet y un lugar donde puedas hablar con tranquilidad. Puedes conectarte desde donde estés.</p>
           </div>
         </details>
       </div>
@@ -518,6 +578,9 @@ footer a{color:var(--muted)}
 </main>
 
 <footer class="wrap">
+  <div class="notice notice--foot">
+    <p><b>Importante.</b> Esta consultoría es un acompañamiento para el autoconocimiento. No es psicoterapia ni reemplaza la atención de un profesional de salud mental.</p>
+  </div>
   <span>Javier Orchard Soto · Consultoría de vida 1:1 online</span>
   <a href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">@javierconsultordevida</a>
 </footer>
@@ -542,6 +605,24 @@ footer a{color:var(--muted)}
   }
   window.addEventListener('hashchange',show);
   show();
+
+  /* Menú Eventos ▾ y anuncio: ambos desaparecen al empezar la sesión (13 dic 2026, 10:30 Chile, UTC-3). */
+  var INICIO=Date.UTC(2026,11,13,13,30), ahora=Date.now();
+  var menu=document.getElementById('menu-eventos'), btn=menu.querySelector('.sub-btn'), sub=document.getElementById('sub-eventos');
+  var promo=document.getElementById('promo-sec');
+  if(ahora>=INICIO){ menu.hidden=true; promo.hidden=true; }
+  else{
+    var hoy=new Date().toLocaleDateString('en-CA',{timeZone:'America/Santiago'}).split('-');
+    var dias=Math.round((Date.UTC(2026,11,13)-Date.UTC(+hoy[0],+hoy[1]-1,+hoy[2]))/864e5);
+    var c=document.getElementById('promo-count');
+    c.textContent=dias<=0?'Es hoy':dias===1?'Falta 1 día':'Faltan '+dias+' días';
+  }
+  function cerrar(){ btn.setAttribute('aria-expanded','false'); sub.hidden=true; }
+  btn.addEventListener('click',function(e){ e.stopPropagation(); var abre=sub.hidden; btn.setAttribute('aria-expanded',abre); sub.hidden=!abre; });
+  document.addEventListener('click',function(e){ if(!menu.contains(e.target)) cerrar(); else if(e.target.closest('a')) cerrar(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!sub.hidden){ cerrar(); btn.focus(); } });
+  function marca(){ btn.classList.toggle('on',(location.pathname.replace(/\/+$/,'')==='/sesiondiciembre')||location.hash==='#sesiondiciembre'||location.hash==='#sesion'); }
+  window.addEventListener('hashchange',marca); marca();
 })();
 
 /* Sesión completa: guarda el interés (segunda versión o acompañamiento 1 a 1). */
