@@ -1,4 +1,5 @@
 // Conexión con Netlify (almacenamiento), Transbank y el contexto de despliegue.
+import { timingSafeEqual } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 import transbank from 'transbank-sdk';
 
@@ -33,3 +34,12 @@ export const json = (data, status = 200) =>
     status,
     headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
   });
+
+// ¿La petición trae el token de administración (ADMIN_TOKEN)? Acepta "Authorization: Bearer ..." o ?token=...
+export function adminOk(req) {
+  const esperado = process.env.ADMIN_TOKEN || '';
+  const dado = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '') || new URL(req.url).searchParams.get('token') || '';
+  const a = Buffer.from(dado);
+  const b = Buffer.from(esperado);
+  return Boolean(esperado) && a.length === b.length && timingSafeEqual(a, b);
+}
