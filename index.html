@@ -110,6 +110,7 @@ p{margin:0;max-width:62ch}
 .hero > .photo{width:92%;justify-self:center}
 
 /* Para quién */
+.subtitle{font-family:var(--f-display);font-size:clamp(1.25rem,2.2vw,1.6rem);color:var(--accent);margin:.25rem 0 0}
 .sec-head{margin-bottom:clamp(1.75rem,4vw,2.75rem)}
 .sec-body{max-width:46rem}
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(2rem,6vw,5rem);align-items:start}
@@ -246,7 +247,6 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     <a href="/#sobre-mi">Sobre mí</a>
     <a href="/#precios">Cómo trabajamos</a>
     <a href="/#como-empezar">Cómo empezar</a>
-    <a href="/#grupos">Grupos</a>
     <a href="/#preguntas">Preguntas</a>
     <div class="has-sub" id="menu-eventos">
       <button type="button" class="sub-btn" aria-expanded="false" aria-controls="sub-eventos">Eventos <span aria-hidden="true">▾</span></button>
@@ -443,6 +443,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
       <div class="stack">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/trabajamos.png" alt="" width="44" height="44" decoding="async"><span>Cómo trabajamos</span></p>
         <h2 id="formatos">Sesiones de 50 a 60 minutos, online.</h2>
+        <p class="subtitle">1 a 1</p>
       </div>
       <div class="plans">
         <article class="plan">
@@ -536,6 +537,23 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     </div>
   </section>
 
+  <section class="band" data-view="precios" aria-labelledby="grupos-t">
+    <div class="wrap">
+      <div class="stack sec-head">
+        <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/grupos.png" alt="" width="44" height="44" decoding="async"><span>Grupos y organizaciones</span></p>
+        <h2 id="grupos-t">También en grupos y equipos.</h2>
+      </div>
+      <div class="sec-body">
+      <div class="stack">
+        <p>Charlas y talleres sobre presencia, autoconocimiento y comunicación para grupos y organizaciones. Si te interesa para tu equipo, escríbeme y conversamos qué necesitan.</p>
+        <div class="actions">
+          <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
   <section class="band band--tint" id="contacto" data-view="contacto" aria-labelledby="contacto-t">
     <div class="wrap">
       <div class="head-row">
@@ -565,22 +583,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     </div>
   </section>
 
-  <section class="band" id="grupos" data-view="grupos" aria-labelledby="grupos-t">
-    <div class="wrap">
-      <div class="stack sec-head">
-        <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/grupos.png" alt="" width="44" height="44" decoding="async"><span>Grupos y organizaciones</span></p>
-        <h2 id="grupos-t">También en grupos y equipos.</h2>
-      </div>
-      <div class="sec-body">
-      <div class="stack">
-        <p>Charlas y talleres sobre presencia, autoconocimiento y comunicación para grupos y organizaciones. Si te interesa para tu equipo, escríbeme y conversamos qué necesitan.</p>
-        <div class="actions">
-          <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
-        </div>
-      </div>
-      </div>
-    </div>
-  </section>
+  
   <section class="band" id="sesiondiciembre" data-view="sesiondiciembre" aria-labelledby="sesion-t">
     <div class="wrap">
       <div class="stack sec-head">
@@ -678,6 +681,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     var h=(location.hash||'').replace('#','');
     if(!h && location.pathname.replace(/\/+$/,'')==='/sesiondiciembre') h='sesiondiciembre';
     if(h==='sesion') h='sesiondiciembre';
+    if(h==='grupos') h='precios';
     if(h==='sesiondiciembre' && history.replaceState && (location.hash || location.pathname!=='/sesiondiciembre')) history.replaceState(null,'','/sesiondiciembre'+location.search);
     if(!names[h]) h='inicio';
     views.forEach(function(v){v.classList.toggle('active',v.getAttribute('data-view')===h)});
