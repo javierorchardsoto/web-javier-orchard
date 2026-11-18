@@ -75,6 +75,8 @@ p{margin:0;max-width:62ch}
 
 /* Menú fijo y vistas por sección */
 .site-head{position:sticky;top:0;z-index:10;background:var(--bg)}
+.nav-ico{width:1.7em;height:1.7em;flex:none;opacity:1;margin-block:-.3em}
+.top nav a,.sub-btn{display:inline-flex;align-items:center;gap:.4rem}
 .top nav a{padding-block:.25rem;border-bottom:2px solid transparent}
 .top nav a[aria-current=page]{color:var(--accent);border-bottom-color:var(--accent)}
 .brand a{color:inherit;text-decoration:none}
@@ -254,17 +256,17 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
 <header class="site-head"><div class="wrap top">
   <div class="brand"><a href="/#inicio">Javier Orchard Soto <span>· Hari Avtar</span></a></div>
   <nav aria-label="Secciones">
-    <a href="/#sobre-mi">Sobre mí</a>
-    <a href="/#precios">Cómo trabajamos</a>
-    <a href="/#como-empezar">Cómo empezar</a>
-    <a href="/#preguntas">Preguntas</a>
+    <a href="/#sobre-mi"><img class="nav-ico" src="/img/ico/sobre-mi.png" alt="" width="20" height="20" decoding="async">Sobre mí</a>
+    <a href="/#precios"><img class="nav-ico" src="/img/ico/trabajamos.png" alt="" width="20" height="20" decoding="async">Cómo trabajamos</a>
+    <a href="/#como-empezar"><img class="nav-ico" src="/img/ico/empezar.png" alt="" width="20" height="20" decoding="async">Cómo empezar</a>
+    <a href="/#preguntas"><img class="nav-ico" src="/img/ico/preguntas.png" alt="" width="20" height="20" decoding="async">Preguntas</a>
     <div class="has-sub" id="menu-eventos">
-      <button type="button" class="sub-btn" aria-expanded="false" aria-controls="sub-eventos">Eventos <span aria-hidden="true">▾</span></button>
+      <button type="button" class="sub-btn" aria-expanded="false" aria-controls="sub-eventos"><img class="nav-ico" src="/img/ico/eventos.png" alt="" width="20" height="20" decoding="async">Eventos <span aria-hidden="true">▾</span></button>
       <ul class="sub" id="sub-eventos" hidden>
         <li><a href="/sesiondiciembre">Sesión grupal 13 dic</a></li>
       </ul>
     </div>
-    <a href="/#contacto">Contacto</a>
+    <a href="/#contacto"><img class="nav-ico" src="/img/ico/contacto.png" alt="" width="20" height="20" decoding="async">Contacto</a>
   </nav>
 </div></header>
 
