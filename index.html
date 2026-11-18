@@ -59,8 +59,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .about-grid .about-photo{display:flex;justify-content:center}
 .about-grid .about-photo img{width:min(100%,470px);aspect-ratio:1;border-radius:50%;object-fit:cover;object-position:50% 50%}
 .about-col{align-self:stretch}
-.head-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:center}
-.head-row .avatar-contacto{margin:0 0 clamp(1.75rem,4vw,2.75rem);width:min(100%,357px)}
+.head-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,357px);gap:2rem;align-items:center}
+.head-row .avatar-contacto{margin:0 0 clamp(1.75rem,4vw,2.75rem);width:100%;height:auto}
 @media (max-width:900px){.about-grid,.head-row{grid-template-columns:minmax(0,1fr)}.about-text,.about-grid .about-photo{grid-column:1;grid-row:auto}.head-row .avatar-contacto{width:min(61%,260px)}}
 .eyebrow--ico{display:flex;align-items:center;gap:.7rem}
 .sec-ico{width:44px;height:44px;flex:none;opacity:.78}
