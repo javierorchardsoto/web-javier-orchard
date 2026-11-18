@@ -38,6 +38,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .wrap{max-width:68rem;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 .band{padding-block:clamp(3rem,8vw,6rem)}
 .band--tint{background:transparent}
+/* Cómo trabajamos: 30 % menos de espacio entre el botón de agenda y «El marco del proceso» */
+#precios{padding-bottom:clamp(2.1rem,5.6vw,4.2rem)}
+#marco{padding-top:clamp(2.1rem,5.6vw,4.2rem)}
 /* Pilares en todas las páginas */
 .plan h3{margin:0}
 .plans--faq{align-items:start}
@@ -499,7 +502,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     </div>
   </section>
 
-  <section class="band band--tint" data-view="precios" aria-labelledby="condiciones">
+  <section class="band band--tint" id="marco" data-view="precios" aria-labelledby="condiciones">
     <div class="wrap">
       <div class="stack sec-head">
         <p class="eyebrow">El marco del proceso</p>
