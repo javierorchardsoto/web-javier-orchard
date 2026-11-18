@@ -38,9 +38,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .wrap{max-width:68rem;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 .band{padding-block:clamp(3rem,8vw,6rem)}
 .band--tint{background:transparent}
-/* Cómo trabajamos: 30 % menos de espacio entre el botón de agenda y «El marco del proceso» */
-#precios{padding-bottom:clamp(2.1rem,5.6vw,4.2rem)}
-#marco{padding-top:clamp(2.1rem,5.6vw,4.2rem)}
+/* Cómo trabajamos: espacio entre el botón de agenda y «El marco del proceso» a la mitad, con un sendero conector en medio */
+#precios{padding-bottom:clamp(.75rem,2vw,1.5rem)}
+#marco{padding-top:clamp(.75rem,2vw,1.5rem)}
+.divider{height:clamp(1.75rem,4.5vw,3rem);background:var(--d-sendero) no-repeat center/contain}
 /* Pilares en todas las páginas */
 .plan h3{margin:0}
 .plans--faq{align-items:start}
@@ -501,6 +502,8 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
       <p style="margin-top:.75rem"><a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a></p>
     </div>
   </section>
+
+  <div class="divider" data-view="precios" aria-hidden="true"></div>
 
   <section class="band band--tint" id="marco" data-view="precios" aria-labelledby="condiciones">
     <div class="wrap">
