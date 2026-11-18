@@ -68,7 +68,9 @@ p{margin:0;max-width:62ch}
 /* Cabecera */
 .top{padding-block:1.25rem;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;border-bottom:1px solid var(--line)}
 .brand{font-family:var(--f-display);font-size:var(--s1)}
-.brand span{color:var(--muted);font-style:italic}
+.brand a{display:inline-flex;align-items:center;gap:.6rem}
+.brand-ico{width:2.4em;height:2.4em;flex:none;margin-block:-.6em;opacity:.9}
+.brand .brand-t span{color:var(--muted);font-style:italic}
 .top nav{display:flex;gap:1.25rem;flex-wrap:wrap;font-size:var(--s-1)}
 .top nav a{color:var(--ink);text-decoration:none}
 .top nav a:hover{color:var(--accent)}
@@ -255,7 +257,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
 </style>
 
 <header class="site-head"><div class="wrap top">
-  <div class="brand"><a href="/#inicio">Javier Orchard Soto <span>· Hari Avtar</span></a></div>
+  <div class="brand"><a href="/#inicio"><img class="brand-ico" src="/img/ico/inicio.png" alt="" width="44" height="44" decoding="async"><span class="brand-t">Javier Orchard Soto <span>· Hari Avtar</span></span></a></div>
   <nav aria-label="Secciones">
     <a href="/#sobre-mi"><img class="nav-ico" src="/img/ico/sobre-mi.png" alt="" width="20" height="20" decoding="async">Sobre mí</a>
     <a href="/#precios"><img class="nav-ico" src="/img/ico/trabajamos.png" alt="" width="20" height="20" decoding="async">Cómo trabajamos</a>
@@ -274,7 +276,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
 <main>
   <section class="wrap hero" data-view="inicio" aria-labelledby="titulo">
     <div class="stack" style="gap:2rem">
-    <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/inicio.png" alt="" width="44" height="44" decoding="async"><span>Consultoría de vida 1:1 online · Análisis Existencial</span></p>
+    <p class="eyebrow">Consultoría de vida 1:1 online · Análisis Existencial</p>
     <h1 id="titulo">Te acompaño a conocerte con honestidad y vivir una vida que <em>sientas tuya</em>.</h1>
     <p class="lede">Un espacio para detenerte, mirar con calma lo que estás viviendo y decidir desde lo que es valioso para ti, no desde lo que se espera de ti.</p>
     <div class="stack" style="gap:.6rem">
