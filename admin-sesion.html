@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Administración de la sesión (privado)</title>
+<style>
+  body{font:16px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem;color:#1F3454;background:#F6F1E7}
+  input,button{font:inherit;padding:.4rem .6rem}
+  table{border-collapse:collapse;width:100%;margin-top:1rem}
+  td,th{border-bottom:1px solid #d9d0be;padding:.4rem;text-align:left;vertical-align:top;font-size:.9rem}
+  code{word-break:break-all;font-size:.8rem}
+  .ok{color:#2a6b3a}.err{color:#a33}
+</style>
+</head>
+<body>
+<h1>Administración de la sesión</h1>
+<p>Página privada. Escribe tu token de administración (no queda guardado ni viaja en la dirección).</p>
+<p><input id="tok" type="password" placeholder="Token de administración" autocomplete="off"> <button id="ver">Ver compras de prueba</button></p>
+<p id="msg"></p>
+<table id="tabla" hidden><thead><tr><th>Estado</th><th>Pago</th><th>Token</th><th>Reembolso</th></tr></thead><tbody></tbody></table>
+<script>
+const $ = (id) => document.getElementById(id);
+const msg = (t, c) => { $('msg').textContent = t; $('msg').className = c || ''; };
+const H = () => ({ authorization: 'Bearer ' + $('tok').value, 'content-type': 'application/json' });
+
+async function ver() {
+  msg('Cargando…');
+  const r = await fetch('/api/sesion/pruebas', { headers: H() });
+  if (!r.ok) return msg(r.status === 401 ? 'Token incorrecto.' : 'No disponible aquí (solo en vistas previas).', 'err');
+  const { compras } = await r.json();
+  const tb = $('tabla').querySelector('tbody'); tb.textContent = '';
+  for (const c of compras) {
+    const tr = document.createElement('tr');
+    const pago = c.tipoPago ? c.tipoPago + (c.cuotas ? ' · ' + c.cuotas + ' cuotas' : '') : '';
+    tr.innerHTML = '<td></td><td></td><td><code></code></td><td></td>';
+    tr.children[0].textContent = c.estado + (c.reembolsado ? ' (reembolsado $' + c.reembolsado + ')' : '');
+    tr.children[1].textContent = pago;
+    tr.children[2].firstChild.textContent = c.token;
+    if (c.estado === 'pagada') {
+      const m = document.createElement('input'); m.type = 'number'; m.placeholder = 'monto (vacío = todo)'; m.style.width = '9rem';
+      const b = document.createElement('button'); b.textContent = 'Reembolsar';
+      let armado = false;
+      b.onclick = async () => {
+        const monto = m.value === '' ? 'el total restante' : '$' + m.value;
+        // Confirmación en la propia página (los avisos del navegador pueden no mostrarse).
+        if (!armado) {
+          armado = true; b.textContent = '¿Seguro? Reembolsar ' + monto + ': pulsa otra vez';
+          setTimeout(() => { armado = false; b.textContent = 'Reembolsar'; }, 8000);
+          return;
+        }
+        armado = false; b.disabled = true;
+        const body = { token: c.token }; if (m.value !== '') body.monto = Number(m.value);
+        const rr = await fetch('/api/sesion/reembolso', { method: 'POST', headers: H(), body: JSON.stringify(body) });
+        const j = await rr.json().catch(() => ({}));
+        msg(rr.ok ? 'Reembolsado $' + j.reembolsado + '. Restante: $' + j.restante + '.' : 'No se pudo reembolsar: ' + (j.error || rr.status), rr.ok ? 'ok' : 'err');
+        if (rr.ok) ver();
+      };
+      tr.children[3].append(m, ' ', b);
+    }
+    tb.append(tr);
+  }
+  $('tabla').hidden = false;
+  msg(compras.length ? compras.length + ' compra(s).' : 'Todavía no hay compras de prueba.');
+}
+$('ver').onclick = ver;
+</script>
+</body>
+</html>
