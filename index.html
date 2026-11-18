@@ -263,12 +263,6 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     <a href="/#precios"><img class="nav-ico" src="/img/ico/trabajamos.png" alt="" width="20" height="20" decoding="async">Cómo trabajamos</a>
     <a href="/#como-empezar"><img class="nav-ico" src="/img/ico/empezar.png" alt="" width="20" height="20" decoding="async">Cómo empezar</a>
     <a href="/#preguntas"><img class="nav-ico" src="/img/ico/preguntas.png" alt="" width="20" height="20" decoding="async">Preguntas</a>
-    <div class="has-sub" id="menu-eventos">
-      <button type="button" class="sub-btn" aria-expanded="false" aria-controls="sub-eventos"><img class="nav-ico" src="/img/ico/eventos.png" alt="" width="20" height="20" decoding="async">Eventos <span aria-hidden="true">▾</span></button>
-      <ul class="sub" id="sub-eventos" hidden>
-        <li><a href="/sesiondiciembre">Sesión grupal 13 dic</a></li>
-      </ul>
-    </div>
     <a href="/#contacto"><img class="nav-ico" src="/img/ico/contacto.png" alt="" width="20" height="20" decoding="async">Contacto</a>
   </nav>
 </div></header>
@@ -554,7 +548,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     </div>
   </section>
 
-  <section class="band" data-view="precios" aria-labelledby="grupos-t">
+  <section class="band" id="grupos" data-view="precios" aria-labelledby="grupos-t">
     <div class="wrap">
       <div class="stack sec-head">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/grupos.png" alt="" width="44" height="44" decoding="async"><span>Grupos y organizaciones</span></p>
@@ -570,38 +564,8 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
       </div>
     </div>
   </section>
-
-  <section class="band band--tint" id="contacto" data-view="contacto" aria-labelledby="contacto-t">
-    <div class="wrap">
-      <div class="head-row">
-        <div class="stack sec-head">
-          <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/contacto.png" alt="" width="44" height="44" decoding="async"><span>Contacto</span></p>
-          <h2 id="contacto-t">Si algo de esto te hace sentido, conversemos.</h2>
-        </div>
-        <img class="avatar-contacto" src="/img/avatar-contacto.png" alt="Ilustración de Javier, de rostro sonriente y barba" width="900" height="666" loading="lazy" decoding="async">
-      </div>
-      <div class="plans">
-        <article class="plan">
-          <h3>Agenda</h3>
-          <p>Conversación de claridad: 20 minutos, gratis y online.</p>
-          <p><a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a></p>
-        </article>
-        <article class="plan">
-          <h3>WhatsApp</h3>
-          <p>Si prefieres escribirme directo.</p>
-          <p><a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a></p>
-        </article>
-        <article class="plan">
-          <h3>Instagram</h3>
-          <p>También puedes escribirme por mensaje directo.</p>
-          <p><a class="btn btn--ghost" href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">Instagram</a></p>
-        </article>
-      </div>
-    </div>
-  </section>
-
   
-  <section class="band" id="sesiondiciembre" data-view="sesiondiciembre" aria-labelledby="sesion-t">
+  <section class="band" id="sesiondiciembre" data-view="precios" aria-labelledby="sesion-t">
     <div class="wrap">
       <div class="stack sec-head">
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/eventos.png" alt="" width="44" height="44" decoding="async"><span>Sesión grupal online en vivo</span></p>
@@ -681,6 +645,36 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     </div>
   </section>
 
+
+  <section class="band band--tint" id="contacto" data-view="contacto" aria-labelledby="contacto-t">
+    <div class="wrap">
+      <div class="head-row">
+        <div class="stack sec-head">
+          <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/contacto.png" alt="" width="44" height="44" decoding="async"><span>Contacto</span></p>
+          <h2 id="contacto-t">Si algo de esto te hace sentido, conversemos.</h2>
+        </div>
+        <img class="avatar-contacto" src="/img/avatar-contacto.png" alt="Ilustración de Javier, de rostro sonriente y barba" width="900" height="666" loading="lazy" decoding="async">
+      </div>
+      <div class="plans">
+        <article class="plan">
+          <h3>Agenda</h3>
+          <p>Conversación de claridad: 20 minutos, gratis y online.</p>
+          <p><a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a></p>
+        </article>
+        <article class="plan">
+          <h3>WhatsApp</h3>
+          <p>Si prefieres escribirme directo.</p>
+          <p><a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a></p>
+        </article>
+        <article class="plan">
+          <h3>Instagram</h3>
+          <p>También puedes escribirme por mensaje directo.</p>
+          <p><a class="btn btn--ghost" href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">Instagram</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="wrap">
@@ -698,35 +692,30 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     var h=(location.hash||'').replace('#','');
     if(!h && location.pathname.replace(/\/+$/,'')==='/sesiondiciembre') h='sesiondiciembre';
     if(h==='sesion') h='sesiondiciembre';
-    if(h==='grupos') h='precios';
     if(h==='sesiondiciembre' && history.replaceState && (location.hash || location.pathname!=='/sesiondiciembre')) history.replaceState(null,'','/sesiondiciembre'+location.search);
+    var destino=(h==='sesiondiciembre'||h==='grupos')?h:null;
+    if(destino) h='precios';
     if(!names[h]) h='inicio';
     views.forEach(function(v){v.classList.toggle('active',v.getAttribute('data-view')===h)});
     links.forEach(function(a){
-      if(a.getAttribute('href')===(h==='sesiondiciembre'?'/sesiondiciembre':'/#'+h)) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+      if(a.getAttribute('href')==='/#'+h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
     });
-    window.scrollTo(0,0);
+    var el=destino&&document.getElementById(destino);
+    if(el) el.scrollIntoView(); else window.scrollTo(0,0);
   }
   window.addEventListener('hashchange',show);
   show();
 
-  /* Menú Eventos ▾ y anuncio: ambos desaparecen al empezar la sesión (13 dic 2026, 10:30 Chile, UTC-3). */
+  /* Anuncio: desaparece al empezar la sesión (13 dic 2026, 10:30 Chile, UTC-3). */
   var INICIO=Date.UTC(2026,11,13,13,30), ahora=Date.now();
-  var menu=document.getElementById('menu-eventos'), btn=menu.querySelector('.sub-btn'), sub=document.getElementById('sub-eventos');
   var promo=document.getElementById('promo-sec');
-  if(ahora>=INICIO){ menu.hidden=true; promo.hidden=true; }
+  if(ahora>=INICIO){ promo.hidden=true; }
   else{
     var hoy=new Date().toLocaleDateString('en-CA',{timeZone:'America/Santiago'}).split('-');
     var dias=Math.round((Date.UTC(2026,11,13)-Date.UTC(+hoy[0],+hoy[1]-1,+hoy[2]))/864e5);
     var c=document.getElementById('promo-count');
     c.textContent=dias<=0?'Es hoy':dias===1?'Falta 1 día':'Faltan '+dias+' días';
   }
-  function cerrar(){ btn.setAttribute('aria-expanded','false'); sub.hidden=true; }
-  btn.addEventListener('click',function(e){ e.stopPropagation(); var abre=sub.hidden; btn.setAttribute('aria-expanded',abre); sub.hidden=!abre; });
-  document.addEventListener('click',function(e){ if(!menu.contains(e.target)) cerrar(); else if(e.target.closest('a')) cerrar(); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!sub.hidden){ cerrar(); btn.focus(); } });
-  function marca(){ btn.classList.toggle('on',(location.pathname.replace(/\/+$/,'')==='/sesiondiciembre')||location.hash==='#sesiondiciembre'||location.hash==='#sesion'); }
-  window.addEventListener('hashchange',marca); marca();
 })();
 
 /* Sesión completa: guarda el interés (segunda versión o acompañamiento 1 a 1). */
