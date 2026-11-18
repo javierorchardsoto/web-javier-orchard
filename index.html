@@ -39,10 +39,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .band{padding-block:clamp(3rem,8vw,6rem)}
 .band--tint{background:transparent}
 /* Cómo trabajamos: espacio entre el botón de agenda y «El marco del proceso» a la mitad, con un sendero conector en medio */
-#precios{padding-bottom:clamp(.75rem,2vw,1.5rem)}
-#marco{padding-top:clamp(.75rem,2vw,1.5rem)}
+#precios{padding-bottom:clamp(1.15rem,3vw,2.15rem)}
+#marco{padding-top:clamp(1.15rem,3vw,2.15rem)}
 .divider{height:clamp(2.5rem,6vw,3.5rem);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 56' fill='none' stroke-linecap='round'%3E%3Cg opacity='.7'%3E%3Cpath d='M20 34 C110 34 130 14 220 14 S340 42 430 36 S510 18 540 18' stroke='%232F4A6B' stroke-opacity='.7' stroke-width='2' stroke-dasharray='2 9'/%3E%3Ccircle cx='20' cy='34' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='220' cy='14' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='430' cy='36' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='540' cy='18' r='4.8' fill='%23E8BC62' stroke='none'/%3E%3C/g%3E%3C/svg%3E") no-repeat center/contain}
-.divider--2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 56' fill='none' stroke-linecap='round'%3E%3Cg opacity='.7'%3E%3Cpath d='M20 18 C130 18 160 44 270 40 S420 10 540 30' stroke='%232F4A6B' stroke-opacity='.7' stroke-width='2' stroke-dasharray='2 9'/%3E%3Ccircle cx='20' cy='18' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='270' cy='40' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='540' cy='30' r='4.8' fill='%23E8BC62' stroke='none'/%3E%3C/g%3E%3C/svg%3E")}
+.divider--2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 56' fill='none' stroke-linecap='round'%3E%3Cg opacity='.7'%3E%3Cpath d='M20 8 C120 8 180 28 280 28' stroke='%232F4A6B' stroke-opacity='.7' stroke-width='2' stroke-dasharray='2 9'/%3E%3Cpath d='M20 28 L280 28' stroke='%232F4A6B' stroke-opacity='.7' stroke-width='2' stroke-dasharray='2 9'/%3E%3Cpath d='M20 48 C120 48 180 28 280 28' stroke='%232F4A6B' stroke-opacity='.7' stroke-width='2' stroke-dasharray='2 9'/%3E%3Cpath d='M280 28 C380 28 440 8 540 8' stroke='%232F4A6B' stroke-opacity='.7' stroke-width='2' stroke-dasharray='2 9'/%3E%3Cpath d='M280 28 L540 28' stroke='%232F4A6B' stroke-opacity='.7' stroke-width='2' stroke-dasharray='2 9'/%3E%3Cpath d='M280 28 C380 28 440 48 540 48' stroke='%232F4A6B' stroke-opacity='.7' stroke-width='2' stroke-dasharray='2 9'/%3E%3Ccircle cx='20' cy='8' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='20' cy='28' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='20' cy='48' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='540' cy='8' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='540' cy='28' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='540' cy='48' r='4' fill='%23F6F1E7' stroke='%232F4A6B' stroke-opacity='.8' stroke-width='2'/%3E%3Ccircle cx='280' cy='28' r='4.8' fill='%23E8BC62' stroke='none'/%3E%3C/g%3E%3C/svg%3E")}
 #marco{padding-bottom:clamp(.75rem,2vw,1.5rem)}
 #grupos{padding-top:clamp(.75rem,2vw,1.5rem)}
 /* Pilares en todas las páginas */
@@ -100,6 +100,8 @@ p{margin:0;max-width:62ch}
 .hero .lede{font-size:var(--s1);color:var(--muted);max-width:44ch}
 .actions{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.35rem;border-radius:999px;font-family:var(--f-display);font-weight:500;text-decoration:none;font-size:1.15rem;letter-spacing:.01em;border:1px solid var(--accent)}
+.bi{width:1.3em;height:1.3em;flex:none;fill:none;stroke:currentColor;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+.bi .fill{fill:currentColor;stroke:none}
 .btn--solid{background:var(--cta);color:var(--on-cta);border-color:var(--cta-edge);transition:background-color .2s}
 .btn--solid:hover{background:var(--cta-hover)}
 .btn--ghost{color:var(--accent);background:transparent}
@@ -259,10 +261,14 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
 #precios{background-image:var(--d-puntos);background-size:min(300px,70vw) auto;background-position:right 4% top 1.75rem}
 #preguntas{background-image:var(--d-circ);background-size:130px auto;background-position:right 4% top 1.5rem}
 #contacto{background-image:var(--d-horiz);background-size:min(420px,80vw) auto;background-position:right 4% bottom 1.5rem}
-#grupos{background-image:var(--d-conc);background-size:min(440px,70vw) auto;background-position:right -40px center}
-@media (max-width:900px){#como-empezar,#grupos{background-size:150px auto;background-position:right -24px top .75rem}.hero{background-size:min(420px,90%) auto}}
+@media (max-width:900px){#como-empezar{background-size:150px auto;background-position:right -24px top .75rem}.hero{background-size:min(420px,90%) auto}}
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-cal" viewBox="0 0 172 172"><rect x="14" y="26" width="144" height="132" rx="26"/><path d="M54 10v34M118 10v34M14 70h144"/><path d="M58 112l20 20 38-40"/></symbol>
+<symbol id="i-wa" viewBox="0 0 172 172"><path d="M24 152l10-36A64 64 0 1 1 58 140z"/><path d="M68 58c-6 4-8 12-4 22 6 14 18 26 32 32 10 4 18 2 22-4l-2-8-14-6-8 8c-8-4-14-10-18-18l8-8-6-14z"/></symbol>
+<symbol id="i-ig" viewBox="0 0 172 172"><rect x="18" y="18" width="136" height="136" rx="40"/><circle cx="86" cy="86" r="32"/><circle class="fill" cx="126" cy="46" r="6"/></symbol>
+</defs></svg>
 <header class="site-head"><div class="wrap top">
   <div class="brand"><a href="/#inicio"><img class="brand-ico" src="/img/ico/inicio.png" alt="" width="44" height="44" decoding="async"><span class="brand-t">Javier Orchard Soto <span>· Hari Avtar</span></span></a></div>
   <nav aria-label="Secciones">
@@ -288,8 +294,8 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     <p class="lede">Un espacio para detenerte, mirar con calma lo que estás viviendo y decidir desde lo que es valioso para ti, no desde lo que se espera de ti.</p>
     <div class="stack" style="gap:.6rem">
       <div class="actions">
-        <a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a>
-        <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Prefiero escribir por WhatsApp</a>
+        <a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-cal"/></svg>Agenda tu conversación de claridad</a>
+        <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-wa"/></svg>Prefiero escribir por WhatsApp</a>
       </div>
       <p class="note">20 minutos, gratis y online.</p>
     </div>
@@ -502,7 +508,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
         </article>
       </div>
       <p class="note" style="margin-top:1.25rem">El precio te lo cuento en la conversación de claridad, para que lo veas con calma y con toda la información. Puedes pagar con tarjeta de crédito o débito (Webpay) o por transferencia bancaria. La conversación son 20 minutos, gratis para ti y sin ninguna obligación de continuar.</p>
-      <p style="margin-top:.75rem"><a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a></p>
+      <p style="margin-top:.75rem"><a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-cal"/></svg>Agenda tu conversación de claridad</a></p>
     </div>
   </section>
 
@@ -574,7 +580,7 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
       <div class="stack">
         <p>Charlas y talleres sobre presencia, autoconocimiento y comunicación para grupos y organizaciones. Si te interesa para tu equipo, escríbeme y conversamos qué necesitan.</p>
         <div class="actions">
-          <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+          <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-wa"/></svg>Escríbeme por WhatsApp</a>
         </div>
       </div>
       </div>
@@ -594,17 +600,17 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
         <article class="plan">
           <h3>Agenda</h3>
           <p>Conversación de claridad: 20 minutos, gratis y online.</p>
-          <p><a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener">Agenda tu conversación de claridad</a></p>
+          <p><a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-cal"/></svg>Agenda tu conversación de claridad</a></p>
         </article>
         <article class="plan">
           <h3>WhatsApp</h3>
           <p>Si prefieres escribirme directo.</p>
-          <p><a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener">Escríbeme por WhatsApp</a></p>
+          <p><a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-wa"/></svg>Escríbeme por WhatsApp</a></p>
         </article>
         <article class="plan">
           <h3>Instagram</h3>
           <p>También puedes escribirme por mensaje directo.</p>
-          <p><a class="btn btn--ghost" href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener">Instagram</a></p>
+          <p><a class="btn btn--ghost" href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-ig"/></svg>Instagram</a></p>
         </article>
       </div>
     </div>
