@@ -129,6 +129,8 @@ p{margin:0;max-width:62ch}
 .bi{width:1.3em;height:1.3em;flex:none;fill:none;stroke:currentColor;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
 .bi .fill{fill:currentColor;stroke:none}
 .bi--inline{width:1.1em;height:1.1em;vertical-align:-.2em;margin-right:.3em}
+.btn-txt{display:flex;flex-direction:column;align-items:center;gap:.1rem}
+.btn-sub{font-family:var(--f-body);font-size:.78rem;font-weight:400;letter-spacing:0;opacity:.85}
 .btn--solid{background:var(--cta);color:var(--on-cta);border-color:var(--cta-edge);transition:background-color .2s}
 .btn--solid:hover{background:var(--cta-hover)}
 .btn--ghost{color:var(--accent);background:transparent}
@@ -351,15 +353,14 @@ section[aria-labelledby="para-quien"]{padding-top:0}
 <main>
   <section class="wrap hero" data-view="inicio" aria-labelledby="titulo">
     <div class="stack" style="gap:2rem">
-    <p class="eyebrow">Consultoría de vida 1:1 online · Análisis Existencial</p>
+    <p class="eyebrow">Consultoría de vida</p>
     <h1 id="titulo">Te acompaño a conocerte con honestidad y vivir una vida que <em>sientas tuya</em>.</h1>
-    <p class="lede">Un espacio para detenerte, mirar con calma lo que estás viviendo y decidir desde lo que es valioso para ti, no desde lo que se espera de ti.</p>
+    <p class="lede">Un espacio para detenerte a mirar con calma lo que estás viviendo, comprender y decidir tus siguientes pasos desde lo que se siente valioso y correcto para ti, no desde lo que se espera de ti.</p>
     <div class="stack" style="gap:.6rem">
       <div class="actions">
-        <a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-cal"/></svg>Agenda tu conversación de claridad</a>
-        <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-wa"/></svg>Prefiero escribir por WhatsApp</a>
+        <a class="btn btn--solid" href="https://calendly.com/consultoria-existencial/conversacion-de-claridad" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-cal"/></svg><span class="btn-txt">Agenda tu conversación de claridad<small class="btn-sub">20 minutos, gratis y online</small></span></a>
+        <a class="btn btn--ghost" href="https://wa.me/message/CFSYMFLYW5UGB1" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-wa"/></svg>O si prefieres escríbeme por WhatsApp</a>
       </div>
-      <p class="note">20 minutos, gratis y online.</p>
     </div>
     </div>
     <figure class="photo"><img src="img/portada.jpg" width="1400" height="1050" alt="Javier Orchard junto a un lago de montaña, con las cumbres y las nubes al fondo"></figure>
@@ -371,7 +372,7 @@ section[aria-labelledby="para-quien"]{padding-top:0}
       <div class="clarity" aria-hidden="true"></div>
       <div class="stack sec-head">
         <p class="eyebrow">Para quién es</p>
-        <h2 id="para-quien">Para cuando la vida funciona, pero algo dentro no calza.</h2>
+        <h2 id="para-quien">Para ti, cuando sientas que tu vida funciona, pero algo dentro no calza.</h2>
       </div>
       <div class="plans">
 <div class="plan">
