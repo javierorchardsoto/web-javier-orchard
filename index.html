@@ -33,6 +33,12 @@
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;-webkit-font-smoothing:antialiased;font-synthesis:none}
+/* Mismo dibujo de letra de Inter en todos los tamaños; la fuente de títulos (Newsreader) conserva su ajuste automático */
+body{font-variation-settings:"opsz" 17}
+h1,h2,h3,.brand,.btn,.price,.subtitle,.notice b,.promo-t,.banner .promo-t{font-variation-settings:normal}
+/* Texto de cuerpo en azul medio */
+main p,main li,main details .body,main summary + *{color:var(--muted)}
+main .notice p,main .notice li{color:var(--muted)}
 a{color:var(--accent)}
 a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 .wrap{max-width:68rem;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
