@@ -98,6 +98,21 @@ p{margin:0;max-width:62ch}
 .brand a{color:inherit;text-decoration:none}
 .js [data-view]:not(.active){display:none}
 @media (max-width:640px){.top nav{width:100%;gap:.4rem 1rem;padding-bottom:.25rem}.sub{position:static;box-shadow:none;margin-top:.25rem}.has-sub{flex-basis:auto}}
+.menu-toggle{display:none}
+@media (max-width:720px){
+  .site-head{transition:transform .25s ease}
+  .site-head.hide{transform:translateY(-100%)}
+  .top{padding-block:.6rem;align-items:center;gap:.5rem}
+  .brand{flex:1 1 0;min-width:0;font-size:.95rem}
+  .brand a{gap:.45rem}
+  .menu-toggle{display:inline-flex;align-items:center;gap:.4rem;flex:none;font:inherit;font-size:var(--s-1);color:var(--ink);background:none;border:1px solid var(--line);border-radius:999px;padding:.4rem .8rem;cursor:pointer}
+  .menu-toggle[aria-expanded="true"]{background:var(--cta);border-color:var(--cta-edge)}
+  .top nav{display:none;flex-basis:100%;flex-direction:column;gap:0;padding:.25rem 0 .5rem;max-height:calc(100vh - 5.5rem);overflow:auto}
+  .site-head.open .top nav{display:flex}
+  .top nav a,.top nav .sub-btn{padding-block:.7rem;font-size:var(--s0)}
+  .top nav > a,.top nav .has-sub{border-top:1px solid var(--line)}
+  .top nav > a:first-child{border-top:0}
+}
 
 /* Portada */
 .hero{padding-block:clamp(3.5rem,10vw,7.5rem) clamp(2.4rem,5.6vw,4rem);display:grid;gap:2rem}
@@ -309,7 +324,8 @@ section[aria-labelledby="para-quien"]{padding-top:0}
 </a>
 <header class="site-head"><div class="wrap top">
   <div class="brand"><a href="/#inicio"><img class="brand-ico" src="/img/ico/inicio.png" alt="" width="44" height="44" decoding="async"><span class="brand-t">Javier Orchard Soto <span>· Hari Avtar</span></span></a></div>
-  <nav aria-label="Secciones">
+  <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-main"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menú</span></button>
+  <nav aria-label="Secciones" id="nav-main">
     <a href="/#sobre-mi"><img class="nav-ico" src="/img/ico/sobre-mi.png" alt="" width="20" height="20" decoding="async">Sobre mí</a>
     <a href="/#precios"><img class="nav-ico" src="/img/ico/trabajamos.png" alt="" width="20" height="20" decoding="async">Cómo trabajamos</a>
     <a href="/#como-empezar"><img class="nav-ico" src="/img/ico/empezar.png" alt="" width="20" height="20" decoding="async">Cómo empezar</a>
@@ -772,6 +788,19 @@ section[aria-labelledby="para-quien"]{padding-top:0}
   btn.addEventListener('click',function(e){ e.stopPropagation(); var abre=sub.hidden; btn.setAttribute('aria-expanded',abre); sub.hidden=!abre; });
   document.addEventListener('click',function(e){ if(!menu.contains(e.target)) cerrar(); else if(e.target.closest('a')) cerrar(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!sub.hidden){ cerrar(); btn.focus(); } });
+  /* Menú del celular: botón ☰, se esconde al bajar y reaparece al subir */
+  var head=document.querySelector('.site-head'), mt=document.getElementById('menu-toggle'), ultimo=window.scrollY;
+  function cierraMenu(){ head.classList.remove('open'); mt.setAttribute('aria-expanded','false'); }
+  mt.addEventListener('click',function(){ var abre=!head.classList.contains('open'); head.classList.toggle('open',abre); mt.setAttribute('aria-expanded',abre); if(abre) head.classList.remove('hide'); });
+  document.querySelectorAll('#nav-main a').forEach(function(a){ a.addEventListener('click',cierraMenu); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') cierraMenu(); });
+  window.addEventListener('hashchange',cierraMenu);
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY, d=y-ultimo;
+    if(head.classList.contains('open')){ ultimo=y; return; }
+    if(y<80||d<-6) head.classList.remove('hide'); else if(d>6) head.classList.add('hide');
+    ultimo=y;
+  },{passive:true});
   function marca(){ btn.classList.toggle('on',(location.pathname.replace(/\/+$/,'')==='/sesiondiciembre')||location.hash==='#sesiondiciembre'||location.hash==='#sesion'); }
   window.addEventListener('hashchange',marca); marca();
 })();
