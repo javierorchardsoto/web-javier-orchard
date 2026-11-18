@@ -890,7 +890,7 @@ section[aria-labelledby="para-quien"]{padding-top:0}
     if(s.agotado){ form.hidden=true; $('buy-soldout').hidden=false; $('buy-foot').hidden=true; }
   }).catch(function(){ /* sin servidor: se mantiene el aviso de inscripción próxima */ });
 
-  var ERRORES={agotado:'Los cupos se acaban de agotar.',cerrado:'La inscripción todavía no está abierta.',nombre:'Escribe tu nombre.',email:'Revisa tu correo electrónico.',politica:'Para continuar, acepta que la compra no tiene derecho a retracto y las condiciones de devolución.',correo:'Para continuar, acepta el uso de tu correo para la confirmación.'};
+  var ERRORES={agotado:'Los cupos se acaban de agotar.',cerrado:'La inscripción todavía no está abierta.',nombre:'Escribe tu nombre.',email:'Revisa tu correo electrónico.',politica:'Para continuar, acepta las condiciones.',correo:'Para continuar, acepta el uso de tu correo para la confirmación.'};
   form.addEventListener('submit',function(e){
     e.preventDefault();
     msg.hidden=true;
