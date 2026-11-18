@@ -137,6 +137,9 @@ p{margin:0;max-width:62ch}
 .photo--sm{max-width:26rem;margin-top:.5rem}
 .photo--wide{max-width:46rem;margin-top:2.5rem}
 .photo--band{margin-top:2rem}
+.photo-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem;margin-top:2.5rem}
+.photo-pair img{aspect-ratio:4/3;object-fit:cover;object-position:50% 55%;width:100%}
+@media (max-width:640px){.photo-pair{grid-template-columns:minmax(0,1fr)}.photo-pair img{aspect-ratio:16/10}}
 .photo--band img{aspect-ratio:3.6/1;object-fit:cover;object-position:50% 70%;width:100%}
 @media (max-width:640px){.photo--band img{aspect-ratio:8/3}}
 @media (min-width:900px){
@@ -438,7 +441,7 @@ section[aria-labelledby="para-quien"]{padding-top:0}
         <p class="eyebrow eyebrow--ico"><img class="sec-ico" src="/img/ico/preguntas.png" alt="" width="44" height="44" decoding="async"><span>Antes de empezar</span></p>
         <h2 id="preguntas-t">Lo que suele preguntarse.</h2>
       </div>
-      <figure class="photo photo--band"><img src="img/pradera-flores.jpg" width="1600" height="667" loading="lazy" alt="Una pradera de pasto dorado con flores blancas bajo un cielo de nubes"></figure>
+      <figure class="photo photo--band"><img src="img/valle-luz.jpg" width="1600" height="667" loading="lazy" alt="Un valle visto desde lo alto, con luz entre las nubes"></figure>
       <div class="plans plans--faq">
 <div class="plan">
 <h3>Antes de decidir</h3>
@@ -663,6 +666,10 @@ section[aria-labelledby="para-quien"]{padding-top:0}
           <p>También puedes escribirme por mensaje directo.</p>
           <p><a class="btn btn--ghost" href="https://www.instagram.com/javierconsultordevida/" target="_blank" rel="noopener"><svg class="bi" aria-hidden="true" focusable="false"><use href="#i-ig"/></svg>Instagram</a></p>
         </article>
+      </div>
+      <div class="photo-pair">
+        <figure class="photo"><img src="img/contacto-flores.jpg" width="1200" height="1600" loading="lazy" alt="Una pradera de pasto dorado con flores blancas bajo un cielo de nubes"></figure>
+        <figure class="photo"><img src="img/contacto-pradera.jpg" width="1116" height="1600" loading="lazy" alt="Una pradera verde con montañas al fondo y un cielo claro"></figure>
       </div>
     </div>
   </section>
