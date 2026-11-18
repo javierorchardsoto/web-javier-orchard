@@ -193,6 +193,15 @@ footer a{color:var(--muted)}
 .promo-when{font-size:var(--s-1);font-weight:600}
 .promo-count{font-weight:700;margin-left:.5rem;padding:.1rem .55rem;border-radius:999px;background:var(--ink);color:var(--cta)}
 .promo-count:empty{display:none}
+.banner{display:block;background:var(--cta);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--cta-edge);transition:background-color .2s}
+.banner:hover{background:var(--cta-hover)}
+.banner[hidden]{display:none}
+.banner-in{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.3rem 1.1rem;padding:.65rem 1rem;font-size:var(--s-1)}
+.banner .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--ink);display:inline-block}
+.banner .promo-t{font-family:var(--f-display);font-size:1.05rem}
+.banner .promo-a{margin:0;padding:.3rem .85rem}
+@media (max-width:899px){.banner .promo-t{display:none}.banner-in{gap:.25rem .8rem;padding:.55rem .9rem}}
+
 .promo-t{font-family:var(--f-display);font-size:clamp(1.25rem,2.4vw,1.6rem);line-height:1.25}
 .promo-a{margin-top:.25rem;padding:.55rem 1.1rem;border-radius:999px;background:var(--ink);color:var(--cta);font-weight:600}
 @media (max-width:899px){.hero{grid-template-columns:minmax(0,1fr)}}
@@ -246,7 +255,7 @@ footer .notice{flex-basis:100%}
 }
 @media (prefers-reduced-motion:no-preference){
   @keyframes respira{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.55}}
-  .promo .dot{animation:respira 2.4s ease-in-out infinite}
+  .promo .dot,.banner .dot{animation:respira 2.4s ease-in-out infinite}
   .hero > *{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
   .hero > *:nth-child(2){animation-delay:.08s}
   .hero > *:nth-child(3){animation-delay:.16s}
@@ -271,6 +280,14 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
 <symbol id="i-wa" viewBox="0 0 172 172"><path d="M24 152l10-36A64 64 0 1 1 58 140z"/><path d="M68 58c-6 4-8 12-4 22 6 14 18 26 32 32 10 4 18 2 22-4l-2-8-14-6-8 8c-8-4-14-10-18-18l8-8-6-14z"/></symbol>
 <symbol id="i-ig" viewBox="0 0 172 172"><rect x="18" y="18" width="136" height="136" rx="40"/><circle cx="86" cy="86" r="32"/><circle class="fill" cx="126" cy="46" r="6"/></symbol>
 </defs></svg>
+<a class="banner" id="promo-sec" href="/sesiondiciembre" aria-label="Próxima sesión grupal: domingo 13 de diciembre, 10:30, online en vivo">
+  <span class="banner-in">
+    <span class="promo-label"><i class="dot" aria-hidden="true"></i>Próxima sesión grupal</span>
+    <span class="promo-when">Domingo 13 de diciembre · 10:30 · online en vivo <b class="promo-count" id="promo-count"></b></span>
+    <span class="promo-t">Sesión para abordar los desafíos de este tiempo</span>
+    <span class="promo-a" id="promo-a">Más información →</span>
+  </span>
+</a>
 <header class="site-head"><div class="wrap top">
   <div class="brand"><a href="/#inicio"><img class="brand-ico" src="/img/ico/inicio.png" alt="" width="44" height="44" decoding="async"><span class="brand-t">Javier Orchard Soto <span>· Hari Avtar</span></span></a></div>
   <nav aria-label="Secciones">
@@ -305,14 +322,6 @@ section[aria-labelledby="para-quien"]{background-image:var(--d-anillo);backgroun
     <figure class="photo"><img src="img/portada.jpg" width="1400" height="1050" alt="Javier Orchard junto a un lago de montaña, con las cumbres y las nubes al fondo"></figure>
   </section>
 
-  <section class="wrap" data-view="inicio" aria-label="Próxima sesión grupal" id="promo-sec">
-    <a class="promo" href="/sesiondiciembre">
-      <span class="promo-label"><i class="dot" aria-hidden="true"></i>Próxima sesión grupal</span>
-      <span class="promo-when">Domingo 13 de diciembre · 10:30 · online en vivo <b class="promo-count" id="promo-count"></b></span>
-      <span class="promo-t">Sesión grupal para abordar los desafíos de este tiempo</span>
-      <span class="promo-a" id="promo-a">Más información →</span>
-    </a>
-  </section>
 
   <section class="band band--tint" data-view="inicio" aria-labelledby="para-quien">
     <div class="wrap">
