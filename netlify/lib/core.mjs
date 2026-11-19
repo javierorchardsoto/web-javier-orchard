@@ -76,11 +76,12 @@ export async function contarCupos(store, now) {
 
 // ---------- Checkout ----------
 
-export async function crearCheckout({ store, webpay, body, origin, now = Date.now() }) {
+// `monto` y `prefijo` solo cambian en la compra de prueba privada de $50 que pide Transbank (almacén aparte).
+export async function crearCheckout({ store, webpay, body, origin, now = Date.now(), monto = SESION.montoClp, prefijo = 'S13' }) {
   const v = validarEntrada(body);
   if (!v.ok) return { status: 400, body: { error: v.error } };
 
-  const ordenId = 'S13-' + randomUUID().replace(/-/g, '').slice(0, 12);
+  const ordenId = prefijo + '-' + randomUUID().replace(/-/g, '').slice(0, 12);
   const cupo = await tomarCupo(store, ordenId, now);
   if (!cupo) return { status: 409, body: { error: 'agotado' } };
 
@@ -89,7 +90,7 @@ export async function crearCheckout({ store, webpay, body, origin, now = Date.no
     cupo,
     nombre: v.data.nombre,
     email: v.data.email,
-    monto: SESION.montoClp,
+    monto,
     estado: 'creada',
     creada: now,
   };
@@ -97,7 +98,7 @@ export async function crearCheckout({ store, webpay, body, origin, now = Date.no
 
   let tx;
   try {
-    tx = await webpay.create(ordenId, ordenId, SESION.montoClp, `${origin}/api/sesion/retorno`);
+    tx = await webpay.create(ordenId, ordenId, monto, `${origin}/api/sesion/retorno`);
     await store.setJSON(tokenKey(tx.token), { orden: ordenId });
   } catch (e) {
     console.error('webpay.create falló', e);

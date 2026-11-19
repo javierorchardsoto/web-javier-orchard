@@ -358,3 +358,23 @@ test('el comprobante en pantalla trae lo que pide Transbank, sin correo ni tarje
   assert.ok(!JSON.stringify(comp).includes('ana8@correo.cl'), 'no incluye el correo');
   assert.equal(await comprobanteDe(store, '../orden-x'), null);
 });
+
+test('compra de prueba de $50: orden P50 con ese monto, aprobada solo si Webpay confirma $50', async () => {
+  const store = memStore();
+  const montos = [];
+  const webpay = {
+    async create(orden, _s, monto) {
+      montos.push(monto);
+      return { url: 'https://webpay.test/init', token: 'tok_' + orden };
+    },
+    async commit(token) {
+      return { response_code: 0, status: 'AUTHORIZED', buy_order: token.split('_')[1], amount: 50, authorization_code: '9', card_detail: { card_number: '1111' }, payment_type_code: 'VN', installments_number: 0, transaction_date: '2026-11-19T12:00:00.000Z' };
+    },
+  };
+  const notify = notifyMock();
+  const c = await crearCheckout({ store, webpay, body: entrada(7), origin: ORIGEN, now: 1000, monto: 50, prefijo: 'P50' });
+  assert.deepEqual(montos, [50]);
+  const r = await procesarRetorno({ store, webpay, notify, params: { token_ws: c.body.token }, now: 2000 });
+  assert.equal(r.resultado, 'ok');
+  assert.match(r.orden, /^P50-/);
+});

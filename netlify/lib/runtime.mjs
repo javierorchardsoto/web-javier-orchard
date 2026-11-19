@@ -1,5 +1,6 @@
 // Conexión con Netlify (almacenamiento), Transbank y el contexto de despliegue.
 import { getStore } from '@netlify/blobs';
+import { timingSafeEqual } from 'node:crypto';
 import transbank from 'transbank-sdk';
 
 const { WebpayPlus, IntegrationCommerceCodes, IntegrationApiKeys } = transbank;
@@ -33,3 +34,15 @@ export const json = (data, status = 200) =>
     status,
     headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
   });
+
+// Almacén aparte para la compra de prueba de $50: no toca los cupos ni las inscripciones reales.
+export const getPruebaStore = () => getStore({ name: 'sesion-prueba-50', consistency: 'strong' });
+
+// Token de administración (ADMIN_TOKEN), solo por el encabezado Authorization; nunca en la dirección.
+export function adminOk(req) {
+  const esperado = process.env.ADMIN_TOKEN || '';
+  const dado = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
+  const a = Buffer.from(dado);
+  const b = Buffer.from(esperado);
+  return Boolean(esperado) && a.length === b.length && timingSafeEqual(a, b);
+}
