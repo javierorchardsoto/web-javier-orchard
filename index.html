@@ -66,6 +66,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .about-grid .about-photo{display:flex;justify-content:center}
 .about-grid .about-photo img{width:min(100%,470px);aspect-ratio:1;border-radius:50%;object-fit:cover;object-position:50% 50%}
 .about-col{align-self:stretch}
+.about-col ul.formacion{gap:.45rem;padding-left:1.2rem}
 .head-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,357px);gap:2rem;align-items:center}
 .head-row .avatar-contacto{margin:0 0 clamp(1.75rem,4vw,2.75rem);width:100%;height:auto}
 @media (max-width:900px){.about-grid,.head-row{grid-template-columns:minmax(0,1fr)}.about-text,.about-grid .about-photo{grid-column:1;grid-row:auto}.head-row .avatar-contacto{width:min(61%,260px)}}
@@ -440,12 +441,14 @@ section[aria-labelledby="para-quien"]{padding-top:0}
         </div>
         <figure class="photo about-photo"><img src="img/en-linea.jpg" width="900" height="833" loading="lazy" alt="Javier sonriendo con su computador en un tren, trabajando en línea"></figure>
         <article class="plan about-col"><h3>Enfoque</h3><p>Trabajo desde la conversación y la presencia. Te acompaño a aprender a mirarte con honestidad, a desarrollar recursos en ti para relacionarte con lo que estás viviendo, a notar cómo se vive en tu cuerpo, en tus emociones y mente, para desde ahí darle sentido, sin apuro y sin juzgarte. Que lo que comprendas puedas llevarlo a decisiones y relaciones más tuyas.</p></article>
-        <article class="plan about-col"><h3>Formación</h3><p class="formacion">Licenciado en Ciencias de la Ingeniería (2000–2006)<br>
-          Postítulo en Consultoría de Análisis Existencial (ICAE) (2020–2023)<br>
-          TWT: Entrenamiento en sanación de trauma individual, colectivo y ancestral (2025–2026)<br>
-          Estudiante de Psicología (<abbr title="cursando">C</abbr>)<br>
-          Profesor de Yoga y Yogaterapeuta (2009, 2010, 2012)<br>
-          Formador de profesores de Yoga (2013 a la fecha)</p></article>
+        <article class="plan about-col"><h3>Formación</h3><ul class="formacion">
+          <li>Licenciado en Ciencias de la Ingeniería (2000–2006)</li>
+          <li>Postítulo en Consultoría de Análisis Existencial (ICAE) (2020–2023)</li>
+          <li>TWT: Entrenamiento en sanación de trauma individual, colectivo y ancestral (2025–2026)</li>
+          <li>Estudiante de Psicología (<abbr title="cursando">C</abbr>)</li>
+          <li>Profesor de Yoga y Yogaterapeuta (2009, 2010, 2012)</li>
+          <li>Formador de profesores de Yoga (2013 a la fecha)</li>
+        </ul></article>
       </div>
     </div>
   </section>
