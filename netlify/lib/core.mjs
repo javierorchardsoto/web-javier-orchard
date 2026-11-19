@@ -9,8 +9,8 @@ export const SESION = {
   total: 30,
   montoClp: 17000,
   reservaMin: 15, // minutos que se retiene un cupo mientras la persona paga
-  titulo: 'Sesión grupal: abordar los desafíos de este tiempo',
-  fechaTexto: 'domingo 13 de diciembre de 2026, 10:30 (hora de Chile)',
+  titulo: 'Sesión grupal: Herramientas para abordar los desafíos de este tiempo',
+  fechaTexto: 'domingo 13 de diciembre de 2026, 10:30 a 12:00 hrs. (hora de Chile)',
   duracionTexto: '90 minutos, en vivo y online',
   duracionMin: 90,
   inicioMs: Date.parse('2026-12-13T10:30:00-03:00'), // hora de Chile en diciembre (UTC-3)
