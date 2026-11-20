@@ -45,7 +45,7 @@ const PREPARACION = `<p><b>Recomendaciones para llegar bien a la sesión</b></p>
 <li>Agua, un té o lo que necesites para sentirte a gusto durante la sesión.</li>
 </ul>`;
 
-const INVITAR = `<p style="font-size:15.4px;color:#4F6480">¿Conoces a alguien a quien le pueda servir? Cada persona reserva su propio cupo en <a href="${SESION.urlPublica}">${SESION.urlPublica}</a>. El enlace de conexión de este correo es solo para ti.</p>`;
+const INVITAR = `<p style="font-size:15.4px;color:#4F6480">¿Conoces a alguien a quien le pueda servir esta sesión?<br>Cada persona reserva su propio cupo en <a href="${SESION.urlPublica}">${SESION.urlPublica}</a>. El enlace de conexión de este correo es solo para ti.</p>`;
 
 const cabecera = (nombre) => `<!doctype html><html lang="es"><body style="margin:0;background:#F6F1E7;color:#1F3454;font-family:Lora,Georgia,serif;font-size:17.6px;line-height:1.6">
 <div style="max-width:560px;margin:0 auto;padding:28px 20px">
@@ -67,7 +67,6 @@ ${bloqueEnlace()}
 ${bloqueCalendario(origin, orden.id)}
 ${PREPARACION}
 ${recibeRecordatorio(orden) ? '<p>Un día antes de la sesión, te enviaré un recordatorio por email.</p>' : ''}
-<p>Si no puedes asistir, puedes pedirme la devolución de tu pago hasta el domingo 6 de diciembre, respondiendo a este correo o escribiéndome por WhatsApp.</p>
 ${INVITAR}
 ${NO_PSICOTERAPIA}
 <hr style="border:none;border-top:1px solid #D9CFBD;margin:24px 0">
