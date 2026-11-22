@@ -8,7 +8,7 @@
 <meta name="description" content="Consultoría de vida 1:1 online desde el Análisis Existencial. Javier, Hari Avtar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap">
 <style>
 /* Layout: una sola columna editorial, amplia y tranquila; bandas de color solo donde cambia el tema (proceso, precios). */
 :root{
@@ -27,13 +27,13 @@
   --amber:#E8BC62;       /* Ámbar: solo acentos e íconos menores */
   --amber-edge:#D9A441;
   --on-cta:#1F3454;
-  --f-display:"Newsreader", Georgia, serif;
+  --f-display:"Lora", Georgia, serif;
   --f-body:"Inter", "Segoe UI", system-ui, sans-serif;
   --s-1:.875rem; --s0:1.0625rem; --s1:1.25rem; --s2:1.75rem; --s3:2.5rem; --s4:3.5rem;
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;-webkit-font-smoothing:antialiased;font-synthesis:none}
-/* Mismo dibujo de letra de Inter en todos los tamaños; la fuente de títulos (Newsreader) conserva su ajuste automático */
+/* Mismo dibujo de letra de Inter en todos los tamaños; la fuente de títulos (Lora) no tiene ajuste óptico */
 body{font-variation-settings:"opsz" 17}
 h1,h2,h3,.brand,.btn,.price,.subtitle,.notice b,.promo-t,.banner .promo-t{font-variation-settings:normal}
 /* Texto de cuerpo en azul medio */
@@ -74,7 +74,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .sec-ico{width:44px;height:44px;flex:none;opacity:.78}
 @media (max-width:640px){.sec-ico{width:36px;height:36px}}
 .eyebrow{font-size:var(--s-1);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
-h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.15;text-wrap:balance;margin:0}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.2;text-wrap:balance;margin:0}
 h2{font-size:clamp(1.75rem,3.8vw,2.75rem)}
 h3{font-size:1.45rem}
 p{margin:0;max-width:62ch}
@@ -82,7 +82,7 @@ p{margin:0;max-width:62ch}
 
 /* Cabecera */
 .top{padding-block:1.25rem;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;border-bottom:1px solid var(--line)}
-.brand{font-family:var(--f-display);font-size:var(--s1)}
+.brand{font-family:var(--f-display);font-size:1.1rem}
 .brand a{display:inline-flex;align-items:center;gap:.6rem}
 .brand-ico{width:2.4em;height:2.4em;flex:none;margin-block:-.6em;opacity:.9}
 .brand .brand-t span{color:var(--muted);font-style:italic}
@@ -126,7 +126,7 @@ p{margin:0;max-width:62ch}
 .hero h1 em{color:var(--accent)}
 .hero .lede{font-size:var(--s1);color:var(--muted);max-width:44ch}
 .actions{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.35rem;border-radius:999px;font-family:var(--f-display);font-weight:500;text-decoration:none;font-size:1.15rem;letter-spacing:.01em;border:1px solid var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.35rem;border-radius:999px;font-family:var(--f-display);font-weight:500;text-decoration:none;font-size:1.02rem;letter-spacing:.01em;border:1px solid var(--accent)}
 .bi{width:1.3em;height:1.3em;flex:none;fill:none;stroke:currentColor;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
 .bi .fill{fill:currentColor;stroke:none}
 .bi--inline{width:1.1em;height:1.1em;vertical-align:-.2em;margin-right:.3em}
@@ -244,7 +244,7 @@ footer a{color:var(--muted)}
 .banner .d-short{display:none}
 .banner-in{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.3rem 1.1rem;padding:.65rem 1rem;font-size:var(--s-1)}
 .banner .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--ink);display:inline-block}
-.banner .promo-t{font-family:var(--f-display);font-size:1.05rem}
+.banner .promo-t{font-family:var(--f-display);font-size:.95rem}
 .banner .promo-a{margin:0;padding:.3rem .85rem}
 @media (max-width:1199px){.banner .promo-t{display:none}}
 @media (max-width:899px){
