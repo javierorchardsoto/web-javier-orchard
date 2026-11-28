@@ -9,7 +9,7 @@ export const SESION = {
   total: 30,
   montoClp: 17000,
   reservaMin: 15, // minutos que se retiene un cupo mientras la persona paga
-  titulo: 'Sesión grupal: Herramientas para abordar los desafíos de este tiempo',
+  titulo: 'Alíviate. Desde la Reacción a la Presencia. “Herramientas para abordar los desafíos de este tiempo.”',
   fechaTexto: 'domingo 13 de diciembre de 2026, 10:30 a 12:00 hrs. (hora de Chile)',
   duracionTexto: '90 minutos, en vivo y online',
   duracionMin: 90,
